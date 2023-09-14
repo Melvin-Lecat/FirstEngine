@@ -4,40 +4,40 @@
 
 class Particule {
 
-private:
+public:
 	Vector position;
 	Vector velocite;
 	Vector acceleration;
+	float vitesse;
+	float angle;
 	float masse;
+	float temps;
 
-public:
+
 	Particule() {
 		//
 	}
 
-	Particule(Vector position, Vector velocite, Vector acceleration, float masse) {
-		this->position = position;
-		this->velocite = velocite;
-		this->acceleration = acceleration;
-		this->masse = 1/masse;
+	Particule(float vitesse, float angle, float masse) {
+		this->position = (0,0,0);
+		this->velocite = (0,0,0);
+		this->acceleration = (0, 0, 0);
+		this->vitesse = vitesse;
+		this->angle = angle;
+		this->masse = masse;
+		this->temps = 0;
 	}
 
-	void push(Particule p1) { //sert d'update
-		//vitesse initiale
-		float vitinit;
+	void push(Particule tabParticule[], float deltat) { //sert d'update
+		// boucle de particule 
+		for (i = 0; i <= tabParticule.size(); i = i + 1) {
+			tabParticule[i].temps += 1;
 
-		//angle de la trajectoire
-		float angle;
+			tabParticule[i].position.x = tabParticule[i].vitesse * tabParticule[i].temps * cos(tabParticule[i].angle);
+			tabParticule[i].position.y = tabParticule[i].vitesse * tabParticule[i].temps * sin(tabParticule[i].angle) + (1 / 2) * (-9.81) * tabParticule[i].temps;
 
-		velocite.v3().x = vitinit * cos(angle);
-		velocite.v3().y = vitinit * sin(angle);
-		velocite.v3().z = 0;
-
-		position.v3().x = vitinit * cos(angle); // * t (en fonction des frames)
-		position.v3().x = 1/2*t*g	vitinit * sin(angle); // * t (en fonction des frames)
-		position.v3().z = 0; // * t (en fonction des frames)
-
-
-
+			tabParticule[i].velocite.x = tabParticule[i].vitesse * cos(tabParticule[i].angle);
+			tabParticule[i].velocite.y = tabParticule[i].vitesse * sin(tabParticule[i].angle) + (-9.81) * tabParticule[i].temps;
+		}
 	}
 }
