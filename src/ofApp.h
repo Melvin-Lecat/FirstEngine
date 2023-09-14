@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "../Vector.h"
+#include "../Particule.h"
 class ofApp : public ofBaseApp {
 
 public:
@@ -21,7 +22,10 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 	void UpdateParticle(Vector dir);
+	void push(std::list<Particule*> tabParticule, float deltat);
 
 	Vector pos = Vector(300, 300, 0);
+
+	std::list <Particule*> tabParticule;
 
 };
