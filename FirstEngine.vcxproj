@@ -109,6 +109,7 @@
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Particule.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
