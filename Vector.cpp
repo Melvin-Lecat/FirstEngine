@@ -2,10 +2,11 @@
 
 Vector Vector::operator +(Vector v) { return Vector(this->x + v.x, this->y + v.y, this->z + v.z); }
 Vector Vector::operator +=(Vector v) { return Vector(this->x + v.x, this->y + v.y, this->z + v.z); }
-Vector Vector::operator -(Vector v) { return Vector(this->x - v.x, this->y - v.y, this->z - v.z); }
-Vector Vector::operator *(Vector v) { return Vector(this->x * v.x, this->y * v.y, this->z * v.z); }
-Vector Vector::operator *(float k) { return Vector(this->x * k, this->y * k, this->z * k); }
+Vector Vector::operator - (Vector v) { return Vector(this->x - v.x, this->y - v.y, this->z - v.z); }
+Vector Vector::operator * (Vector v) { return Vector(this->x * v.x, this->y * v.y, this->z * v.z); }
+Vector Vector::operator * (float k) { return Vector(this->x * k, this->y * k, this->z * k); }
 
+Vector Vector::Zero(){ return Vector(0, 0, 0); }
 Vector Vector::OneX() { return Vector(1, 0, 0); }
 Vector Vector::OneY() { return Vector(0, 1, 0); }
 Vector Vector::OneZ() { return Vector(0, 0, 1); }

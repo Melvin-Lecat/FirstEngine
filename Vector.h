@@ -33,20 +33,28 @@ public:
         this->w = 0;
     }
 
-    Vector operator +(Vector v);
-    Vector operator +=(Vector v);
-    Vector operator -(Vector v);
-    Vector operator *(Vector v); // Produit scalaire 
-    Vector operator *(float k); // Multiplication par scalaire
+	Vector operator +(Vector v);
+	Vector operator +=(Vector v);
+	Vector operator -(Vector v);
+	Vector operator -=(Vector v);
+	Vector operator *(Vector v); // Produit scalaire 
+	Vector operator *=(Vector v); // Produit scalaire 
+	Vector operator *(float k);  // Multiplication par scalaire
+	Vector operator *=(float k);  // Multiplication par scalaire
 
-    static Vector OneX(); // Methodes statiques pour g�n�rer des vecteurs unitaires
-    static Vector OneY();
-    static Vector OneZ();
-    std::string to_string();
+	static Vector Zero();
+	static Vector OneX();
+	static Vector OneY();
+	static Vector OneZ();
+	std::string to_string();
 
-    Vector Invert(); // Negation 
-    float Norme(); // Norme 1
-    float Norme2(); // Norme 2
-    Vector Normalize(); // Normalization du vecteur (verifier et optimiser peut etre)
-    Vector Vectoriel(Vector v); // Produit vectoriel
+	Vector Invert(); // Négation 
+	float Norme();  // Norme 1 
+	float Norme2(); // Norme 2
+	Vector Normalize(); // Normalization du vecteur (� v�rifier et optimisez peut etre)
+	Vector Vectoriel(Vector v); // Produit vectoriel
+
+
 };
+
+
