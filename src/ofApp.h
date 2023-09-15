@@ -27,5 +27,6 @@ public:
 	Vector pos = Vector(300, 300, 0);
 
 	std::list <Particule*> tabParticule;
+	void AddParticule(std::list <Particule*> tabParticule, Particule* particule);
 
 };
