@@ -5,7 +5,7 @@
 //--------------------------------------------------------------
 void ofApp::setup() {
 	ofSetColor(255, 255, 255);
-	tabParticule.push_back(new Particule(100, 45, 1));
+	tabParticule.push_back(new Particule(velocite, 45, 1));
 }
 
 //--------------------------------------------------------------
@@ -51,7 +51,7 @@ void ofApp::keyPressed(int key) {
 		push(tabParticule, 0.1f);
 		break;
 	case 'a':
-		tabParticule.push_back(new Particule(100,45,1));
+		tabParticule.push_back(new Particule(velocite,45,1));
 		break;
 	default:
 		break;
@@ -118,11 +118,14 @@ void ofApp::push(std::list<Particule*> tabParticule, float deltat) { //sert d'up
 	for (Particule* p : tabParticule) {
 		p->temps += deltat;
 
-		p->position.x = p->vitesse_zero * p->temps * cos(p->angle);
-		p->position.y = p->vitesse_zero * p->temps * sin(p->angle) + (0.5) * (-9.81) * glm::pow2(p->temps);
+		//p->position.x = p->vitesse_zero * p->temps * cos(p->angle);
+		//p->position.y = p->vitesse_zero * p->temps * sin(p->angle) + (0.5) * (-9.81) * glm::pow2(p->temps);
 
-		p->velocite.x = p->vitesse_zero * cos(p->angle);
-		p->velocite.y = p->vitesse_zero * sin(p->angle) + (-9.81) * p->temps;
+		//p->velocite.x = p->vitesse_zero * cos(p->angle);
+		//p->velocite.y = p->vitesse_zero * sin(p->angle) + (-9.81) * p->temps;
+
+		p->integration_euler(deltat);
+		
 		cout << "Vitesse" << p->velocite.to_string() << "\n" << p->temps << endl;
 
 	}
