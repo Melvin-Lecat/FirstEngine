@@ -1,4 +1,4 @@
-﻿#include "Matrice.h"
+﻿/*#include "Matrice.h"
 
 Matrice Matrice::operator +(Matrice v) { return Matrice(this->a + v.a, this->b + v.b, this->c + v.c, this->d + v.d, this->e + v.e, this->f + v.f, this->g + v.g, this->h + v.h, this->i + v.i); }
 Matrice Matrice::operator +=(Matrice v) { return Matrice(this->a + v.a, this->b + v.b, this->c + v.c, this->d + v.d, this->e + v.e, this->f + v.f, this->g + v.g, this->h + v.h, this->i + v.i); }
@@ -14,4 +14,4 @@ Matrice Matrice::Zero(){ return Matrice(0, 0, 0, 0, 0, 0, 0, 0, 0); }
 std::string Matrice::to_string()
 {
     return "a:" + std::to_string(this->a) + "   b: " + std::to_string(this->b) + "   c: " + std::to_string(this->c) + "\n " + "d:" + std::to_string(this->d) + "   e: " + std::to_string(this->e) + "   f: " + std::to_string(this->f) + "\n " + "g:" + std::to_string(this->g) + "   h: " + std::to_string(this->h) + "   i: " + std::to_string(this->i);
-}
+}*/

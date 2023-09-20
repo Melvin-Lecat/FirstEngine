@@ -1,4 +1,4 @@
-﻿#pragma once
+﻿/*#pragma once
 #include <ofMain.h>
 
 class Matrice
@@ -56,3 +56,4 @@ public:
 
 
 };
+*/

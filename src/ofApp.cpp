@@ -18,7 +18,7 @@ void ofApp::update() {
 //--------------------------------------------------------------
 void ofApp::draw() {
 	//ofSetColor(ofRandom(0, 255), ofRandom(0, 255), ofRandom(0, 255));
-	Vector cursor = Vector(velocityDir.x, ofGetHeight() - velocityDir.y);
+	Vector cursor = Vector(velocite.x, ofGetHeight() - velocite.y);
 	ofDrawLine(Vector(0,ofGetHeight()).v2(), cursor.v2());
 	for (Particule* p : tabParticule) {
 		Vector realPos = Vector(p->position.x,ofGetHeight()-p->position.y);
@@ -40,7 +40,7 @@ void ofApp::keyPressed(int key) {
 			ClearParticles();
 			break;
 		case 'o':
-			tabParticule.push_back(new Particule(100,45,1));
+			tabParticule.push_back(new Particule(velocite,45,1));
 			break;
 	case OF_KEY_RIGHT:
 		if(SimPause){push(tabParticule, 0.1f);}
@@ -67,7 +67,7 @@ void ofApp::mouseDragged(int x, int y, int button) {
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button) {
-	velocityDir = Vector(x,glm::abs(ofGetHeight()-y));
+	velocite = Vector(x,glm::abs(ofGetHeight()-y));
 }
 
 //--------------------------------------------------------------
