@@ -114,7 +114,7 @@ void ofApp::push(std::list<Particule*> tabParticule, float deltat) { //sert d'up
 
 		p->integration_euler(deltat);
 		
-		cout << "Vitesse" << p->velocite.to_string() << "\n" << p->temps << endl;
+		//cout << "Vitesse" << p->velocite.to_string() << "\n" << p->temps << endl;
 
 	}
 }
