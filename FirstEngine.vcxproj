@@ -104,6 +104,8 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Particule.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Matrice.cpp">
       <AssemblerOutput>NoListing</AssemblerOutput>
       <AssemblerListingLocation>obj\x64\Debug\</AssemblerListingLocation>
@@ -179,6 +181,9 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
+=======
+    <ClCompile Include="Particule.cpp" />
+>>>>>>> b41835e (Ajout de Particule.cpp et fonction d'Euler)
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="Vector.cpp" />

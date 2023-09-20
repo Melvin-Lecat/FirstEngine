@@ -51,7 +51,7 @@ public:
 	Vector Invert(); // Négation 
 	float Norme();  // Norme 1 
 	float Norme2(); // Norme 2
-	Vector Normalize(); // Normalization du vecteur (� v�rifier et optimisez peut etre)
+	Vector Normalize(); // Normalization du vecteur (à vérifier et optimiser peut etre)
 	Vector Vectoriel(Vector v); // Produit vectoriel
 
 
