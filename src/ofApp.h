@@ -24,10 +24,12 @@ public:
 	void UpdateParticle(Vector dir);
 	void push(std::list<Particule*> tabParticule, float deltat);
 
+	
 	Vector pos = Vector(300, 300, 0);
 	Vector velocite = Vector(50, 100, 0);
 
 	std::list <Particule*> tabParticule;
-	void AddParticule(std::list <Particule*> tabParticule, Particule* particule);
-
+	Vector velocityDir;
+	bool SimPause = false; 
+	void ClearParticles();
 };

@@ -1,60 +1,52 @@
 #include "ofApp.h"
 #include <stdlib.h>
-#define RAD 30
+#define RAD 15
 
 //--------------------------------------------------------------
 void ofApp::setup() {
 	ofSetColor(255, 255, 255);
-	tabParticule.push_back(new Particule(velocite, 45, 1));
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
-	//push(tabParticule, 0.01);
-	for(auto p: tabParticule)
-	{
-		if(p->position.y <=0)
-		{
-			//free(p);
-			//tabParticule.remove(p);	
-		}
-	}
+	if (SimPause) return;
+	
+	push(tabParticule, 0.1f);
+	
 }
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-
-	ofDrawCircle(this->pos.v2(), RAD);
+	//ofSetColor(ofRandom(0, 255), ofRandom(0, 255), ofRandom(0, 255));
+	Vector cursor = Vector(velocityDir.x, ofGetHeight() - velocityDir.y);
+	ofDrawLine(Vector(0,ofGetHeight()).v2(), cursor.v2());
 	for (Particule* p : tabParticule) {
-		ofDrawCircle(p->position.v2(), RAD);
+		Vector realPos = Vector(p->position.x,ofGetHeight()-p->position.y);
+		ofDrawCircle(realPos.v2(), RAD);
 	}
-	
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
 	switch (key)
 	{
-	case 'z':
-		ofApp::UpdateParticle(Vector::OneY().Invert());
+		case ' ':
+			break;
+		case 'p':
+			SimPause = !SimPause;
+			cout <<"Pause? " << SimPause << endl;
+			break;
+		case 'i':
+			ClearParticles();
+			break;
+		case 'o':
+			tabParticule.push_back(new Particule(100,45,1));
+			break;
+	case OF_KEY_RIGHT:
+		if(SimPause){push(tabParticule, 0.1f);}
 		break;
-	case 's':
-		ofApp::UpdateParticle(Vector::OneY());
-		break;
-	case 'q':
-		ofApp::UpdateParticle(Vector::OneX().Invert());
-		break;
-	case 'd':
-		ofApp::UpdateParticle(Vector::OneX());
-		break;
-	case 'p':
-		push(tabParticule, 0.1f);
-		break;
-	case 'a':
-		tabParticule.push_back(new Particule(velocite,45,1));
-		break;
-	default:
-		break;
+		default:
+			break;
 	}
 }
 
@@ -75,7 +67,7 @@ void ofApp::mouseDragged(int x, int y, int button) {
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button) {
-
+	velocityDir = Vector(x,glm::abs(ofGetHeight()-y));
 }
 
 //--------------------------------------------------------------
@@ -108,10 +100,6 @@ void ofApp::dragEvent(ofDragInfo dragInfo) {
 
 }
 
-void ofApp::UpdateParticle(Vector dir) {
-	std::cout << "Update" << std::endl;
-	this->pos = this->pos + dir * 10;
-}
 
 void ofApp::push(std::list<Particule*> tabParticule, float deltat) { //sert d'update
 	// boucle de particule 
@@ -131,7 +119,12 @@ void ofApp::push(std::list<Particule*> tabParticule, float deltat) { //sert d'up
 	}
 }
 
-void ofApp::AddParticule(std::list <Particule*> tabParticule, Particule* particule)
+void ofApp::ClearParticles()
 {
-	tabParticule.push_back(particule);
+	cout << "Clear" << tabParticule.size() << endl;
+	for (Particule* p : tabParticule) {
+		delete p;
+	}
+	tabParticule.clear();
+	cout << "Cleared" << tabParticule.size() << endl;
 }
