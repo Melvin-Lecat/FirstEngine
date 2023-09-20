@@ -14,17 +14,8 @@ public:
 	float temps;
 
 
-	Particule() {
-		//
-	}
+	Particule();
+	Particule(float vitesse, float angle, float masse);
 
-	Particule(float vitesse, float angle, float masse) {
-		this->position = Vector(0, 0, 0);
-		this->velocite = Vector(0,0,0);
-		this->acceleration = Vector(0, 0, 0);
-		this->vitesse_zero = vitesse;
-		this->angle = angle;
-		this->masse = masse;
-		this->temps = 0;
-	}
+	void integration_euler(float deltat);
 };
