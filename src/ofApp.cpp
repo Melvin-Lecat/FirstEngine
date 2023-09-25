@@ -1,17 +1,22 @@
 #include "ofApp.h"
-#include <stdlib.h>
 #define RAD 15
 
 //--------------------------------------------------------------
 void ofApp::setup()
 {
     ofSetColor(255, 255, 255);
-    cout << "User Manual:\n "
-        "Press 'p' to pause simulation\n"
-        "Press 'i' to clear all particles\n"
-        "Press 'o' to add a particle\n"
-        "Press the left arrow to update frame by frame while paused\n"
-        "Click in the window to change the velocity\n" << endl;
+    cout << "User Manual:\n"
+        "\tPress 'p' to pause simulation\n"
+        "\tPress 'i' to clear all particles\n"
+        "\tPress 'o' to add a particle\n"
+        "\tPress the left arrow to update frame by frame while paused\n"
+        "\tClick in the window to change the velocity\n"
+        "\tPress 'a' to add a normal particle\n"
+        "\tPress 'z' to add a laser like particle\n"
+        "\tPress 'e' to add a slightly heavy particle\n"
+        "\tPress 'r' to add a heavy particle\n"
+        "\tPress 't' to add a custom particle\n"
+        << endl;
 }
 
 void ofApp::CheckUnboundParticules()
@@ -36,10 +41,6 @@ void ofApp::update()
 {
     // Checks all the particules and remove it if y <= 0
     CheckUnboundParticules();
-    for(auto p: tabParticule)
-    {
-        cout << p->acceleration.x << " " << p->acceleration.y << " " << p->acceleration.z << endl;
-    }
     if (SimPause) return;
     UpdateParticles(tabParticule, ofGetLastFrameTime()); // ofGetLastFrameTime() is the time since the last frame
 }
@@ -65,7 +66,7 @@ void ofApp::keyPressed(int key)
         break;
     case 'p':
         SimPause = !SimPause;
-        cout << "Pause? " << SimPause << endl;
+        cout <<  (!SimPause? "Unpaused" : "Paused") << endl;
         break;
     case 'i':
         ClearParticles();
@@ -77,16 +78,27 @@ void ofApp::keyPressed(int key)
         if (SimPause) { UpdateParticles(tabParticule, ofGetLastFrameTime()); }
         break;
     case 'a':
-        current_particule = Particule(velocite, 1,9.81f);
+        cout << "Balle normale" << endl;
+        current_particule = Particule(velocite, 1,9.81f); // Balle normale 
         break;
     case 'z':
-        current_particule = Particule(velocite, 2,20.0f);
+        cout << "Laser" << endl;
+        current_particule = Particule(velocite, 2,0); // Laser
         break;
     case 'e':
-        current_particule = Particule(velocite, 3,50.0f);
+        cout << "Balle un peu lourde" << endl;
+        current_particule = Particule(velocite, 3,50.0f); // Balle un peu lourde 
         break;
     case 'r':
-        current_particule = Particule(velocite, 4,100.0f);
+        cout << "Balle lourde" << endl;
+        current_particule = Particule(velocite, 4,100.0f); // Balle lourde
+        break;
+    case 't':
+        SimPause = false ;
+        cout << "Balle personalisee \n""Veuillez entrer les parametres\n" << endl;
+        cout << "Masse: "; cin >> masse ;
+        cout << "Gravite: "; cin >> gravite ;
+        current_particule = Particule(velocite, masse, gravite);
         break;
     default:
         break;

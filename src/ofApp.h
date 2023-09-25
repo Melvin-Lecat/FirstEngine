@@ -29,6 +29,9 @@ public:
 	Vector velocite = Vector(50, 100, 0);
 	Particule current_particule = Particule(velocite, 1,9.81f); 
 	std::list <Particule*> tabParticule;
-	bool SimPause = false; 
+	float masse;
+	float gravite;
+	bool SimPause = false;
+	
 	void ClearParticles();
 };
