@@ -36,6 +36,10 @@ void ofApp::update()
 {
     // Checks all the particules and remove it if y <= 0
     CheckUnboundParticules();
+    for(auto p: tabParticule)
+    {
+        cout << p->acceleration.x << " " << p->acceleration.y << " " << p->acceleration.z << endl;
+    }
     if (SimPause) return;
     UpdateParticles(tabParticule, ofGetLastFrameTime()); // ofGetLastFrameTime() is the time since the last frame
 }
@@ -67,10 +71,22 @@ void ofApp::keyPressed(int key)
         ClearParticles();
         break;
     case 'o':
-        tabParticule.push_back(new Particule(velocite, 45, 1));
+        tabParticule.push_back(current_particule.duplicate());
         break;
     case OF_KEY_RIGHT: // Flèche droite
         if (SimPause) { UpdateParticles(tabParticule, ofGetLastFrameTime()); }
+        break;
+    case 'a':
+        current_particule = Particule(velocite, 1,9.81f);
+        break;
+    case 'z':
+        current_particule = Particule(velocite, 2,20.0f);
+        break;
+    case 'e':
+        current_particule = Particule(velocite, 3,50.0f);
+        break;
+    case 'r':
+        current_particule = Particule(velocite, 4,100.0f);
         break;
     default:
         break;
@@ -158,11 +174,4 @@ void ofApp::ClearParticles()
     }
     tabParticule.clear();
     cout << "Cleared" << tabParticule.size() << endl;
-}
-
-float ofApp::GetTimeElapsed()
-{
-    float currentTime = ofGetElapsedTimef();
-    float lastFrameTime = ofGetLastFrameTime();
-    return lastFrameTime / currentTime;
 }

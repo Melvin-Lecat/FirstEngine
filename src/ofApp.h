@@ -27,9 +27,8 @@ public:
 	
 	Vector pos = Vector(300, 300, 0);
 	Vector velocite = Vector(50, 100, 0);
-
+	Particule current_particule = Particule(velocite, 1,9.81f); 
 	std::list <Particule*> tabParticule;
 	bool SimPause = false; 
 	void ClearParticles();
-	float GetTimeElapsed();
 };
