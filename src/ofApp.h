@@ -1,12 +1,13 @@
 #pragma once
 
 #include "ofMain.h"
-#include "../Vector.h"
-#include "../Particule.h"
+#include "Vector.h"
+#include "Particule.h"
 class ofApp : public ofBaseApp {
 
 public:
 	void setup();
+	void CheckUnboundParticules();
 	void update();
 	void draw();
 
@@ -21,7 +22,7 @@ public:
 	void windowResized(int w, int h);
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
-	void push(std::list<Particule*> tabParticule, float deltat);
+	void UpdateParticles(std::list<Particule*> tabParticule, float deltat);
 
 	
 	Vector pos = Vector(300, 300, 0);
@@ -30,4 +31,5 @@ public:
 	std::list <Particule*> tabParticule;
 	bool SimPause = false; 
 	void ClearParticles();
+	float GetTimeElapsed();
 };

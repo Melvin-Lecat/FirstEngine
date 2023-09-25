@@ -1,5 +1,15 @@
 ﻿#include "Particule.h"
 
+float Particule::GetMasse()
+{
+    return 1/masse;
+}
+
+void Particule::SetMasse(float m)
+{
+    masse = 1/m;
+}
+
 Particule::Particule()
 {
     this->position = Vector(0, 0, 0);
@@ -16,7 +26,7 @@ Particule::Particule(Vector velocite, float angle, float masse)
     this->velocite = velocite;
     this->acceleration = Vector(0, -9.81, 0);
     this->angle = angle;
-    this->masse = masse;
+    this->masse = 1/masse;
     this->temps = 0;
 }
 

@@ -1,14 +1,14 @@
 #pragma once
 #include <ofMain.h>
 
-class Matrix
+class Matrice
 {
 public:
     glm::mat3x3 m9() { return glm::mat3x3(a, b, c, d, e, f, g, h, i); }
 	
     float a, b, c, d, e, f, g , h, i, j , k, l;
 
-    Matrix()
+    Matrice()
     {
         this->a = 0;
         this->b = 0;
@@ -24,7 +24,7 @@ public:
         this->l = 1;
     }
 	
-    Matrix(float a, float b, float c, float d, float e, float f, float g, float h, float i)
+    Matrice(float a, float b, float c, float d, float e, float f, float g, float h, float i)
     {
         this->a = a;
         this->b = b;
@@ -41,16 +41,16 @@ public:
     }
 	
 
-    Matrix operator +(Matrix v);
-    Matrix operator +=(Matrix v);
-    Matrix operator -(Matrix v);
-    Matrix operator -=(Matrix v);
-    Matrix operator *(Matrix v); // Produit scalaire 
-    Matrix operator *=(Matrix v); // Produit scalaire 
-    Matrix operator *(float k);  // Multiplication par scalaire
-    Matrix operator *=(float k);  // Multiplication par scalaire
+    Matrice operator +(Matrice v);
+    Matrice operator +=(Matrice v);
+    Matrice operator -(Matrice v);
+    Matrice operator -=(Matrice v);
+    Matrice operator *(Matrice v); // Produit scalaire 
+    Matrice operator *=(Matrice v); // Produit scalaire 
+    Matrice operator *(float k);  // Multiplication par scalaire
+    Matrice operator *=(float k);  // Multiplication par scalaire
 
-    static Matrix Zero();
+    static Matrice Zero();
 	
     std::string to_string();
 
