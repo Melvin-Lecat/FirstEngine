@@ -52,9 +52,12 @@ void ofApp::draw()
     ofDrawLine(Vector(0, ofGetHeight()).v2(), cursor.v2());
     for (Particule* p : tabParticule)
     {
+        ofSetColor(p->color[0], p->color[1], p->color[2]);
         Vector realPos = Vector(p->position.x, ofGetHeight() - p->position.y);
         ofDrawCircle(realPos.v2(), RAD);
+        ofSetColor(255,255,255);
     }
+    
 }
 
 //--------------------------------------------------------------
@@ -83,7 +86,7 @@ void ofApp::keyPressed(int key)
         break;
     case 'z':
         cout << "Laser" << endl;
-        current_particule = Particule(velocite, 2,0); // Laser
+        current_particule = Particule(velocite, 2,0, 255,0,0); // Laser
         break;
     case 'e':
         cout << "Balle un peu lourde" << endl;

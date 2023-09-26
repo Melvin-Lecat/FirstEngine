@@ -50,6 +50,16 @@ Particule::Particule(Vector velocite, float masse, float gravity, bool massInflu
     this->temps = 0;
     this->acceleration = massInfluence? Vector(0, -gravity*masse, 0): Vector(0, -gravity, 0);
 }
+Particule::Particule(Vector velocite, float masse, float gravity, int r, int g, int b)
+{
+    this->position = Vector(0, 0, 0);
+    this->velocite = velocite;
+    this->masse = 1/masse;
+    this->temps = 0;
+    this->color[0] = r;
+    this->color[1] = g;
+    this->color[2] = b;
+}
 
 void Particule::integration_euler(float deltat)
 {
