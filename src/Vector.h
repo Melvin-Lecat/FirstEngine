@@ -9,48 +9,32 @@ public:
 
     float x, y, z, w;
 
-    Vector()
-    {
-        this->x = 0;
-        this->y = 0;
-        this->z = 0;
-        this->w = 0;
-    }
+    // Constructors
+    Vector();
+    Vector(float x, float y);
+    Vector(float x, float y, float z);
 
-    Vector(float x, float y)
-    {
-        this->x = x;
-        this->y = y;
-        this->z = 0;
-        this->w = 0;
-    }
-
-    Vector(float x, float y, float z)
-    {
-        this->x = x;
-        this->y = y;
-        this->z = z;
-        this->w = 0;
-    }
-
+    // Operators
     Vector operator +(Vector v);
     Vector operator +=(Vector v);
     Vector operator -(Vector v);
     Vector operator -=(Vector v);
-    Vector operator *(Vector v); // Produit scalaire 
-    Vector operator *=(Vector v); // Produit scalaire 
-    Vector operator *(float k); // Multiplication par scalaire
-    Vector operator *=(float k); // Multiplication par scalaire
-
-    static Vector Zero();
-    static Vector OneX();
-    static Vector OneY();
-    static Vector OneZ();
+    // Scalar product
+    Vector operator *(Vector v); 
+    Vector operator *=(Vector v);
+    // Multiplication by scalar
+    Vector operator *(float k); 
+    Vector operator *=(float k);
     std::string to_string();
 
-    Vector Invert(); // Négation 
-    float Norme(); // Norme 1 
-    float Norme2(); // Norme 2
-    Vector Normalize(); // Normalization du vecteur (à vérifier et optimiser peut etre)
-    Vector Vectiel(Vector v); // Produit Vectiel
+    // Methods
+    static Vector zero();
+    static Vector oneX();
+    static Vector oneY();
+    static Vector oneZ();
+    Vector opposite();
+    float magnitude();
+    float squaredMagnitude();
+    Vector normalized();
+    Vector vectorialProduct(Vector w);
 };

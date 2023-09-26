@@ -1,5 +1,30 @@
 ﻿#include "Vector.h"
 
+Vector::Vector()
+{
+    this->x = 0;
+    this->y = 0;
+    this->z = 0;
+    this->w = 0;
+}
+
+Vector::Vector(float x, float y)
+{
+    this->x = x;
+    this->y = y;
+    this->z = 0;
+    this->w = 0;
+}
+
+Vector::Vector(float x, float y, float z)
+{
+    this->x = x;
+    this->y = y;
+    this->z = z;
+    this->w = 0;
+}
+
+
 Vector Vector::operator +(Vector v) { return Vector(this->x + v.x, this->y + v.y, this->z + v.z); }
 Vector Vector::operator +=(Vector v) { return Vector(this->x + v.x, this->y + v.y, this->z + v.z); }
 Vector Vector::operator -(Vector v) { return Vector(this->x - v.x, this->y - v.y, this->z - v.z); }
@@ -9,28 +34,44 @@ Vector Vector::operator *=(Vector v) { return Vector(this->x * v.x, this->y * v.
 Vector Vector::operator *(float k) { return Vector(this->x * k, this->y * k, this->z * k); }
 Vector Vector::operator *=(float k) { return Vector(this->x * k, this->y * k, this->z * k); }
 
-Vector Vector::Zero() { return Vector(0, 0, 0); }
-Vector Vector::OneX() { return Vector(1, 0, 0); }
-Vector Vector::OneY() { return Vector(0, 1, 0); }
-Vector Vector::OneZ() { return Vector(0, 0, 1); }
-
 std::string Vector::to_string()
 {
     return "x:" + std::to_string(this->x) + "\n y: " + std::to_string(this->y) + "\n z: " + std::to_string(this->z);
 }
 
-Vector Vector::Invert()
+Vector Vector::zero() { return Vector(0, 0, 0); }
+Vector Vector::oneX() { return Vector(1, 0, 0); }
+Vector Vector::oneY() { return Vector(0, 1, 0); }
+Vector Vector::oneZ() { return Vector(0, 0, 1); }
+
+/**
+ * @return the opposite vector
+ */
+Vector Vector::opposite()
 {
     return Vector(-x, -y, -z);
 }
 
-float Vector::Norme() { return glm::sqrt(glm::pow2(x) + glm::pow2(y) + glm::pow2(z)); }
+/**
+ * @return the magnitude of the vector
+ */
+float Vector::magnitude() { return glm::sqrt(glm::pow2(x) + glm::pow2(y) + glm::pow2(z)); }
 
-float Vector::Norme2() { return glm::pow2(x) + glm::pow2(y) + glm::pow2(z); }
+/**
+ * @return the squared magnitude of the vector
+ */
+float Vector::squaredMagnitude() { return glm::pow2(x) + glm::pow2(y) + glm::pow2(z); }
 
-Vector Vector::Normalize() { return Vector(x, y, z) * (1 / Vector::Norme()); }
+/**
+ * @return the normalized vector
+ */
+Vector Vector::normalized() { return Vector(x, y, z) * (1 / magnitude()); }
 
-Vector Vector::Vectiel(Vector v)
+/**
+ * @param w the other vector
+ * @return the vectorial product of the two vectors
+ */
+Vector Vector::vectorialProduct(Vector w)
 {
-    return Vector(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
+    return Vector(y * w.z - z * w.y, z * w.x - x * w.z, x * w.y - y * w.x);
 }

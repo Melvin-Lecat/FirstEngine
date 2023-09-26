@@ -4,34 +4,44 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+    // Set the color of the items
     ofSetColor(255, 255, 255);
+    // Present the user manual
     cout << "User Manual:\n"
         "\tPress 'p' to pause simulation\n"
-        "\tPress 'i' to clear all particles\n"
-        "\tPress 'o' to add a particle\n"
+        "\tPress 'i' to clear all bullets\n"
+        "\tPress 'o' to fire the current bullet (default : standard)\n"
         "\tPress the right arrow to update frame by frame while paused\n"
-        "\tClick in the window to change the velocity\n"
-        "\tPress 'a' to add a normal particle\n"
-        "\tPress 'z' to add a laser like particle\n"
-        "\tPress 'e' to add a slightly heavy particle\n"
-        "\tPress 'r' to add a heavy particle\n"
-        "\tPress 't' to add a custom particle\n"
+        "\tClick in the window to change the initial velocity\n"
+        "\tPress 'a' to fire a standard bullet\n"
+        "\tPress 'z' to fire a laser like bullet\n"
+        "\tPress 'e' to fire a heavy bullet\n"
+        "\tPress 'r' to fire a very heavy bullet\n"
+        "\tPress 't' to fire a custom bullet\n"
         << endl;
 }
 
-void ofApp::CheckUnboundParticules()
+/**
+ * @brief Check if the particles are out of the screen and delete them
+ * 
+ */
+void ofApp::checkUnboundParticules()
 {
-    for (auto particule = tabParticule.begin(); particule != tabParticule.end();)  // Itères sur les particules entre le début et la fin de la liste
+    // Iterates over the list of particles
+    for (auto particule = tabParticle.begin(); particule != tabParticle.end();)
     {
-       
-        if ((*particule)->position.y < -RAD || (*particule)->position.x > static_cast<float>(ofGetWidth()) + RAD) // Vérifie si la particule est hors de l'écran (bas et droite)
+        // Check if the particle is out of the screen
+        if ((*particule)->position.y < -RAD || (*particule)->position.x > static_cast<float>(ofGetWidth()) + RAD)
         {
-            delete *particule; // Libère la mémoire de la particule
-            particule = tabParticule.erase(particule); // Supprime la particule de la liste
+            // If so, delete the particle and release the memory
+            delete *particule;
+            // Remove the particle from the list
+            particule = tabParticle.erase(particule);
         }
         else
         {
-            ++particule; // Donne l'élément suivant de la liste (itérateur: elem.suivant)
+            // Else, go to the next particle
+            ++particule;
         }
     }
 }
@@ -39,25 +49,26 @@ void ofApp::CheckUnboundParticules()
 //--------------------------------------------------------------
 void ofApp::update()
 {
-    // Checks all the particules and remove it if y <= 0
-    CheckUnboundParticules();
-    if (SimPause) return;
-    UpdateParticles(tabParticule, ofGetLastFrameTime()); // ofGetLastFrameTime() is the time since the last frame
+    checkUnboundParticules();
+    if (simPause) return;
+    // Set the delta time using the last frame time
+    updateParticles(tabParticle, ofGetLastFrameTime());
 }
 
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-    Vector cursor = Vector(velocite.x, ofGetHeight() - velocite.y);
+    // Drawing the cursor for initial velocity
+    Vector cursor = Vector(velocity.x, ofGetHeight() - velocity.y);
     ofDrawLine(Vector(0, ofGetHeight()).v2(), cursor.v2());
-    for (Particule* p : tabParticule)
+    // Drawing the particles
+    for (Particle* p : tabParticle)
     {
         ofSetColor(p->color[0], p->color[1], p->color[2]);
         Vector realPos = Vector(p->position.x, ofGetHeight() - p->position.y);
         ofDrawCircle(realPos.v2(), RAD);
-        ofSetColor(255,255,255);
+        ofSetColor(255, 255, 255);
     }
-    
 }
 
 //--------------------------------------------------------------
@@ -68,40 +79,42 @@ void ofApp::keyPressed(int key)
     case ' ':
         break;
     case 'p':
-        SimPause = !SimPause;
-        cout <<  (!SimPause? "Unpaused" : "Paused") << endl;
+        simPause = !simPause;
+        cout << (!simPause ? "Unpaused" : "Paused") << endl;
         break;
     case 'i':
-        ClearParticles();
+        clearParticles();
         break;
     case 'o':
-        tabParticule.push_back(current_particule.duplicate());
+        tabParticle.push_back(currentParticle.duplicate());
         break;
-    case OF_KEY_RIGHT: // Flèche droite
-        if (SimPause) { UpdateParticles(tabParticule, ofGetLastFrameTime()); }
+    case OF_KEY_RIGHT:
+        if (simPause) { updateParticles(tabParticle, ofGetLastFrameTime()); }
         break;
     case 'a':
-        cout << "Balle normale" << endl;
-        current_particule = Particule(velocite, 1,9.81f); // Balle normale 
+        cout << "Standard bullet" << endl;
+        currentParticle = Particle(velocity, 1, 9.81f); 
         break;
     case 'z':
         cout << "Laser" << endl;
-        current_particule = Particule(velocite, 2,0, 255,0,0); // Laser
+        currentParticle = Particle(velocity, 2, 0, 255, 0, 0); 
         break;
     case 'e':
-        cout << "Balle un peu lourde" << endl;
-        current_particule = Particule(velocite, 3,50.0f); // Balle un peu lourde 
+        cout << "Heavy bullet" << endl;
+        currentParticle = Particle(velocity, 3, 50.0f);  
         break;
     case 'r':
-        cout << "Balle lourde" << endl;
-        current_particule = Particule(velocite, 4,100.0f); // Balle lourde
+        cout << "Very heavy bullet" << endl;
+        currentParticle = Particle(velocity, 4, 100.0f); 
         break;
     case 't':
-        SimPause = false ;
-        cout << "Balle personalisee \n""Veuillez entrer les parametres\n" << endl;
-        cout << "Masse: "; cin >> masse ;
-        cout << "Gravite: "; cin >> gravite ;
-        current_particule = Particule(velocite, masse, gravite);
+        simPause = false;
+        cout << "Custom bullet \n""Please enter the parameters \n" << endl;
+        cout << "Mass: ";
+        cin >> mass;
+        cout << "Gravity: ";
+        cin >> gravity;
+        currentParticle = Particle(velocity, mass, gravity);
         break;
     default:
         break;
@@ -126,8 +139,9 @@ void ofApp::mouseDragged(int x, int y, int button)
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
-    velocite = Vector(x, glm::abs(ofGetHeight() - y)); // TODO : Normaliser et scale ?
-    current_particule.velocite = velocite;
+    // Setting the initial velocity with the mouse position
+    velocity = Vector(x, glm::abs(ofGetHeight() - y));
+    currentParticle.velocity = velocity;
 }
 
 //--------------------------------------------------------------
@@ -160,25 +174,36 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
 {
 }
 
-
-void ofApp::UpdateParticles(std::list<Particule*> tab_particule, float deltat)
+/**
+ * @brief Update the particles with the Euler method
+ * 
+ * @param tabParticle the list of particles to update
+ * @param deltaT the delta time
+ */
+void ofApp::updateParticles(std::list<Particle*> tabParticle, float deltaT)
 {
-    //sert d'update
-    // boucle de particule 
-    for (Particule* p : tab_particule)
+    // Iterates over the list of particles
+    for (Particle* p : tabParticle)
     {
-        p->temps += deltat;
-        p->integration_euler(deltat);
+        // Update the time
+        p->time += deltaT;
+        // Update the position
+        p->eulerIntegration(deltaT);
     }
 }
 
-void ofApp::ClearParticles()
+/**
+ * @brief Remove all the particles from the list and release the memory
+ * 
+ */
+
+void ofApp::clearParticles()
 {
-    cout << "Clear" << tabParticule.size() << endl;
-    for (Particule* p : tabParticule)
+    cout << "Clear" << tabParticle.size() << endl;
+    for (Particle* p : tabParticle)
     {
         delete p;
     }
-    tabParticule.clear();
-    cout << "Cleared" << tabParticule.size() << endl;
+    tabParticle.clear();
+    cout << "Cleared" << tabParticle.size() << endl;
 }
