@@ -168,16 +168,7 @@ void ofApp::UpdateParticles(std::list<Particule*> tab_particule, float deltat)
     for (Particule* p : tab_particule)
     {
         p->temps += deltat;
-
-        //p->position.x = p->vitesse_zero * p->temps * cos(p->angle);
-        //p->position.y = p->vitesse_zero * p->temps * sin(p->angle) + (0.5) * (-9.81) * glm::pow2(p->temps);
-
-        //p->velocite.x = p->vitesse_zero * cos(p->angle);
-        //p->velocite.y = p->vitesse_zero * sin(p->angle) + (-9.81) * p->temps;
-
         p->integration_euler(deltat);
-
-        //cout << "Vitesse" << p->velocite.to_string() << "\n" << p->temps << endl;
     }
 }
 

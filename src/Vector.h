@@ -33,28 +33,24 @@ public:
         this->w = 0;
     }
 
-	Vector operator +(Vector v);
-	Vector operator +=(Vector v);
-	Vector operator -(Vector v);
-	Vector operator -=(Vector v);
-	Vector operator *(Vector v); // Produit scalaire 
-	Vector operator *=(Vector v); // Produit scalaire 
-	Vector operator *(float k);  // Multiplication par scalaire
-	Vector operator *=(float k);  // Multiplication par scalaire
+    Vector operator +(Vector v);
+    Vector operator +=(Vector v);
+    Vector operator -(Vector v);
+    Vector operator -=(Vector v);
+    Vector operator *(Vector v); // Produit scalaire 
+    Vector operator *=(Vector v); // Produit scalaire 
+    Vector operator *(float k); // Multiplication par scalaire
+    Vector operator *=(float k); // Multiplication par scalaire
 
-	static Vector Zero();
-	static Vector OneX();
-	static Vector OneY();
-	static Vector OneZ();
-	std::string to_string();
+    static Vector Zero();
+    static Vector OneX();
+    static Vector OneY();
+    static Vector OneZ();
+    std::string to_string();
 
-	Vector Invert(); // Négation 
-	float Norme();  // Norme 1 
-	float Norme2(); // Norme 2
-	Vector Normalize(); // Normalization du vecteur (à vérifier et optimiser peut etre)
-	Vector Vectoriel(Vector v); // Produit vectoriel
-
-
+    Vector Invert(); // Négation 
+    float Norme(); // Norme 1 
+    float Norme2(); // Norme 2
+    Vector Normalize(); // Normalization du vecteur (à vérifier et optimiser peut etre)
+    Vector Vectiel(Vector v); // Produit Vectiel
 };
-
-
