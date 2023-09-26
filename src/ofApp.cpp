@@ -9,7 +9,7 @@ void ofApp::setup()
         "\tPress 'p' to pause simulation\n"
         "\tPress 'i' to clear all particles\n"
         "\tPress 'o' to add a particle\n"
-        "\tPress the left arrow to update frame by frame while paused\n"
+        "\tPress the right arrow to update frame by frame while paused\n"
         "\tClick in the window to change the velocity\n"
         "\tPress 'a' to add a normal particle\n"
         "\tPress 'z' to add a laser like particle\n"
@@ -123,7 +123,8 @@ void ofApp::mouseDragged(int x, int y, int button)
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
-    velocite = Vector(x, glm::abs(ofGetHeight() - y));
+    velocite = Vector(x, glm::abs(ofGetHeight() - y)); // TODO : Normaliser et scale ?
+    current_particule.velocite = velocite;
 }
 
 //--------------------------------------------------------------
@@ -157,11 +158,11 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
 }
 
 
-void ofApp::UpdateParticles(std::list<Particule*> tabParticule, float deltat)
+void ofApp::UpdateParticles(std::list<Particule*> tab_particule, float deltat)
 {
     //sert d'update
     // boucle de particule 
-    for (Particule* p : tabParticule)
+    for (Particule* p : tab_particule)
     {
         p->temps += deltat;
 
