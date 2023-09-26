@@ -22,7 +22,7 @@ public:
 	void windowResized(int w, int h);
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
-	void UpdateParticles(std::list<Particule*> tabParticule, float deltat);
+	void UpdateParticles(std::list<Particule*> tab_particule, float deltat);
 
 	
 	Vector pos = Vector(300, 300, 0);

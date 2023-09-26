@@ -123,7 +123,8 @@ void ofApp::mouseDragged(int x, int y, int button)
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
-    velocite = Vector(x, glm::abs(ofGetHeight() - y));
+    velocite = Vector(x, glm::abs(ofGetHeight() - y)); // TODO : Normaliser et scale ?
+    current_particule.velocite = velocite;
 }
 
 //--------------------------------------------------------------
@@ -157,11 +158,11 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
 }
 
 
-void ofApp::UpdateParticles(std::list<Particule*> tabParticule, float deltat)
+void ofApp::UpdateParticles(std::list<Particule*> tab_particule, float deltat)
 {
     //sert d'update
     // boucle de particule 
-    for (Particule* p : tabParticule)
+    for (Particule* p : tab_particule)
     {
         p->temps += deltat;
 
