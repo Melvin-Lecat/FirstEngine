@@ -75,12 +75,7 @@ Particle* Particle::duplicate()
 void Particle::eulerIntegration(float delta_t)
 {
     // Update the velocity of the particle...
-    velocity.x += acceleration.x * delta_t;
-    velocity.y += acceleration.y * delta_t;
-    velocity.z += acceleration.z * delta_t;
-
+    velocity += acceleration * delta_t;
     // ... and its position
-    position.x += velocity.x * delta_t;
-    position.y += velocity.y * delta_t;
-    position.z += velocity.z * delta_t;
+    position += velocity * delta_t;
 }

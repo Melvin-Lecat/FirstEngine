@@ -26,13 +26,13 @@ Vector::Vector(float x, float y, float z)
 
 
 Vector Vector::operator +(Vector v) { return Vector(this->x + v.x, this->y + v.y, this->z + v.z); }
-Vector Vector::operator +=(Vector v) { return Vector(this->x + v.x, this->y + v.y, this->z + v.z); }
+Vector Vector::operator +=(Vector v) { return Vector(this->x += v.x, this->y += v.y, this->z += v.z); }
 Vector Vector::operator -(Vector v) { return Vector(this->x - v.x, this->y - v.y, this->z - v.z); }
-Vector Vector::operator -=(Vector v) { return Vector(this->x - v.x, this->y - v.y, this->z - v.z); }
+Vector Vector::operator -=(Vector v) { return Vector(this->x -= v.x, this->y -= v.y, this->z -= v.z); }
 Vector Vector::operator *(Vector v) { return Vector(this->x * v.x, this->y * v.y, this->z * v.z); }
-Vector Vector::operator *=(Vector v) { return Vector(this->x * v.x, this->y * v.y, this->z * v.z); }
+Vector Vector::operator *=(Vector v) { return Vector(this->x *= v.x, this->y *= v.y, this->z *= v.z); }
 Vector Vector::operator *(float k) { return Vector(this->x * k, this->y * k, this->z * k); }
-Vector Vector::operator *=(float k) { return Vector(this->x * k, this->y * k, this->z * k); }
+Vector Vector::operator *=(float k) { return Vector(this->x *= k, this->y *= k, this->z *= k); }
 
 std::string Vector::to_string()
 {
