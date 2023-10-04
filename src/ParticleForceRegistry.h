@@ -11,6 +11,7 @@ public:
     };
 
     typedef std::vector<ParticleForceRegistration> Registre;
+    Registre rg;
     void add(Particle *particle, ParticleForceGenerator *fg);
     void remove(Particle *particle, ParticleForceGenerator *fg);
     void clear();

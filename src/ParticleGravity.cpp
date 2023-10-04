@@ -2,7 +2,7 @@
 
 Vector ParticleGravity::getGravity()
 {
-    return this->gravity;
+    return gravity;
 }
 
 void ParticleGravity::setGravity(Vector gravity)
