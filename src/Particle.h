@@ -10,6 +10,7 @@ public:
     Vector position;
     Vector velocity;
     Vector acceleration;
+    Vector accumForce;
     float time;
     int color[3] = {255, 255, 255};
 
@@ -23,6 +24,9 @@ public:
     // Methods
     float getMass();
     void setMass(float m);
+    void setPosition(Vector newPosition);
     void eulerIntegration(float delta_t);
     Particle* duplicate();
+    void addForce(Vector force);
+    void clearAccum();
 };

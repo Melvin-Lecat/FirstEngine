@@ -196,7 +196,6 @@ void ofApp::updateParticles(std::list<Particle*> tabParticle, float deltaT)
  * @brief Remove all the particles from the list and release the memory
  * 
  */
-
 void ofApp::clearParticles()
 {
     cout << "Clear" << tabParticle.size() << endl;

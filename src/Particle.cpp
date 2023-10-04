@@ -57,6 +57,11 @@ void Particle::setMass(float m)
     inversedMass = 1 / m;
 }
 
+void Particle::setPosition(Vector newPosition)
+{
+    this->position = newPosition;
+}
+
 /**
  * @brief Duplicate the particle
  * 
@@ -65,6 +70,25 @@ void Particle::setMass(float m)
 Particle* Particle::duplicate()
 {
     return new Particle(*this);
+}
+
+/**
+ * @brief Add a force to the particle
+ * 
+ * @param force 
+ */
+void Particle::addForce(Vector force)
+{
+    this->accumForce += force;
+}
+
+/**
+ * @brief Clear the forces associated to the particle
+ * 
+ */
+void Particle::clearAccum()
+{
+    this->accumForce = Vector(0, 0, 0);
 }
 
 /**
