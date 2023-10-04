@@ -1,9 +1,17 @@
 #include "ParticleGravity.h"
 
-virtual void updateForce(Particle *particle, float duration)
+Vector ParticleGravity::getGravity()
+{
+}
+
+void ParticleGravity::setGravity(Vector gravity)
+{
+}
+
+void ParticleGravity::updateForce(Particle *particle, float duration)
 {
     if (particle->getMass()!=0)
     {
-        particle->addForce(ParticleGravity*particle->getMass());
+        particle->addForce(this->gravity*particle->getMass());
     }
 }

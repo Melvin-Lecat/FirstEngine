@@ -3,7 +3,7 @@
 
 void ParticleForceRegistry::add(Particle *particle, ParticleForceGenerator *fg)
 {
-    Registre
+    
 }
 
 void ParticleForceRegistry::remove(Particle *particle, ParticleForceGenerator *fg)
