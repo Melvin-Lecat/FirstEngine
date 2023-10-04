@@ -15,7 +15,7 @@ void ParticleForceRegistry::remove(Particle *particle, ParticleForceGenerator *f
     var.particle = particle;
     var.fg = fg;
     
-    rg.erase(var);
+    //rg.erase(var);
 }
 
 void ParticleForceRegistry::clear()

@@ -7,9 +7,7 @@ Vector ParticleGravity::getGravity()
 
 void ParticleGravity::setGravity(Vector gravity)
 {
-    this->gravity.x = gravity.x;
-    this->gravity.y = gravity.y;
-    this->gravity.z = gravity.z;
+    this->gravity = gravity;
 }
 
 void ParticleGravity::updateForce(Particle *particle, float duration)
