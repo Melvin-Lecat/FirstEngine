@@ -113,6 +113,7 @@
     <ClCompile Include="src\ParticleForceRegistry.cpp" />
     <ClCompile Include="src\ParticleFriction.cpp" />
     <ClCompile Include="src\ParticleGravity.cpp" />
+    <ClCompile Include="src\ParticleSpringHook.cpp" />
     <ClCompile Include="src\Rectangle.cpp" />
     <ClCompile Include="src\Vector.cpp" />
   </ItemGroup>
@@ -125,6 +126,7 @@
     <ClInclude Include="src\ParticleForceRegistry.h" />
     <ClInclude Include="src\ParticleFriction.h" />
     <ClInclude Include="src\ParticleGravity.h" />
+    <ClInclude Include="src\ParticleSpringHook.h" />
     <ClInclude Include="src\Rectangle.h" />
     <ClInclude Include="src\Vector.h" />
   </ItemGroup>
