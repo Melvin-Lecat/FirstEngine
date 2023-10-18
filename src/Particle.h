@@ -1,7 +1,8 @@
 ﻿#pragma once
 #include "Vector.h"
+#include "GameObject.h"
 
-class Particle
+class Particle:GameObject
 {
 protected:
     float inversedMass;
@@ -12,14 +13,15 @@ public:
     Vector acceleration;
     Vector accumForce;
     float time;
-    int color[3] = {255, 255, 255};
+    float radius;
 
     // Constructors
     Particle();
     Particle(Vector velocity, float mass);
     Particle(Vector velocity, float mass, float gravity);
     Particle(Vector velocity, float mass, float gravity, bool massInfluence);
-    Particle(Vector velocity, float mass, float gravity, int r, int g, int b);
+    Particle(Vector velocity, float mass, int r, int g, int b);
+    Particle(Vector velocity, float mass, int r, int g, int b, float radius);
 
     // Methods
     float getMass();
