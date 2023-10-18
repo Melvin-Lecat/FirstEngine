@@ -54,10 +54,24 @@ void ofApp::checkUnboundParticules()
 
 void ofApp::checkCollision()
 {
+    int numCollisions = 0;
     for (auto particle1 = tabParticle.begin(); particle1 != tabParticle.end();)
     {
-        particle1++;
+        for (auto particle2 = tabParticle.begin(); particle2 != particle1;)
+        {
+            float d = ((*particle1)->position - (*particle2)->position).squaredMagnitude();
+            float minD = glm::pow2((*particle1)->radius + (*particle2)->radius);
+
+            if (d < minD)
+            {
+                ++numCollisions;
+            }
+
+            ++particle2;
+        }
+        ++particle1;
     }
+    cout << "Number of collisions: " << numCollisions << endl;
 }
 
 void ofApp:: checkBoundaries()
