@@ -115,6 +115,7 @@
     <ClCompile Include="src\ParticleGravity.cpp" />
     <ClCompile Include="src\ParticleSpringHook.cpp" />
     <ClCompile Include="src\Rectangle.cpp" />
+    <ClCompile Include="src\SpringGenerator.cpp" />
     <ClCompile Include="src\Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +129,7 @@
     <ClInclude Include="src\ParticleGravity.h" />
     <ClInclude Include="src\ParticleSpringHook.h" />
     <ClInclude Include="src\Rectangle.h" />
+    <ClInclude Include="src\SpringGenerator.h" />
     <ClInclude Include="src\Vector.h" />
   </ItemGroup>
   <ItemGroup>

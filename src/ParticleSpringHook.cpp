@@ -15,5 +15,5 @@ float ParticleSpringHook::distance()
 
 void ParticleSpringHook::updateForce(Particle *particle, float duration)
 {
-    particle->addForce((this->point-this->particle->position)*-K*this->distance());
+    particle->addForce((this->point-this->particle->position)*K*this->distance());
 }

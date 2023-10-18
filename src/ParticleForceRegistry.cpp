@@ -1,6 +1,8 @@
 #include "ParticleForceRegistry.h"
 
 
+
+
 void ParticleForceRegistry::add(Particle *particle, ParticleForceGenerator *fg)
 {
     struct ParticleForceRegistration var;
@@ -11,12 +13,20 @@ void ParticleForceRegistry::add(Particle *particle, ParticleForceGenerator *fg)
 
 void ParticleForceRegistry::remove(Particle *particle, ParticleForceGenerator *fg)
 {
-    struct ParticleForceRegistration var;
-    var.particle = particle;
-    var.fg = fg;
-
-    //remove var from rg
-    //rg.erase(std::remove(rg.begin(), rg.end(), var), rg.end()); //todo: a tester
+    for (auto item = rg.begin(); item != rg.end();)
+    {
+        // Check if the particle is out of the screen
+        if (item->fg == fg && item->particle == particle)
+        {
+            // Remove the particle from the list
+            item = rg.erase(item);
+        }
+        else
+        {
+            // Else, go to the next particle
+            ++item;
+        }
+    }
 }
 
 void ParticleForceRegistry::clear()

@@ -1,6 +1,8 @@
 #include "ofApp.h"
 
 #include "ParticleGravity.h"
+#include "ParticleSpringHook.h"
+#include "SpringGenerator.h"
 #define RAD 15
 
 //--------------------------------------------------------------
@@ -48,13 +50,46 @@ void ofApp::checkUnboundParticules()
     }
 }
 
+void ofApp:: checkBoundaries()
+{
+    for (auto p: tabParticle)
+    {
+        if (p->position.x < RAD)
+        {
+            p->velocity.x *=-0.9;
+        }
+        if (p->position.x > ofGetWidth() - RAD)
+        {
+            p->velocity.x *=-0.9;
+        }
+        if (p->position.y < RAD)
+        {
+            p->velocity.y *=-0.9;
+        }
+        if (p->position.y > ofGetHeight() - RAD)
+        {
+            p->velocity.y *=-0.9;
+        }
+        
+    }
+}
+
 void ofApp::updateForces()
 {
     ParticleGravity pg(Vector(0,-9.81,0));
+    SpringGenerator sg(Vector(ofGetWidth()/2,ofGetHeight()/2,0),0.7,20);
+    
     for(auto p : tabParticle)
     {
         particleForceRegistry.add(p,&pg);
+        particleForceRegistry.add(p,&sg);
     }
+    /*for(auto p : tabParticle)
+    {
+        ParticleSpringHook particleForce(p,Vector(ofGetWidth()/2,ofGetHeight()/2,0),0.7,20);
+        particleForceRegistry.add(p,&particleForce);
+    }*/
+    
     particleForceRegistry.updateForces(ofGetLastFrameTime());
 }
 
@@ -62,7 +97,8 @@ void ofApp::updateForces()
 void ofApp::update()
 {
     
-    checkUnboundParticules();
+    //checkUnboundParticules();
+    checkBoundaries();
     if (simPause) return;
     // Set the delta time using the last frame time7
     updateForces();
