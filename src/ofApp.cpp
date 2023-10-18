@@ -30,21 +30,29 @@ void ofApp::setup()
 void ofApp::checkUnboundParticules()
 {
     // Iterates over the list of particles
-    for (auto particule = tabParticle.begin(); particule != tabParticle.end();)
+    for (auto particle = tabParticle.begin(); particle != tabParticle.end();)
     {
         // Check if the particle is out of the screen
-        if ((*particule)->position.y < -RAD || (*particule)->position.x > static_cast<float>(ofGetWidth()) + RAD)
+        if ((*particle)->position.y < -RAD || (*particle)->position.x > static_cast<float>(ofGetWidth()) + RAD)
         {
             // If so, delete the particle and release the memory
-            delete *particule;
+            delete *particle;
             // Remove the particle from the list
-            particule = tabParticle.erase(particule);
+            particle = tabParticle.erase(particle);
         }
         else
         {
             // Else, go to the next particle
-            ++particule;
+            ++particle;
         }
+    }
+}
+
+void ofApp::checkCollision()
+{
+    for (auto particle1 = tabParticle.begin(); particle1 != tabParticle.end();)
+    {
+        particle1++;
     }
 }
 

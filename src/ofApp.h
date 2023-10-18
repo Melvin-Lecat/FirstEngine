@@ -9,6 +9,7 @@ class ofApp : public ofBaseApp
 public:
     void setup();
     void checkUnboundParticules();
+    void checkCollision();
     void update();
     void draw();
 
