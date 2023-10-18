@@ -26,13 +26,17 @@ public:
     void updateParticles(std::list<Particle*> tabParticle, float deltaT);
 
 
-    Vector pos = Vector(300, 300, 0);
-    Vector velocity = Vector(50, 100, 0);
-    Particle currentParticle = Particle(velocity, 1, 9.81f);
+    
+    
     std::list<Particle*> tabParticle;
     float mass;
     float gravity;
     bool simPause = false;
 
     void clearParticles();
+
+    // Variables to setup the initial parameters of the particle
+    Vector particleOrigin = Vector(0, 0, 0);
+    Vector particleVelocity = Vector(0, 0, 0);
+    Particle currentParticle = Particle(particleVelocity, 1, 9.81f);
 };

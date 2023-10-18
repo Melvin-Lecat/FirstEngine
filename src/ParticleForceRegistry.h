@@ -1,7 +1,6 @@
 #pragma once
 #include "Particle.h"
 #include "ParticleForceGenerator.h"
-
 class ParticleForceRegistry
 {
 public:

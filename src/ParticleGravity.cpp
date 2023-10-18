@@ -12,8 +12,6 @@ void ParticleGravity::setGravity(Vector gravity)
 
 void ParticleGravity::updateForce(Particle *particle, float duration)
 {
-    if (particle->getMass()!=0)
-    {
-        particle->addForce(this->gravity*particle->getMass());
-    }
+    if (particle->getMass()==0) return;
+    particle->addForce(this->gravity*particle->getMass());
 }
