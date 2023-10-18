@@ -52,6 +52,14 @@ void ofApp::checkUnboundParticules()
     }
 }
 
+void ofApp::checkCollision()
+{
+    for (auto particle1 = tabParticle.begin(); particle1 != tabParticle.end();)
+    {
+        particle1++;
+    }
+}
+
 void ofApp:: checkBoundaries()
 {
     float f = -1;
