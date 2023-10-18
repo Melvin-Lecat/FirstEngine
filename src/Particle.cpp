@@ -70,11 +70,6 @@ void Particle::setMass(float m)
     inversedMass = 1 / m;
 }
 
-void Particle::setPosition(Vector newPosition)
-{
-    this->position = newPosition;
-}
-
 /**
  * @brief Duplicate the particle
  * 

@@ -8,7 +8,6 @@ protected:
     float inversedMass;
 
 public:
-    Vector position;
     Vector velocity;
     Vector acceleration;
     Vector accumForce;
@@ -26,7 +25,6 @@ public:
     // Methods
     float getMass();
     void setMass(float m);
-    void setPosition(Vector newPosition);
     void eulerIntegration(float delta_t);
     Particle* duplicate();
     void addForce(Vector force);
