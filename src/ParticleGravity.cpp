@@ -5,10 +5,11 @@ Vector ParticleGravity::getGravity()
     return gravity;
 }
 
-void ParticleGravity::setGravity(Vector gravity)
+ParticleGravity::ParticleGravity(Vector gravity)
 {
     this->gravity = gravity;
 }
+
 
 void ParticleGravity::updateForce(Particle *particle, float duration)
 {

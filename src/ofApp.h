@@ -3,12 +3,14 @@
 #include "ofMain.h"
 #include "Vector.h"
 #include "Particle.h"
+#include "ParticleForceRegistry.h"
 
 class ofApp : public ofBaseApp
 {
 public:
     void setup();
     void checkUnboundParticules();
+    void updateForces();
     void update();
     void draw();
 
@@ -38,5 +40,6 @@ public:
     // Variables to setup the initial parameters of the particle
     Vector particleOrigin = Vector(0, 0, 0);
     Vector particleVelocity = Vector(0, 0, 0);
+    ParticleForceRegistry particleForceRegistry;
     Particle currentParticle = Particle(particleVelocity, 1, 9.81f);
 };

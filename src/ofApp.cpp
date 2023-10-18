@@ -48,13 +48,24 @@ void ofApp::checkUnboundParticules()
     }
 }
 
+void ofApp::updateForces()
+{
+    ParticleGravity pg(Vector(0,-9.81,0));
+    for(auto p : tabParticle)
+    {
+        particleForceRegistry.add(p,&pg);
+    }
+    particleForceRegistry.updateForces(ofGetLastFrameTime());
+}
+
 //--------------------------------------------------------------
 void ofApp::update()
 {
     
     checkUnboundParticules();
     if (simPause) return;
-    // Set the delta time using the last frame time
+    // Set the delta time using the last frame time7
+    updateForces();
     updateParticles(tabParticle, ofGetLastFrameTime());
 }
 
@@ -93,6 +104,7 @@ void ofApp::keyPressed(int key)
         clearParticles();
         break;
     case 'o':
+        currentParticle.position = particleOrigin;
         tabParticle.push_back(currentParticle.duplicate());
         break;
     case OF_KEY_RIGHT:
@@ -153,6 +165,7 @@ void ofApp::mousePressed(int x, int y, int button)
             particleVelocity = Vector(x, ofGetHeight() -  y);
             currentParticle.velocity.x = particleVelocity.x - particleOrigin.x;
             currentParticle.velocity.y = particleVelocity.y - particleOrigin.y;
+;
             break;
         case OF_MOUSE_BUTTON_RIGHT:
             particleOrigin = Vector(x,ofGetHeight()-y,0);
@@ -203,13 +216,9 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
  */
 void ofApp::updateParticles(std::list<Particle*> tabParticle, float deltaT)
 {
-    ParticleGravity pg;
-    pg.setGravity(Vector(0,-9.81,0));
-   
     // Iterates over the list of particles
     for (Particle* p : tabParticle)
     {
-        pg.updateForce(p,deltaT);
         // Update the time
         p->time += deltaT;
         // Update the position

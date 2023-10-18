@@ -8,6 +8,6 @@ class ParticleGravity:public ParticleForceGenerator
 public:
     Vector gravity;
     Vector getGravity();
-    void setGravity(Vector gravity);
+    ParticleGravity(Vector gravity);
     void updateForce(Particle *particle, float duration);
 };

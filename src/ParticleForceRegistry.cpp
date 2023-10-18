@@ -14,16 +14,21 @@ void ParticleForceRegistry::remove(Particle *particle, ParticleForceGenerator *f
     struct ParticleForceRegistration var;
     var.particle = particle;
     var.fg = fg;
-    
-    //rg.erase(var);
+
+    //remove var from rg
+    //rg.erase(std::remove(rg.begin(), rg.end(), var), rg.end()); //todo: a tester
 }
 
 void ParticleForceRegistry::clear()
 {
-    
+    rg.clear();
 }
 
 void ParticleForceRegistry::updateForces(float duration)
 {
-    
+    for (auto &var : rg)
+    {
+        var.fg->updateForce(var.particle, duration);
+    }
+    clear();
 }
