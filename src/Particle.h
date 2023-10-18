@@ -2,7 +2,7 @@
 #include "Vector.h"
 #include "GameObject.h"
 
-class Particle:GameObject
+class Particle:public GameObject
 {
 protected:
     float inversedMass;

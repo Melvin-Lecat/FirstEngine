@@ -1,4 +1,6 @@
 #include "ofApp.h"
+
+#include "ParticleGravity.h"
 #define RAD 15
 
 //--------------------------------------------------------------
@@ -49,6 +51,7 @@ void ofApp::checkUnboundParticules()
 //--------------------------------------------------------------
 void ofApp::update()
 {
+    
     checkUnboundParticules();
     if (simPause) return;
     // Set the delta time using the last frame time
@@ -59,8 +62,12 @@ void ofApp::update()
 void ofApp::draw()
 {
     // Drawing the cursor for initial velocity
-    Vector cursor = Vector(velocity.x, ofGetHeight() - velocity.y);
-    ofDrawLine(Vector(0, ofGetHeight()).v2(), cursor.v2());
+    Vector tempOrigin = Vector(particleOrigin.x, ofGetHeight() - particleOrigin.y);
+    Vector tempVelocity = Vector(particleVelocity.x, ofGetHeight() - particleVelocity.y);
+    ofSetColor(OF_CONSOLE_COLOR_GREEN);
+    ofDrawCircle(tempOrigin.v2(), RAD/2);
+    ofSetColor(255, 255, 255);
+    ofDrawLine(tempOrigin.v2(),tempVelocity.v2());
     // Drawing the particles
     for (Particle* p : tabParticle)
     {
@@ -93,19 +100,19 @@ void ofApp::keyPressed(int key)
         break;
     case 'a':
         cout << "Standard bullet" << endl;
-        currentParticle = Particle(velocity, 1, 9.81f); 
+        currentParticle = Particle(particleVelocity, 1, 9.81f); 
         break;
     case 'z':
         cout << "Laser" << endl;
-        currentParticle = Particle(velocity, 2, 0, 255, 0, 0); 
+        currentParticle = Particle(particleVelocity, 2, 0, 255, 0, 0); 
         break;
     case 'e':
         cout << "Heavy bullet" << endl;
-        currentParticle = Particle(velocity, 3, 50.0f);  
+        currentParticle = Particle(particleVelocity, 3, 50.0f);  
         break;
     case 'r':
         cout << "Very heavy bullet" << endl;
-        currentParticle = Particle(velocity, 4, 100.0f); 
+        currentParticle = Particle(particleVelocity, 4, 100.0f); 
         break;
     case 't':
         simPause = false;
@@ -114,7 +121,7 @@ void ofApp::keyPressed(int key)
         cin >> mass;
         cout << "Gravity: ";
         cin >> gravity;
-        currentParticle = Particle(velocity, mass, gravity);
+        currentParticle = Particle(particleVelocity, mass, gravity);
         break;
     default:
         break;
@@ -140,8 +147,22 @@ void ofApp::mouseDragged(int x, int y, int button)
 void ofApp::mousePressed(int x, int y, int button)
 {
     // Setting the initial velocity with the mouse position
-    velocity = Vector(x, glm::abs(ofGetHeight() - y));
-    currentParticle.velocity = velocity;
+    switch (button)
+    {
+        case OF_MOUSE_BUTTON_LEFT:
+            particleVelocity = Vector(x, ofGetHeight() -  y);
+            currentParticle.velocity.x = particleVelocity.x - particleOrigin.x;
+            currentParticle.velocity.y = particleVelocity.y - particleOrigin.y;
+            break;
+        case OF_MOUSE_BUTTON_RIGHT:
+            particleOrigin = Vector(x,ofGetHeight()-y,0);
+            particleVelocity = Vector(x,ofGetHeight()-y,0);
+            currentParticle.setPosition(particleOrigin);
+            break;
+        default:
+            break; 
+    }
+    
 }
 
 //--------------------------------------------------------------
@@ -182,9 +203,13 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
  */
 void ofApp::updateParticles(std::list<Particle*> tabParticle, float deltaT)
 {
+    ParticleGravity pg;
+    pg.setGravity(Vector(0,-9.81,0));
+   
     // Iterates over the list of particles
     for (Particle* p : tabParticle)
     {
+        pg.updateForce(p,deltaT);
         // Update the time
         p->time += deltaT;
         // Update the position
