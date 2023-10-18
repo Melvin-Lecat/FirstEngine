@@ -35,6 +35,7 @@ public:
     Vector opposite();
     float magnitude();
     float squaredMagnitude();
+    float distance(Vector other);
     Vector normalized();
     Vector vectorialProduct(Vector w);
 };

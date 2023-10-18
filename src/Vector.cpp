@@ -63,6 +63,15 @@ float Vector::magnitude() { return glm::sqrt(glm::pow2(x) + glm::pow2(y) + glm::
 float Vector::squaredMagnitude() { return glm::pow2(x) + glm::pow2(y) + glm::pow2(z); }
 
 /**
+ * @param other the other vector
+ * @return the distance between the two vectors
+ */
+float Vector::distance(Vector other)
+{
+    return glm::sqrt(glm::pow2(x - other.x) + glm::pow2(y - other.y) + glm::pow2(z - other.z));
+}
+
+/**
  * @return the normalized vector
  */
 Vector Vector::normalized() { return Vector(x, y, z) * (1 / magnitude()); }
