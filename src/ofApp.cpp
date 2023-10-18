@@ -51,13 +51,17 @@ void ofApp::checkUnboundParticules()
 void ofApp::checkCollision()
 {
     int numCollisions = 0;
+    // Iterates over the list of particles
     for (auto particle1 = tabParticle.begin(); particle1 != tabParticle.end();)
     {
+        // Iterates over the list of particles not yet checked
         for (auto particle2 = tabParticle.begin(); particle2 != particle1;)
         {
+            // Gets the distance and the minimal distance between the particles (squared values to be faster)
             float d = ((*particle1)->position - (*particle2)->position).squaredMagnitude();
             float minD = glm::pow2((*particle1)->radius + (*particle2)->radius);
 
+            // Collision only if the distance is lower than the minimal distance
             if (d < minD)
             {
                 ++numCollisions;
@@ -67,7 +71,8 @@ void ofApp::checkCollision()
         }
         ++particle1;
     }
-    cout << "Number of collisions: " << numCollisions << endl;
+    if (numCollisions)
+        cout << "Number of collisions: " << numCollisions << endl;
 }
 
 //--------------------------------------------------------------
@@ -75,6 +80,7 @@ void ofApp::update()
 {
     
     checkUnboundParticules();
+    checkCollision();
     if (simPause) return;
     // Set the delta time using the last frame time
     updateParticles(tabParticle, ofGetLastFrameTime());
