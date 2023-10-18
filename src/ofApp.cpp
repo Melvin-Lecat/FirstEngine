@@ -1,6 +1,8 @@
 #include "ofApp.h"
 
 #include "ParticleGravity.h"
+#include "ParticleSpringHook.h"
+#include "SpringGenerator.h"
 #define RAD 15
 
 //--------------------------------------------------------------
@@ -80,6 +82,8 @@ void ofApp:: checkBoundaries()
 void ofApp::updateForces()
 {
     ParticleGravity pg(Vector(0,-9.81,0));
+    SpringGenerator sg(Vector(ofGetWidth()/2,ofGetHeight()/2,0),0.7,20);
+    
     for(auto p : tabParticle)
     {
         particleForceRegistry.add(p,&pg);
