@@ -27,6 +27,16 @@ Particle::Particle(Vector velocity, float mass, float gravity)
     this->acceleration = Vector(0, -gravity, 0);
 }
 
+Particle::Particle(Vector velocity, float mass, float gravity, float _radius)
+{
+    this->position = Vector(0, 0, 0);
+    this->velocity = velocity;
+    this->inversedMass = 1 / mass;
+    this->time = 0;
+    this->acceleration = Vector(0, -gravity, 0);
+    this->radius = _radius;
+}
+
 Particle::Particle(Vector velocity, float mass, float gravity, bool massInfluence)
 {
     this->position = Vector(0, 0, 0);
@@ -34,6 +44,16 @@ Particle::Particle(Vector velocity, float mass, float gravity, bool massInfluenc
     this->inversedMass = 1 / mass;
     this->time = 0;
     this->acceleration = massInfluence ? Vector(0, -gravity * mass, 0) : Vector(0, -gravity, 0);
+}
+
+Particle::Particle(Vector velocity, float mass, float gravity, bool massInfluence, float _radius)
+{
+    this->position = Vector(0, 0, 0);
+    this->velocity = velocity;
+    this->inversedMass = 1 / mass;
+    this->time = 0;
+    this->acceleration = massInfluence ? Vector(0, -gravity * mass, 0) : Vector(0, -gravity, 0);
+    this->radius = _radius;
 }
 
 Particle::Particle(Vector velocity, float mass, int r, int g, int b)

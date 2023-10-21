@@ -55,6 +55,7 @@ void ofApp::checkUnboundParticules()
 void ofApp::checkCollision()
 {
     int numCollisions = 0;
+    int tests = 0;
     // Iterates over the list of particles
     for (auto particle1 = tabParticle.begin(); particle1 != tabParticle.end();)
     {
@@ -70,13 +71,14 @@ void ofApp::checkCollision()
             {
                 ++numCollisions;
             }
+            ++tests;
 
             ++particle2;
         }
         ++particle1;
     }
     if (numCollisions)
-        cout << "Number of collisions: " << numCollisions << endl;
+        cout << "Number of collisions: " << numCollisions << "\r" << flush;
 }
 
 void ofApp:: checkBoundaries()
@@ -185,6 +187,10 @@ void ofApp::DrawParticles()
     // Drawing the particles
     for (Particle* p : tabParticle)
     {
+        ofSetColor(p->color[0], p->color[1], p->color[2]);
+        Vector realPos = Vector(p->position.x, ofGetHeight() - p->position.y);
+        ofDrawCircle(realPos.v2(), p->radius);
+        ofSetColor(255, 255, 255);
         DrawParticle(*p);
     }
 }
@@ -226,6 +232,8 @@ void ofApp::keyPressed(int key)
             cout << "Standard bullet" << endl;
             currentParticle = Particle(particleVelocity, 1, 9.81f);
         }
+        cout << "Standard bullet" << endl;
+        currentParticle = Particle(particleVelocity, 1, 9.81f, 10.0f); 
         break;
     case 'z':
         if (blobgame == false)
@@ -238,8 +246,12 @@ void ofApp::keyPressed(int key)
             //tabParticle.front()->addForce(Vector(0,10));
             tabParticle.front()->position.y += 10;
         }
+        cout << "Laser" << endl;
+        currentParticle = Particle(particleVelocity, 2, 0, 255, 0, 2); 
         break;
     case 'e':
+        cout << "Heavy bullet" << endl;
+        currentParticle = Particle(particleVelocity, 3, 50.0f, 15.0f);  
         if (blobgame == false)
         {
             cout << "Heavy bullet" << endl;
@@ -247,6 +259,8 @@ void ofApp::keyPressed(int key)
         }
         break;
     case 'r':
+        cout << "Very heavy bullet" << endl;
+        currentParticle = Particle(particleVelocity, 4, 100.0f, 20.0f); 
         if (blobgame == false)
         {
             cout << "Very heavy bullet" << endl;
