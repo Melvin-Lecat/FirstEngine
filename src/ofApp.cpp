@@ -51,6 +51,7 @@ void ofApp::checkUnboundParticules()
 void ofApp::checkCollision()
 {
     int numCollisions = 0;
+    int tests = 0;
     // Iterates over the list of particles
     for (auto particle1 = tabParticle.begin(); particle1 != tabParticle.end();)
     {
@@ -66,13 +67,14 @@ void ofApp::checkCollision()
             {
                 ++numCollisions;
             }
+            ++tests;
 
             ++particle2;
         }
         ++particle1;
     }
     if (numCollisions)
-        cout << "Number of collisions: " << numCollisions << endl;
+        cout << "Number of collisions: " << numCollisions << "\r" << flush;
 }
 
 //--------------------------------------------------------------
@@ -101,7 +103,7 @@ void ofApp::draw()
     {
         ofSetColor(p->color[0], p->color[1], p->color[2]);
         Vector realPos = Vector(p->position.x, ofGetHeight() - p->position.y);
-        ofDrawCircle(realPos.v2(), RAD);
+        ofDrawCircle(realPos.v2(), p->radius);
         ofSetColor(255, 255, 255);
     }
 }
@@ -128,19 +130,19 @@ void ofApp::keyPressed(int key)
         break;
     case 'a':
         cout << "Standard bullet" << endl;
-        currentParticle = Particle(particleVelocity, 1, 9.81f); 
+        currentParticle = Particle(particleVelocity, 1, 9.81f, 10.0f); 
         break;
     case 'z':
         cout << "Laser" << endl;
-        currentParticle = Particle(particleVelocity, 2, 0, 255, 0, 0); 
+        currentParticle = Particle(particleVelocity, 2, 0, 255, 0, 2); 
         break;
     case 'e':
         cout << "Heavy bullet" << endl;
-        currentParticle = Particle(particleVelocity, 3, 50.0f);  
+        currentParticle = Particle(particleVelocity, 3, 50.0f, 15.0f);  
         break;
     case 'r':
         cout << "Very heavy bullet" << endl;
-        currentParticle = Particle(particleVelocity, 4, 100.0f); 
+        currentParticle = Particle(particleVelocity, 4, 100.0f, 20.0f); 
         break;
     case 't':
         simPause = false;
