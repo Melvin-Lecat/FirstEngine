@@ -26,6 +26,7 @@ public:
 
     // Methods
     float getMass();
+    float getInversedMass();
     void setMass(float m);
     void eulerIntegration(float delta_t);
     Particle* duplicate();
