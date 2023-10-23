@@ -10,6 +10,7 @@ public:
     void setup();
     void checkUnboundParticules();
     void checkCollision();
+    Vector UpdateCollision(float e, Particle p1,Particle p2);
     void update();
     void draw();
 

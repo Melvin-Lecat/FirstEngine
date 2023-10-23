@@ -29,8 +29,8 @@ Vector Vector::operator +(Vector v) { return Vector(this->x + v.x, this->y + v.y
 Vector Vector::operator +=(Vector v) { return Vector(this->x += v.x, this->y += v.y, this->z += v.z); }
 Vector Vector::operator -(Vector v) { return Vector(this->x - v.x, this->y - v.y, this->z - v.z); }
 Vector Vector::operator -=(Vector v) { return Vector(this->x -= v.x, this->y -= v.y, this->z -= v.z); }
-Vector Vector::operator *(Vector v) { return Vector(this->x * v.x, this->y * v.y, this->z * v.z); }
-Vector Vector::operator *=(Vector v) { return Vector(this->x *= v.x, this->y *= v.y, this->z *= v.z); }
+float Vector::operator *(Vector v) { return this->x * v.x + this->y * v.y; }
+float Vector::operator *=(Vector v) { return this->x * v.x + this->y * v.y; }
 Vector Vector::operator *(float k) { return Vector(this->x * k, this->y * k, this->z * k); }
 Vector Vector::operator *=(float k) { return Vector(this->x *= k, this->y *= k, this->z *= k); }
 
