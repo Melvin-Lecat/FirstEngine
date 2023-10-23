@@ -2,7 +2,8 @@
 
 #include "ParticleGravity.h"
 #include "ParticleSpringHook.h"
-#include "SpringGenerator.h"
+#include "FixedSpringGenerator.h"
+#include "ParticleSpringGenerator.h"
 #define RAD 15
 
 //--------------------------------------------------------------
@@ -82,13 +83,18 @@ void ofApp:: checkBoundaries()
 void ofApp::updateForces()
 {
     ParticleGravity pg(Vector(0,-9.81,0));
-    SpringGenerator sg(Vector(ofGetWidth()/2,ofGetHeight()/2,0),0.7,20);
-    
+    FixedSpringGenerator sg(Vector(ofGetWidth()/2,ofGetHeight()/2,0),.7,200);
     for(auto p : tabParticle)
     {
+        
         particleForceRegistry.add(p,&pg);
         particleForceRegistry.add(p,&sg);
     }
+    ParticleSpringGenerator psg (.7f,150, &part1, &part2);
+    particleForceRegistry.add(&part1, &psg);
+    particleForceRegistry.add(&part1, &pg);
+    particleForceRegistry.add(&part2, &pg);
+    
     /*for(auto p : tabParticle)
     {
         ParticleSpringHook particleForce(p,Vector(ofGetWidth()/2,ofGetHeight()/2,0),0.7,20);
@@ -267,6 +273,8 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
  */
 void ofApp::updateParticles(std::list<Particle*> tabParticle, float deltaT)
 {
+    part1.eulerIntegration(deltaT);
+    part2.eulerIntegration(deltaT);
     // Iterates over the list of particles
     for (Particle* p : tabParticle)
     {
