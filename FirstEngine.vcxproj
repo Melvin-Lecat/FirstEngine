@@ -61,7 +61,7 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);src</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ObjectFileName>$(IntDir)\Build\%(RelativeDir)\$(Configuration)\</ObjectFileName>
@@ -84,7 +84,7 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);src</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <ObjectFileName>$(IntDir)\Build\%(RelativeDir)\$(Configuration)\</ObjectFileName>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -104,15 +104,33 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Particule.cpp" />
+    <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
-    <ClCompile Include="Vector.cpp" />
+    <ClCompile Include="src\Matrix.cpp" />
+    <ClCompile Include="src\Particle.cpp" />
+    <ClCompile Include="src\ParticleForceGenerator.cpp" />
+    <ClCompile Include="src\ParticleForceRegistry.cpp" />
+    <ClCompile Include="src\ParticleFriction.cpp" />
+    <ClCompile Include="src\ParticleGravity.cpp" />
+    <ClCompile Include="src\ParticleSpringHook.cpp" />
+    <ClCompile Include="src\Rectangle.cpp" />
+    <ClCompile Include="src\SpringGenerator.cpp" />
+    <ClCompile Include="src\Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Particule.h" />
+    <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\ofApp.h" />
-    <ClInclude Include="Vector.h" />
+    <ClInclude Include="src\Matrix.h" />
+    <ClInclude Include="src\Particle.h" />
+    <ClInclude Include="src\ParticleForceGenerator.h" />
+    <ClInclude Include="src\ParticleForceRegistry.h" />
+    <ClInclude Include="src\ParticleFriction.h" />
+    <ClInclude Include="src\ParticleGravity.h" />
+    <ClInclude Include="src\ParticleSpringHook.h" />
+    <ClInclude Include="src\Rectangle.h" />
+    <ClInclude Include="src\SpringGenerator.h" />
+    <ClInclude Include="src\Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">
