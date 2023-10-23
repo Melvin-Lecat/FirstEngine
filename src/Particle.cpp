@@ -106,8 +106,9 @@ void Particle::clearAccum()
  */
 void Particle::eulerIntegration(float delta_t)
 {
+    
     // Update the velocity of the particle...
-    velocity += accumForce * delta_t;
+    velocity += accumForce * delta_t * pow(0.2, delta_t) ;
     
     // ... and its position
     position += velocity * delta_t;

@@ -3,6 +3,7 @@
 #include "ParticleGravity.h"
 #include "ParticleSpringHook.h"
 #include "FixedSpringGenerator.h"
+#include "ParticleFriction.h"
 #include "ParticleSpringGenerator.h"
 #define RAD 15
 
@@ -79,11 +80,27 @@ void ofApp::updateForces()
 {
     ParticleGravity pg(Vector(0,-9.81,0));
     FixedSpringGenerator sg(Vector(ofGetWidth()/2,ofGetHeight()/2,0),.7,200);
-    for(auto p : tabParticle)
-    {
+    if(!blobgame){
+        for(auto p : tabParticle)
+        {
         
-        particleForceRegistry.add(p,&pg);
-        particleForceRegistry.add(p,&sg);
+            particleForceRegistry.add(p,&pg);
+            particleForceRegistry.add(p,&sg);
+        }
+    }else
+    {
+       for(auto p = tabParticle.begin(); p != tabParticle.end(); p++)
+        {
+            if(*p == tabParticle.front())
+           {
+               continue;
+           }
+            FixedSpringGenerator fsg(tabParticle.front()->position,100,50);
+            //ParticleFriction pf(0.1,0.2);
+            //particleForceRegistry.add(*p,&pf);
+            particleForceRegistry.add(*p,&fsg);
+        }
+        
     }
 
     
@@ -160,36 +177,118 @@ void ofApp::keyPressed(int key)
         clearParticles();
         break;
     case 'o':
-        currentParticle.position = particleOrigin;
-        tabParticle.push_back(currentParticle.duplicate());
+        if (blobgame == false)
+        {
+            currentParticle.position = particleOrigin;
+            tabParticle.push_back(currentParticle.duplicate());
+        }
         break;
     case OF_KEY_RIGHT:
         if (simPause) { updateParticles(tabParticle, ofGetLastFrameTime()); }
         break;
     case 'a':
-        cout << "Standard bullet" << endl;
-        currentParticle = Particle(particleVelocity, 1, 9.81f); 
+        if (blobgame == false)
+        {
+            cout << "Standard bullet" << endl;
+            currentParticle = Particle(particleVelocity, 1, 9.81f);
+        }
         break;
     case 'z':
-        cout << "Laser" << endl;
-        currentParticle = Particle(particleVelocity, 2, 0, 255, 0, 0); 
+        if (blobgame == false)
+        {
+            cout << "Laser" << endl;
+            currentParticle = Particle(particleVelocity, 2, 0, 255, 0, 0);
+        }
+        else
+        {
+            //tabParticle.front()->addForce(Vector(0,10));
+            tabParticle.front()->position.y += 10;
+        }
         break;
     case 'e':
-        cout << "Heavy bullet" << endl;
-        currentParticle = Particle(particleVelocity, 3, 50.0f);  
+        if (blobgame == false)
+        {
+            cout << "Heavy bullet" << endl;
+            currentParticle = Particle(particleVelocity, 3, 50.0f);  
+        }
         break;
     case 'r':
-        cout << "Very heavy bullet" << endl;
-        currentParticle = Particle(particleVelocity, 4, 100.0f); 
+        if (blobgame == false)
+        {
+            cout << "Very heavy bullet" << endl;
+            currentParticle = Particle(particleVelocity, 4, 100.0f); 
+        }
         break;
     case 't':
-        simPause = false;
-        cout << "Custom bullet \n""Please enter the parameters \n" << endl;
-        cout << "Mass: ";
-        cin >> mass;
-        cout << "Gravity: ";
-        cin >> gravity;
-        currentParticle = Particle(particleVelocity, mass, gravity);
+        if (blobgame == false)
+        {
+            simPause = false;
+            cout << "Custom bullet \n""Please enter the parameters \n" << endl;
+            cout << "Mass: ";
+            cin >> mass;
+            cout << "Gravity: ";
+            cin >> gravity;
+            currentParticle = Particle(particleVelocity, mass, gravity);
+        }
+        break;
+    case 'b':
+        clearParticles();
+        //les forces aussi
+        if (blobgame)
+            { blobgame = false; }
+        else
+        {
+            blobgame = true;
+            Vector positioncentre = Vector(ofGetWidth()/2, ofGetHeight()/2);
+            Vector blobdroite = Vector(60,0);
+            Vector blobgauche = Vector(-60,0);
+            Vector blobhaut = Vector(0,60);
+            Vector blobbas = Vector(0,-60);
+            
+            currentParticle.position = positioncentre;
+            currentParticle.velocity = Vector(0,0);
+            tabParticle.push_back(currentParticle.duplicate());
+            
+            currentParticle.position = positioncentre + blobdroite;
+            tabParticle.push_back(currentParticle.duplicate());
+            //ParticleSpringGenerator(1.2,80,tabParticle.front(),tabParticle.back());
+            
+            currentParticle.position = positioncentre + blobgauche;
+            tabParticle.push_back(currentParticle.duplicate());
+            //ParticleSpringGenerator(1.2,80,tabParticle.front(),tabParticle.back());
+            
+            currentParticle.position = positioncentre + blobhaut;
+            tabParticle.push_back(currentParticle.duplicate());
+            //ParticleSpringGenerator(1.2,80,tabParticle.front(),tabParticle.back());
+            
+            currentParticle.position = positioncentre + blobbas;
+            tabParticle.push_back(currentParticle.duplicate());
+            //ParticleSpringGenerator(1.2,80,tabParticle.front(),tabParticle.back());
+        }
+        break;
+    case 'q':
+        if (blobgame == true)
+        {
+            // tabParticle.front()->addForce(Vector(-10,0));
+            tabParticle.front()->position.x -= 10;
+        }
+        break;
+    case 's':
+        if (blobgame == true)
+        {
+            //tabParticle.front()->addForce(Vector(0,-10));
+            tabParticle.front()->position.y -= 10;
+        }
+            break;
+    case 'd':
+        if (blobgame == true)
+        {
+            //tabParticle.front()->addForce(Vector(10,0));
+            tabParticle.front()->position.x += 10;
+        }
+            break;
+    case 'l':
+        cout << "Particles: " << tabParticle.size() << endl;
         break;
     default:
         break;

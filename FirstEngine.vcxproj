@@ -145,6 +145,12 @@
       <AdditionalIncludeDirectories>$(OF_ROOT)\libs\openFrameworksCompiled\project\vs</AdditionalIncludeDirectories>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\DataStructures\" />
+    <Folder Include="src\Forces\" />
+    <Folder Include="src\Objects\" />
+    <Folder Include="src\System\" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ProjectExtensions>
     <VisualStudio>
