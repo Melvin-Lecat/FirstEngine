@@ -2,7 +2,8 @@
 
 #include "ParticleGravity.h"
 #include "ParticleSpringHook.h"
-#include "SpringGenerator.h"
+#include "FixedSpringGenerator.h"
+#include "ParticleSpringGenerator.h"
 #define RAD 15
 
 //--------------------------------------------------------------
@@ -23,6 +24,11 @@ void ofApp::setup()
         "\tPress 'r' to fire a very heavy bullet\n"
         "\tPress 't' to fire a custom bullet\n"
         << endl;
+
+    part1 = Particle(Vector(0,0,0), 1,9.81,255,0,0);
+    part2 = Particle(Vector(0,0,0), 1,9.81,255,0,0);
+    part1.position = Vector(ofGetWidth()/2 - 100,ofGetHeight()/2,0);
+    part2.position = Vector(ofGetWidth()/2 + 100,ofGetHeight()/2,0);
 }
 
 /**
@@ -77,13 +83,18 @@ void ofApp:: checkBoundaries()
 void ofApp::updateForces()
 {
     ParticleGravity pg(Vector(0,-9.81,0));
-    SpringGenerator sg(Vector(ofGetWidth()/2,ofGetHeight()/2,0),0.7,20);
-    
+    FixedSpringGenerator sg(Vector(ofGetWidth()/2,ofGetHeight()/2,0),.7,200);
     for(auto p : tabParticle)
     {
+        
         particleForceRegistry.add(p,&pg);
         particleForceRegistry.add(p,&sg);
     }
+    ParticleSpringGenerator psg (.7f,150, &part1, &part2);
+    particleForceRegistry.add(&part1, &psg);
+    particleForceRegistry.add(&part1, &pg);
+    particleForceRegistry.add(&part2, &pg);
+    
     /*for(auto p : tabParticle)
     {
         ParticleSpringHook particleForce(p,Vector(ofGetWidth()/2,ofGetHeight()/2,0),0.7,20);
@@ -105,9 +116,19 @@ void ofApp::update()
     updateParticles(tabParticle, ofGetLastFrameTime());
 }
 
+void ofApp::DrawParticle(Particle p)
+{
+    ofSetColor(p.color[0], p.color[1], p.color[2]);
+    Vector realPos = Vector(p.position.x, ofGetHeight() - p.position.y);
+    ofDrawCircle(realPos.v2(), RAD);
+    ofSetColor(255, 255, 255);
+}
+
 //--------------------------------------------------------------
 void ofApp::draw()
 {
+    ofSetColor(OF_CONSOLE_COLOR_YELLOW);
+    ofDrawCircle(ofGetWidth()/2, ofGetHeight()/2, RAD);
     // Drawing the cursor for initial velocity
     Vector tempOrigin = Vector(particleOrigin.x, ofGetHeight() - particleOrigin.y);
     Vector tempVelocity = Vector(particleVelocity.x, ofGetHeight() - particleVelocity.y);
@@ -118,11 +139,11 @@ void ofApp::draw()
     // Drawing the particles
     for (Particle* p : tabParticle)
     {
-        ofSetColor(p->color[0], p->color[1], p->color[2]);
-        Vector realPos = Vector(p->position.x, ofGetHeight() - p->position.y);
-        ofDrawCircle(realPos.v2(), RAD);
-        ofSetColor(255, 255, 255);
+        DrawParticle(*p);
     }
+    DrawParticle(part1);
+    DrawParticle(part2);
+    
 }
 
 //--------------------------------------------------------------
@@ -252,6 +273,8 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
  */
 void ofApp::updateParticles(std::list<Particle*> tabParticle, float deltaT)
 {
+    part1.eulerIntegration(deltaT);
+    part2.eulerIntegration(deltaT);
     // Iterates over the list of particles
     for (Particle* p : tabParticle)
     {
