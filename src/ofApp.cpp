@@ -24,11 +24,6 @@ void ofApp::setup()
         "\tPress 'r' to fire a very heavy bullet\n"
         "\tPress 't' to fire a custom bullet\n"
         << endl;
-
-    part1 = Particle(Vector(0,0,0), 1,9.81,255,0,0);
-    part2 = Particle(Vector(0,0,0), 1,9.81,255,0,0);
-    part1.position = Vector(ofGetWidth()/2 - 100,ofGetHeight()/2,0);
-    part2.position = Vector(ofGetWidth()/2 + 100,ofGetHeight()/2,0);
 }
 
 /**
@@ -90,10 +85,7 @@ void ofApp::updateForces()
         particleForceRegistry.add(p,&pg);
         particleForceRegistry.add(p,&sg);
     }
-    ParticleSpringGenerator psg (.7f,150, &part1, &part2);
-    particleForceRegistry.add(&part1, &psg);
-    particleForceRegistry.add(&part1, &pg);
-    particleForceRegistry.add(&part2, &pg);
+
     
     /*for(auto p : tabParticle)
     {
@@ -124,8 +116,7 @@ void ofApp::DrawParticle(Particle p)
     ofSetColor(255, 255, 255);
 }
 
-//--------------------------------------------------------------
-void ofApp::draw()
+void ofApp::DrawSystem()
 {
     ofSetColor(OF_CONSOLE_COLOR_YELLOW);
     ofDrawCircle(ofGetWidth()/2, ofGetHeight()/2, RAD);
@@ -136,14 +127,22 @@ void ofApp::draw()
     ofDrawCircle(tempOrigin.v2(), RAD/2);
     ofSetColor(255, 255, 255);
     ofDrawLine(tempOrigin.v2(),tempVelocity.v2());
+}
+
+void ofApp::DrawParticles()
+{
     // Drawing the particles
     for (Particle* p : tabParticle)
     {
         DrawParticle(*p);
     }
-    DrawParticle(part1);
-    DrawParticle(part2);
-    
+}
+
+//--------------------------------------------------------------
+void ofApp::draw()
+{
+    DrawSystem();
+    DrawParticles();
 }
 
 //--------------------------------------------------------------
@@ -273,8 +272,7 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
  */
 void ofApp::updateParticles(std::list<Particle*> tabParticle, float deltaT)
 {
-    part1.eulerIntegration(deltaT);
-    part2.eulerIntegration(deltaT);
+
     // Iterates over the list of particles
     for (Particle* p : tabParticle)
     {
