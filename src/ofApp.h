@@ -46,4 +46,5 @@ public:
     Vector particleVelocity = Vector(0, 0, 0);
     ParticleForceRegistry particleForceRegistry;
     Particle currentParticle = Particle(particleVelocity, 1, 9.81f);
+    bool blobgame = false;
 };

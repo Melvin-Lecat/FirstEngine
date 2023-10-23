@@ -9,6 +9,6 @@ public:
     float k1;
     float k2;
     Vector friction;
-    void setFriction(float k1,float k2);
+    ParticleFriction(float k1,float k2);
     void updateForce(Particle *particle, float duration);
 };
