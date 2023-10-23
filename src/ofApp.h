@@ -14,6 +14,8 @@ public:
     void updateForces();
     void update();
     void DrawParticle(Particle p);
+    void DrawSystem();
+    void DrawParticles();
     void draw();
 
     void keyPressed(int key);
@@ -44,5 +46,4 @@ public:
     Vector particleVelocity = Vector(0, 0, 0);
     ParticleForceRegistry particleForceRegistry;
     Particle currentParticle = Particle(particleVelocity, 1, 9.81f);
-    Particle part1, part2;
 };
