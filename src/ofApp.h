@@ -13,6 +13,7 @@ public:
     void checkCollision();
     void checkBoundaries();
     void updateForces();
+    Vector UpdateCollision(float e, Particle p1,Particle p2);
     void update();
     void DrawParticle(Particle p);
     void DrawSystem();

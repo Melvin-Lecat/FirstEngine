@@ -52,8 +52,18 @@ void ofApp::checkUnboundParticules()
     }
 }
 
+Vector ofApp::UpdateCollision(float e, Particle p1,Particle p2)
+{
+    Vector n = (p1.position - p2.position).normalized();
+    float K = n*(p1.velocity - p2.velocity)*(e+1)/(1/p1.getMass() + 1/p2.getMass());
+    auto P = p1.velocity * p1.getMass();
+    return P + n*(K/p1.getMass());
+
+}
+
 void ofApp::checkCollision()
 {
+    float e = 0.9f;
     int numCollisions = 0;
     int tests = 0;
     // Iterates over the list of particles
@@ -67,9 +77,22 @@ void ofApp::checkCollision()
             float minD = glm::pow2((*particle1)->radius + (*particle2)->radius);
 
             // Collision only if the distance is lower than the minimal distance
-            if (d < minD)
+            if (d <= minD)
             {
                 ++numCollisions;
+                Particle* p1 = (*particle1); 
+                Particle* p2 = (*particle2); 
+                // P' = P + Kn
+                // Applica1tion de la force sur P1
+                Particle *p1Copy = p1->duplicate();
+                
+                p1->velocity =  UpdateCollision(e, *p1, *p2);
+                
+                // Application de la force sur P2
+                p2->velocity =  UpdateCollision(e, *p2, *p1Copy);
+
+
+                
             }
             ++tests;
 

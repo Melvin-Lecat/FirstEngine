@@ -20,8 +20,8 @@ public:
     Vector operator -(Vector v);
     Vector operator -=(Vector v);
     // Scalar product
-    Vector operator *(Vector v); 
-    Vector operator *=(Vector v);
+    float operator *(Vector v); 
+    float operator *=(Vector v);
     // Multiplication by scalar
     Vector operator *(float k); 
     Vector operator *=(float k);
