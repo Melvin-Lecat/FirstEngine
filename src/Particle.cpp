@@ -85,6 +85,11 @@ float Particle::getMass()
     return 1 / inversedMass;
 }
 
+float Particle::getInversedMass()
+{
+    return inversedMass;
+}
+
 void Particle::setMass(float m)
 {
     inversedMass = 1 / m;

@@ -27,6 +27,7 @@ public:
 
     // Methods
     float getMass();
+    float getInversedMass();
     void setMass(float m);
     void setPosition(Vector newPosition);
     void eulerIntegration(float delta_t);

@@ -48,15 +48,22 @@ void ofApp::checkUnboundParticules()
     }
 }
 
-Vector ofApp::UpdateCollision(float e, Particle p1,Particle p2)
+/**
+ * @brief Return the new velocity of the Particle 1 when in collision with the Particle 2
+ *
+ */
+Vector ofApp::UpdateCollision(float e, Particle p1, Particle p2)
 {
-    Vector n = (p1.position - p2.position).normalized();
-    float K = n*(p1.velocity - p2.velocity)*(e+1)/(1/p1.getMass() + 1/p2.getMass());
-    auto P = p1.velocity * p1.getMass();
-    return P + n*(K/p1.getMass());
-
+    Vector n = (p2.position - p1.position).normalized();
+    float K = n*(p1.velocity - p2.velocity)*(e+1)/(p1.getInversedMass() + p2.getInversedMass());
+    //auto P = p1.velocity * p1.getMass();
+    return p1.velocity - n*K*p1.getInversedMass();
 }
 
+/**
+ * @brief Check all the collisions between each particle
+ *
+ */
 void ofApp::checkCollision()
 {
     float e = 0.9f;
@@ -82,10 +89,10 @@ void ofApp::checkCollision()
                 // Applica1tion de la force sur P1
                 Particle *p1Copy = p1->duplicate();
                 
-                p1->velocity =  UpdateCollision(e, *p1, *p2);
+                p1->velocity = UpdateCollision(e, *p1, *p2);
                 
                 // Application de la force sur P2
-                p2->velocity =  UpdateCollision(e, *p2, *p1Copy);
+                p2->velocity = UpdateCollision(e, *p2, *p1Copy);
 
 
                 
