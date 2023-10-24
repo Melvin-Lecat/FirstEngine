@@ -74,7 +74,7 @@ float Vector::distance(Vector other)
 /**
  * @return the normalized vector
  */
-Vector Vector::normalized() { return Vector(x, y, z) * (1 / magnitude()); }
+Vector Vector::normalized() { return magnitude() == 0 ? Vector(0, 0, 0) : Vector(x, y, z) * (1 / magnitude()); }
 
 /**
  * @param w the other vector

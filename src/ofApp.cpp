@@ -78,14 +78,18 @@ void ofApp:: checkBoundaries()
 
 void ofApp::updateForces()
 {
-    ParticleGravity pg(Vector(0,-9.81,0));
-    FixedSpringGenerator sg(Vector(ofGetWidth()/2,ofGetHeight()/2,0),.7,200);
+    
+    
     if(!blobgame){
+        ParticleGravity pg(Vector(0,-9.81,0));
+        FixedSpringGenerator sg(Vector(ofGetWidth()/2,ofGetHeight()/2,0),.7,20);
+        ParticleFriction pf(0.1,0.2);
         for(auto p : tabParticle)
         {
         
-            particleForceRegistry.add(p,&pg);
-            particleForceRegistry.add(p,&sg);
+            //particleForceRegistry.add(p,&pg);
+            //particleForceRegistry.add(p,&sg);
+            particleForceRegistry.add(p,&pf);
         }
     }else
     {
@@ -95,9 +99,9 @@ void ofApp::updateForces()
            {
                continue;
            }
-            FixedSpringGenerator fsg(tabParticle.front()->position,100,50);
-            //ParticleFriction pf(0.1,0.2);
-            //particleForceRegistry.add(*p,&pf);
+            FixedSpringGenerator fsg(tabParticle.front()->position,20,100);
+            ParticleFriction pf(0.1,0.2);
+            particleForceRegistry.add(*p,&pf);
             particleForceRegistry.add(*p,&fsg);
         }
         
