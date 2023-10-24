@@ -56,12 +56,15 @@ void ofApp::checkUnboundParticules()
  * @brief Return the new velocity of the Particle 1 when in collision with the Particle 2
  *
  */
-Vector ofApp::UpdateCollision(float e, Particle p1, Particle p2)
+Vector ofApp::UpdateCollision(float e, Particle *p1, Particle p2)
 {
-    Vector n = (p2.position - p1.position).normalized();
-    float K = n*(p1.velocity - p2.velocity)*(e+1)/(p1.getInversedMass() + p2.getInversedMass());
+    Vector n = (p2.position - p1->position).normalized();
+    float K = n * (p1->velocity - p2.velocity) * (e + 1) / (p1->getInversedMass() + p2.getInversedMass());
     //auto P = p1.velocity * p1.getMass();
-    return p1.velocity - n*K*p1.getInversedMass();
+    auto updatedVelocity = p1->velocity - n * K * p1->getInversedMass();
+    auto move = updatedVelocity.normalized()*glm::abs((p1->radius+p2.radius) - p1->position.distance(p2.position));
+    p1->position += move;
+    return updatedVelocity;
 }
 
 /**
@@ -70,7 +73,7 @@ Vector ofApp::UpdateCollision(float e, Particle p1, Particle p2)
  */
 void ofApp::checkCollision()
 {
-    float e = 0.9f;
+    float e = 0.9;
     int numCollisions = 0;
     int tests = 0;
     // Iterates over the list of particles
@@ -84,22 +87,20 @@ void ofApp::checkCollision()
             float minD = glm::pow2((*particle1)->radius + (*particle2)->radius);
 
             // Collision only if the distance is lower than the minimal distance
+            
             if (d <= minD)
             {
                 ++numCollisions;
-                Particle* p1 = (*particle1); 
-                Particle* p2 = (*particle2); 
+                Particle* p1 = (*particle1);
+                Particle* p2 = (*particle2);
                 // P' = P + Kn
                 // Applica1tion de la force sur P1
-                Particle *p1Copy = p1->duplicate();
-                
-                p1->velocity = UpdateCollision(e, *p1, *p2);
-                
+                Particle* p1Copy = p1->duplicate();
+
+                p1->velocity = UpdateCollision(e, p1, *p2);
+
                 // Application de la force sur P2
-                p2->velocity = UpdateCollision(e, *p2, *p1Copy);
-
-
-                
+                p2->velocity = UpdateCollision(e, p2, *p1Copy);
             }
             ++tests;
 
@@ -111,68 +112,58 @@ void ofApp::checkCollision()
         cout << "Number of collisions: " << numCollisions << "\r" << flush;
 }
 
-void ofApp:: checkBoundaries()
+void ofApp::checkBoundaries()
 {
     float f = -1;
-    for (auto p: tabParticle)
+    for (auto p : tabParticle)
     {
         if (p->position.x < RAD)
         {
-            p->velocity.x *=f;
+            p->velocity.x *= f;
         }
         if (p->position.x > ofGetWidth() - RAD)
         {
-            p->velocity.x *=f;
+            p->velocity.x *= f;
         }
         if (p->position.y < RAD)
         {
-            p->velocity.y *=f;
+            p->velocity.y *= f;
         }
         if (p->position.y > ofGetHeight() - RAD)
         {
-            p->velocity.y *=f;
+            p->velocity.y *= f;
         }
-        
     }
 }
 
 void ofApp::updateForces()
 {
-    
-    
-    if(!blobgame){
-        ParticleGravity pg(Vector(0,-9.81,0));
-        FixedSpringGenerator sg(Vector(ofGetWidth()/2,ofGetHeight()/2,0),.7,20);
-        ParticleFriction pf(0.1,0.2);
-        for(auto p : tabParticle)
+    if (!blobgame)
+    {
+        ParticleGravity pg(Vector(0, -9.81, 0));
+        FixedSpringGenerator sg(Vector(ofGetWidth() / 2, ofGetHeight() / 2, 0), .7, 20);
+        ParticleFriction pf(0.1, 0.2);
+        for (auto p : tabParticle)
         {
-        
-            //particleForceRegistry.add(p,&pg);
+            particleForceRegistry.add(p, &pg);
             //particleForceRegistry.add(p,&sg);
-            particleForceRegistry.add(p,&pf);
+            particleForceRegistry.add(p, &pf);
         }
-    }else
-    {
-       for(auto p = tabParticle.begin(); p != tabParticle.end(); p++)
-        {
-            if(*p == tabParticle.front())
-           {
-               continue;
-           }
-            FixedSpringGenerator fsg(tabParticle.front()->position,20,100);
-            ParticleFriction pf(0.1,0.2);
-            particleForceRegistry.add(*p,&pf);
-            particleForceRegistry.add(*p,&fsg);
-        }
-        
     }
-
-    
-    /*for(auto p : tabParticle)
+    else
     {
-        ParticleSpringHook particleForce(p,Vector(ofGetWidth()/2,ofGetHeight()/2,0),0.7,20);
-        particleForceRegistry.add(p,&particleForce);
-    }*/
+        for (auto p = tabParticle.begin(); p != tabParticle.end(); p++)
+        {
+            /*if (*p == tabParticle.front())
+            {
+                continue;
+            }*/
+            FixedSpringGenerator fsg(mainParticle.position, 200, 20);
+            ParticleFriction pf(0.1, 0.2);
+            particleForceRegistry.add(*p, &pf);
+            particleForceRegistry.add(*p, &fsg);
+        }
+    }
     
     particleForceRegistry.updateForces(ofGetLastFrameTime());
 }
@@ -180,8 +171,6 @@ void ofApp::updateForces()
 //--------------------------------------------------------------
 void ofApp::update()
 {
-    
-    checkUnboundParticules();
     checkCollision();
     //checkUnboundParticules();
     checkBoundaries();
@@ -195,32 +184,32 @@ void ofApp::DrawParticle(Particle p)
 {
     ofSetColor(p.color[0], p.color[1], p.color[2]);
     Vector realPos = Vector(p.position.x, ofGetHeight() - p.position.y);
-    ofDrawCircle(realPos.v2(), RAD);
+    ofDrawCircle(realPos.v2(), p.radius);
     ofSetColor(255, 255, 255);
 }
 
 void ofApp::DrawSystem()
 {
     ofSetColor(OF_CONSOLE_COLOR_YELLOW);
-    ofDrawCircle(ofGetWidth()/2, ofGetHeight()/2, RAD);
+    ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, RAD);
     // Drawing the cursor for initial velocity
     Vector tempOrigin = Vector(particleOrigin.x, ofGetHeight() - particleOrigin.y);
     Vector tempVelocity = Vector(particleVelocity.x, ofGetHeight() - particleVelocity.y);
     ofSetColor(OF_CONSOLE_COLOR_GREEN);
-    ofDrawCircle(tempOrigin.v2(), RAD/2);
+    ofDrawCircle(tempOrigin.v2(), RAD / 2);
     ofSetColor(255, 255, 255);
-    ofDrawLine(tempOrigin.v2(),tempVelocity.v2());
+    ofDrawLine(tempOrigin.v2(), tempVelocity.v2());
 }
 
 void ofApp::DrawParticles()
 {
+    if(blobgame)
+    {
+        DrawParticle(mainParticle);
+    }
     // Drawing the particles
     for (Particle* p : tabParticle)
     {
-        ofSetColor(p->color[0], p->color[1], p->color[2]);
-        Vector realPos = Vector(p->position.x, ofGetHeight() - p->position.y);
-        ofDrawCircle(realPos.v2(), p->radius);
-        ofSetColor(255, 255, 255);
         DrawParticle(*p);
     }
 }
@@ -232,74 +221,110 @@ void ofApp::draw()
     DrawParticles();
 }
 
+void ofApp::SetupBlobGame()
+{
+    Vector positioncentre = Vector(ofGetWidth() / 2, ofGetHeight() / 2);
+    Vector blobdroite = Vector(60, 0);
+    Vector blobgauche = Vector(-60, 0);
+    Vector blobhaut = Vector(0, 60);
+    Vector blobbas = Vector(0, -60);
+    
+    clearParticles();
+    blobgame = true;
+    mainParticle = currentParticle;
+    
+    currentParticle = Particle(particleVelocity, 1, 255,255,255,15.0f);
+    currentParticle.position = positioncentre;
+    currentParticle.velocity = Vector(0, 0);
+    //tabParticle.push_back(currentParticle.duplicate());
+    
+            
+    currentParticle.position = positioncentre + blobdroite;
+    tabParticle.push_back(currentParticle.duplicate());
+
+    currentParticle.position = positioncentre + blobgauche;
+    tabParticle.push_back(currentParticle.duplicate());
+
+    currentParticle.position = positioncentre + blobhaut;
+    tabParticle.push_back(currentParticle.duplicate());
+
+    currentParticle.position = positioncentre + blobbas;
+    tabParticle.push_back(currentParticle.duplicate());
+}
+
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
-    switch (key)
+    
+    if (blobgame)
     {
-    case ' ':
-        break;
-    case 'p':
-        simPause = !simPause;
-        cout << (!simPause ? "Unpaused" : "Paused") << endl;
-        break;
-    case 'i':
-        clearParticles();
-        break;
-    case 'o':
-        if (blobgame == false)
+        int moveSpeed = 10;
+        switch (key)
         {
+        case 'z':
+            //tabParticle.front()->addForce(Vector(0,10));
+            mainParticle.position.y += moveSpeed;
+            break;
+        case 'q':
+            // tabParticle.front()->addForce(Vector(-10,0));
+            mainParticle.position.x -= moveSpeed;
+            break;
+        case 's':
+            //tabParticle.front()->addForce(Vector(0,-10));
+            mainParticle.position.y -= moveSpeed;
+            break;
+        case 'd':
+            //tabParticle.front()->addForce(Vector(10,0));
+            mainParticle.position.x += moveSpeed;
+            break;
+        case 'b':
+            clearParticles();
+            blobgame = false;
+        //les forces aussi
+            break;
+        
+        case 'l':
+            cout << "Particles: " << tabParticle.size() << endl;
+            break;
+        default:
+            break;
+        }
+    }
+    else
+    {
+        switch (key)
+        {
+        case 'p':
+            simPause = !simPause;
+            cout << (!simPause ? "Unpaused" : "Paused") << endl;
+            break;
+        case 'i':
+            clearParticles();
+            break;
+        case 'o':
             currentParticle.position = particleOrigin;
             tabParticle.push_back(currentParticle.duplicate());
-        }
-        break;
-    case OF_KEY_RIGHT:
-        if (simPause) { updateParticles(tabParticle, ofGetLastFrameTime()); }
-        break;
-    case 'a':
-        if (blobgame == false)
-        {
+            break;
+        case OF_KEY_RIGHT:
+            if (simPause) { updateParticles(tabParticle, ofGetLastFrameTime()); }
+            break;
+        case 'a':
             cout << "Standard bullet" << endl;
-            currentParticle = Particle(particleVelocity, 1, 9.81f);
-        }
-        cout << "Standard bullet" << endl;
-        currentParticle = Particle(particleVelocity, 1, 9.81f, 10.0f); 
-        break;
-    case 'z':
-        if (blobgame == false)
-        {
+            currentParticle = Particle(particleVelocity, 1, 9.81f, 10.0f);
+            break;
+        case 'z':
             cout << "Laser" << endl;
-            currentParticle = Particle(particleVelocity, 2, 0, 255, 0, 0);
-        }
-        else
-        {
-            //tabParticle.front()->addForce(Vector(0,10));
-            tabParticle.front()->position.y += 10;
-        }
-        cout << "Laser" << endl;
-        currentParticle = Particle(particleVelocity, 2, 0, 255, 0, 2); 
-        break;
-    case 'e':
-        cout << "Heavy bullet" << endl;
-        currentParticle = Particle(particleVelocity, 3, 50.0f, 15.0f);  
-        if (blobgame == false)
-        {
+            currentParticle = Particle(particleVelocity, 0.5, 0, 255, 0, 2);
+            break;
+        case 'e':
             cout << "Heavy bullet" << endl;
-            currentParticle = Particle(particleVelocity, 3, 50.0f);  
-        }
-        break;
-    case 'r':
-        cout << "Very heavy bullet" << endl;
-        currentParticle = Particle(particleVelocity, 4, 100.0f, 20.0f); 
-        if (blobgame == false)
-        {
+            currentParticle = Particle(particleVelocity, 10, 255,255,0, 20.0f);
+            break;
+        case 'r':
             cout << "Very heavy bullet" << endl;
-            currentParticle = Particle(particleVelocity, 4, 100.0f); 
-        }
-        break;
-    case 't':
-        if (blobgame == false)
-        {
+            currentParticle = Particle(particleVelocity, 100, 255,255,255, 40.0f);
+            break;
+        case 't':
             simPause = false;
             cout << "Custom bullet \n""Please enter the parameters \n" << endl;
             cout << "Mass: ";
@@ -307,69 +332,17 @@ void ofApp::keyPressed(int key)
             cout << "Gravity: ";
             cin >> gravity;
             currentParticle = Particle(particleVelocity, mass, gravity);
-        }
-        break;
-    case 'b':
-        clearParticles();
-        //les forces aussi
-        if (blobgame)
-            { blobgame = false; }
-        else
-        {
-            blobgame = true;
-            Vector positioncentre = Vector(ofGetWidth()/2, ofGetHeight()/2);
-            Vector blobdroite = Vector(60,0);
-            Vector blobgauche = Vector(-60,0);
-            Vector blobhaut = Vector(0,60);
-            Vector blobbas = Vector(0,-60);
-            
-            currentParticle.position = positioncentre;
-            currentParticle.velocity = Vector(0,0);
-            tabParticle.push_back(currentParticle.duplicate());
-            
-            currentParticle.position = positioncentre + blobdroite;
-            tabParticle.push_back(currentParticle.duplicate());
-            //ParticleSpringGenerator(1.2,80,tabParticle.front(),tabParticle.back());
-            
-            currentParticle.position = positioncentre + blobgauche;
-            tabParticle.push_back(currentParticle.duplicate());
-            //ParticleSpringGenerator(1.2,80,tabParticle.front(),tabParticle.back());
-            
-            currentParticle.position = positioncentre + blobhaut;
-            tabParticle.push_back(currentParticle.duplicate());
-            //ParticleSpringGenerator(1.2,80,tabParticle.front(),tabParticle.back());
-            
-            currentParticle.position = positioncentre + blobbas;
-            tabParticle.push_back(currentParticle.duplicate());
-            //ParticleSpringGenerator(1.2,80,tabParticle.front(),tabParticle.back());
-        }
-        break;
-    case 'q':
-        if (blobgame == true)
-        {
-            // tabParticle.front()->addForce(Vector(-10,0));
-            tabParticle.front()->position.x -= 10;
-        }
-        break;
-    case 's':
-        if (blobgame == true)
-        {
-            //tabParticle.front()->addForce(Vector(0,-10));
-            tabParticle.front()->position.y -= 10;
-        }
             break;
-    case 'd':
-        if (blobgame == true)
-        {
-            //tabParticle.front()->addForce(Vector(10,0));
-            tabParticle.front()->position.x += 10;
-        }
+        case 'b':
+            SetupBlobGame();
             break;
-    case 'l':
-        cout << "Particles: " << tabParticle.size() << endl;
-        break;
-    default:
-        break;
+        case 'l':
+            cout << "Particles: " << tabParticle.size() << endl;
+            break;
+        default:
+            break;
+        
+        }
     }
 }
 
@@ -394,20 +367,19 @@ void ofApp::mousePressed(int x, int y, int button)
     // Setting the initial velocity with the mouse position
     switch (button)
     {
-        case OF_MOUSE_BUTTON_LEFT:
-            particleVelocity = Vector(x, ofGetHeight() -  y);
-            currentParticle.velocity.x = particleVelocity.x - particleOrigin.x;
-            currentParticle.velocity.y = particleVelocity.y - particleOrigin.y;
-            break;
-        case OF_MOUSE_BUTTON_RIGHT:
-            particleOrigin = Vector(x,ofGetHeight()-y,0);
-            particleVelocity = Vector(x,ofGetHeight()-y,0);
-            currentParticle.setPosition(particleOrigin);
-            break;
-        default:
-            break; 
+    case OF_MOUSE_BUTTON_LEFT:
+        particleVelocity = Vector(x, ofGetHeight() - y);
+        currentParticle.velocity.x = particleVelocity.x - particleOrigin.x;
+        currentParticle.velocity.y = particleVelocity.y - particleOrigin.y;
+        break;
+    case OF_MOUSE_BUTTON_RIGHT:
+        particleOrigin = Vector(x, ofGetHeight() - y, 0);
+        particleVelocity = Vector(x, ofGetHeight() - y, 0);
+        currentParticle.setPosition(particleOrigin);
+        break;
+    default:
+        break;
     }
-    
 }
 
 //--------------------------------------------------------------
@@ -448,7 +420,6 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
  */
 void ofApp::updateParticles(std::list<Particle*> tabParticle, float deltaT)
 {
-
     // Iterates over the list of particles
     for (Particle* p : tabParticle)
     {
