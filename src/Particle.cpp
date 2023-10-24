@@ -112,13 +112,13 @@ Particle* Particle::duplicate()
  */
 void Particle::addForce(Vector force)
 {
-    cout << "========" << endl;
-    cout << "Force: " << force.to_string() << endl;
-    cout << "Accum Force Avant: " << accumForce.to_string() << endl;
+    //cout << "========" << endl;
+    //cout << "Force: " << force.to_string() << endl;
+    //cout << "Accum Force Avant: " << accumForce.to_string() << endl;
     this->accumForce += force;
-    cout << "Accum Force Après: " << accumForce.to_string() << endl;
+    //cout << "Accum Force Après: " << accumForce.to_string() << endl;
     
-    cout << "========" << endl;
+    //cout << "========" << endl;
 }
 
 /**
