@@ -1,7 +1,7 @@
 #pragma once
-#include "Particle.h"
+#include "Objects/Particle.h"
 #include "ParticleForceGenerator.h"
-#include "Vector.h"
+#include "DataStructures/Vector.h"
 
 class ParticleFriction:public ParticleForceGenerator
 {

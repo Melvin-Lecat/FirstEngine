@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Vector.h"
+#include "DataStructures/Vector.h"
 #include "GameObject.h"
 
 class Particle:public GameObject
