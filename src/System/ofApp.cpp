@@ -310,7 +310,7 @@ void ofApp::keyPressed(int key)
             break;
         case 'a':
             cout << "Standard bullet" << endl;
-            currentParticle = Particle(particleVelocity, 1, 9.81f, 10.0f);
+            currentParticle = Particle(particleVelocity, 1, 10.0f);
             break;
         case 'z':
             cout << "Laser" << endl;
@@ -331,7 +331,7 @@ void ofApp::keyPressed(int key)
             cin >> mass;
             cout << "Gravity: ";
             cin >> gravity;
-            currentParticle = Particle(particleVelocity, mass, gravity);
+            currentParticle = Particle(particleVelocity, mass);
             break;
         case 'b':
             SetupBlobGame();

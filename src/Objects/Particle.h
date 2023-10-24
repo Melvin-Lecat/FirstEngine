@@ -9,7 +9,6 @@ protected:
 
 public:
     Vector velocity;
-    Vector acceleration;
     Vector accumForce;
     float time;
     float radius;
@@ -17,11 +16,8 @@ public:
     // Constructors
     Particle();
     Particle(Vector velocity, float mass);
-    Particle(Vector velocity, float mass, float gravity);
-    Particle(Vector velocity, float mass, float gravity, float _radius);
-    Particle(Vector velocity, float mass, float gravity, bool massInfluence);
-    Particle(Vector velocity, float mass, float gravity, bool massInfluence, float _radius);
-    Particle(Vector velocity, float mass, int r, int g, int b);
+    Particle(Vector velocity, float mass, float radius);
+    Particle(Vector velocity, float mass, float radius, float gravity);
     Particle(Vector velocity, float mass, int r, int g, int b, float radius);
 
     // Methods
