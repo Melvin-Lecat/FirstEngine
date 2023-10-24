@@ -11,11 +11,14 @@ WireObject::WireObject(Particle *p1, Particle* p2, float K, float length)
 
 void WireObject::CheckCollision()
 {
+    auto e = 0.9;
     float distance = p1->position.distance(p2->position);
     if(distance > length)
     {
-        p1->velocity = Vector(0, 0, 0);
-        p2->velocity = Vector(0, 0, 0);
+        auto direction = (p1->position - p2->position).normalized();
+        auto amp = (e + 1) / (p1->getInversedMass() + p2->getInversedMass());
+        p1->velocity += direction.opposite() * K *amp ;
+        p2->velocity += direction * K * amp;
     }
 }
 

@@ -5,6 +5,8 @@
 #include "FixedSpringGenerator.h"
 #include "ParticleSpringGenerator.h"
 #include "ParticleFriction.h"
+#include "RodObject.h"
+#include "WireObject.h"
 #define RAD 15
 
 //--------------------------------------------------------------
@@ -25,6 +27,16 @@ void ofApp::setup()
         "\tPress 'r' to fire a very heavy bullet\n"
         "\tPress 't' to fire a custom bullet\n"
         << endl;
+
+    tabParticle.emplace_back(new Particle(Vector(0,0,0),1,9.81,15.0f));
+    tabParticle.emplace_back(new Particle(Vector(-10,0,0),1,9.81,15.0f));
+    tabParticle.front()->position = Vector(ofGetWidth()/2-100,ofGetHeight()/2,0);
+    tabParticle.back()->position = Vector(ofGetWidth()/2+100,ofGetHeight()/2,0);
+
+    Vector u = Vector(0.5,0.5,0);
+    Vector v = Vector(1,0,0);
+    cout << "Proj? : " << u.projection(v).to_string() << endl;
+    
 }
 
 /**
@@ -187,6 +199,10 @@ void ofApp::update()
     checkBoundaries();
     if (simPause) return;
     // Set the delta time using the last frame time7
+    //WireObject wire(tabParticle.front() , tabParticle.back(), 100, 200);
+    //wire.CheckCollision();
+    RodObject rod(tabParticle.front(), tabParticle.back(), 0.1, 200);
+    rod.CheckCollision();
     updateForces();
     updateParticles(tabParticle, ofGetLastFrameTime());
     checkCollision();
@@ -305,9 +321,28 @@ void ofApp::keyPressed(int key)
     }
     else
     {
+        auto moveSpeed = 10;
         switch (key)
         {
-        case 'p':
+        
+        case 'z':
+            //tabParticle.front()->addForce(Vector(0,10));
+            tabParticle.front()->position.y += moveSpeed;
+            break;
+        case 's':
+            //tabParticle.front()->addForce(Vector(0,-10));
+            
+            tabParticle.front()->position.y -= moveSpeed;
+            break;
+        case 'q':
+            // tabParticle.front()->addForce(Vector(-10,0));
+            tabParticle.front()->position.x -= moveSpeed;
+            break;
+        case 'd':
+            //tabParticle.front()->addForce(Vector(10,0));
+            tabParticle.front()->position.x += moveSpeed;
+            break;
+        /*case 'p':11
             simPause = !simPause;
             cout << (!simPause ? "Unpaused" : "Paused") << endl;
             break;
@@ -351,7 +386,7 @@ void ofApp::keyPressed(int key)
             break;
         case 'l':
             cout << "Particles: " << tabParticle.size() << endl;
-            break;
+            break;*/
         default:
             break;
         

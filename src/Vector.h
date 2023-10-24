@@ -38,4 +38,5 @@ public:
     float distance(Vector other);
     Vector normalized();
     Vector vectorialProduct(Vector w);
+    Vector projection(Vector v);
 };

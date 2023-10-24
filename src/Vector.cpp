@@ -84,3 +84,10 @@ Vector Vector::vectorialProduct(Vector w)
 {
     return Vector(y * w.z - z * w.y, z * w.x - x * w.z, x * w.y - y * w.x);
 }
+
+Vector Vector::projection(Vector v)
+{
+    auto scal = (*this)*v ;
+    auto amp = (v.squaredMagnitude());
+    return v*(scal / amp);
+}
