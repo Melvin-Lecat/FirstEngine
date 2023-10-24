@@ -63,7 +63,7 @@ Vector ofApp::UpdateCollision(float e, Particle *p1, Particle p2)
     //auto P = p1.velocity * p1.getMass();
     auto updatedVelocity = p1->velocity - n * K * p1->getInversedMass();
     auto move = updatedVelocity.normalized()*glm::abs((p1->radius+p2.radius) - p1->position.distance(p2.position));
-    p1->position += move;
+    p1->position += move*  (p1->getMass() / (p1->getMass() + p2.getMass()));
     return updatedVelocity;
 }
 
@@ -231,11 +231,11 @@ void ofApp::SetupBlobGame()
     
     clearParticles();
     blobgame = true;
-    mainParticle = currentParticle;
-    
+
     currentParticle = Particle(particleVelocity, 1, 255,255,255,15.0f);
     currentParticle.position = positioncentre;
     currentParticle.velocity = Vector(0, 0);
+    mainParticle = currentParticle;
     //tabParticle.push_back(currentParticle.duplicate());
     
             
