@@ -1,10 +1,10 @@
 #include "ofApp.h"
 
-#include "ParticleGravity.h"
-#include "ParticleSpringHook.h"
-#include "FixedSpringGenerator.h"
-#include "ParticleFriction.h"
-#include "ParticleSpringGenerator.h"
+#include "Forces/ParticleGravity.h"
+#include "Forces/ParticleSpringHook.h"
+#include "Forces/FixedSpringGenerator.h"
+#include "Forces/ParticleFriction.h"
+#include "Forces/ParticleSpringGenerator.h"
 #define RAD 15
 
 //--------------------------------------------------------------

@@ -1,9 +1,9 @@
 #pragma once
 
 #include "ofMain.h"
-#include "Vector.h"
-#include "Particle.h"
-#include "ParticleForceRegistry.h"
+#include "DataStructures/Vector.h"
+#include "Objects/Particle.h"
+#include "Forces/ParticleForceRegistry.h"
 
 class ofApp : public ofBaseApp
 {
