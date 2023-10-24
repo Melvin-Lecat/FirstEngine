@@ -9,7 +9,8 @@ ParticleFriction::ParticleFriction(float k1, float k2)
 
 void ParticleFriction::updateForce(Particle* particle, float duration)
 {
-    particle->addForce(
-    particle->velocity.normalized().opposite() * (this->k1 * particle->velocity.magnitude() + this->k2 *glm::pow2(particle->
-        velocity.magnitude())));
+    particle->addForce(particle->velocity * (-k1));
+    //particle->addForce(
+    //particle->velocity.normalized().opposite() * (this->k1 * particle->velocity.magnitude() + this->k2 *glm::pow2(particle->
+    //    velocity.magnitude())));
 }

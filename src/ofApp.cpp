@@ -54,23 +54,24 @@ void ofApp::checkUnboundParticules()
 
 void ofApp:: checkBoundaries()
 {
+    float f = -1;
     for (auto p: tabParticle)
     {
         if (p->position.x < RAD)
         {
-            p->velocity.x *=-0.9;
+            p->velocity.x *=f;
         }
         if (p->position.x > ofGetWidth() - RAD)
         {
-            p->velocity.x *=-0.9;
+            p->velocity.x *=f;
         }
         if (p->position.y < RAD)
         {
-            p->velocity.y *=-0.9;
+            p->velocity.y *=f;
         }
         if (p->position.y > ofGetHeight() - RAD)
         {
-            p->velocity.y *=-0.9;
+            p->velocity.y *=f;
         }
         
     }
@@ -86,6 +87,8 @@ void ofApp::updateForces()
         
             particleForceRegistry.add(p,&pg);
             particleForceRegistry.add(p,&sg);
+            ParticleFriction pf(0.1, 0.2);
+            particleForceRegistry.add(p, &pf);
         }
     }else
     {
@@ -96,8 +99,8 @@ void ofApp::updateForces()
                continue;
            }
             FixedSpringGenerator fsg(tabParticle.front()->position,100,50);
-            //ParticleFriction pf(0.1,0.2);
-            //particleForceRegistry.add(*p,&pf);
+            ParticleFriction pf(0.1,0.2);
+            particleForceRegistry.add(*p,&pf);
             particleForceRegistry.add(*p,&fsg);
         }
         
