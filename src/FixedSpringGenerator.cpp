@@ -12,8 +12,12 @@ FixedSpringGenerator::FixedSpringGenerator(Vector point, float K, float length)
 void FixedSpringGenerator::updateForce(Particle *particle, float duration)
 {
    
-    cout << "Current length: " << particle->position.distance(point) << endl;
-    cout << "Spring Force: " << glm::abs(length - particle->position.distance(point)) << endl;
+    //cout << "Current length: " << particle->position.distance(point) << endl;
+    //cout << "Spring Force: " << glm::abs(length - particle->position.distance(point)) << endl;
     // Direction * K * longueur du ressort
-    particle->addForce((this->point-particle->position).normalized()*K*glm::abs(length - particle->position.distance(point)));
+    auto direction = (this->point-particle->position).normalized();
+    auto stretch = glm::abs(length - particle->position.distance(point));
+    
+    cout << " ====> Ajout de Ressort" << endl;
+    particle->addForce( direction*K*stretch);
 }

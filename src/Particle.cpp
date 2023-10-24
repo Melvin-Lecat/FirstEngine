@@ -87,7 +87,13 @@ Particle* Particle::duplicate()
  */
 void Particle::addForce(Vector force)
 {
+    cout << "========" << endl;
+    cout << "Force: " << force.to_string() << endl;
+    cout << "Accum Force Avant: " << accumForce.to_string() << endl;
     this->accumForce += force;
+    cout << "Accum Force Après: " << accumForce.to_string() << endl;
+    
+    cout << "========" << endl;
 }
 
 /**
@@ -106,7 +112,6 @@ void Particle::clearAccum()
  */
 void Particle::eulerIntegration(float delta_t)
 {
-    
     // Update the velocity of the particle...
     velocity += accumForce * delta_t * pow(0.2, delta_t) ;
     
