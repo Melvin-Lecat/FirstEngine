@@ -119,6 +119,7 @@
     <ClCompile Include="src\Rectangle.cpp" />
     <ClCompile Include="src\FixedSpringGenerator.cpp" />
     <ClCompile Include="src\Vector.cpp" />
+    <ClCompile Include="src\WireObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameObject.h" />
@@ -135,6 +136,7 @@
     <ClInclude Include="src\Rectangle.h" />
     <ClInclude Include="src\FixedSpringGenerator.h" />
     <ClInclude Include="src\Vector.h" />
+    <ClInclude Include="src\WireObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">

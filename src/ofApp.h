@@ -52,3 +52,4 @@ public:
     bool blobgame = false;
     Particle mainParticle; 
 };
+

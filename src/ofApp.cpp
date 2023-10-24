@@ -3,8 +3,8 @@
 #include "ParticleGravity.h"
 #include "ParticleSpringHook.h"
 #include "FixedSpringGenerator.h"
-#include "ParticleFriction.h"
 #include "ParticleSpringGenerator.h"
+#include "ParticleFriction.h"
 #define RAD 15
 
 //--------------------------------------------------------------
@@ -58,11 +58,15 @@ void ofApp::checkUnboundParticules()
  */
 Vector ofApp::UpdateCollision(float e, Particle *p1, Particle p2)
 {
+    if(p1->velocity.y > -9.81*ofGetLastFrameTime())
+    {
+        p1->velocity.y = 0;
+    }
     Vector n = (p2.position - p1->position).normalized();
     float K = n * (p1->velocity - p2.velocity) * (e + 1) / (p1->getInversedMass() + p2.getInversedMass());
     //auto P = p1.velocity * p1.getMass();
     auto updatedVelocity = p1->velocity - n * K * p1->getInversedMass();
-    auto move = updatedVelocity.normalized()*glm::abs((p1->radius+p2.radius) - p1->position.distance(p2.position));
+    auto move = /*updatedVelocity.normalized()*/n.opposite()*glm::abs((p1->radius+p2.radius) - p1->position.distance(p2.position));
     p1->position += move*  (p1->getMass() / (p1->getMass() + p2.getMass()));
     return updatedVelocity;
 }
@@ -127,7 +131,14 @@ void ofApp::checkBoundaries()
         }
         if (p->position.y < RAD)
         {
-            p->velocity.y *= f;
+            if(p->velocity.y > -9.81*ofGetLastFrameTime())
+            {
+                p->position.y += (p->radius - p->position.y);
+                p->velocity.y = 0;
+            }else
+            {
+                p->velocity.y *= f;
+            }
         }
         if (p->position.y > ofGetHeight() - RAD)
         {
@@ -171,13 +182,15 @@ void ofApp::updateForces()
 //--------------------------------------------------------------
 void ofApp::update()
 {
-    checkCollision();
+    
     //checkUnboundParticules();
     checkBoundaries();
     if (simPause) return;
     // Set the delta time using the last frame time7
     updateForces();
     updateParticles(tabParticle, ofGetLastFrameTime());
+    checkCollision();
+    
 }
 
 void ofApp::DrawParticle(Particle p)
@@ -444,3 +457,4 @@ void ofApp::clearParticles()
     tabParticle.clear();
     cout << "Cleared" << tabParticle.size() << endl;
 }
+
