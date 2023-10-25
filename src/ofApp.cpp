@@ -15,28 +15,40 @@ void ofApp::setup()
     // Set the color of the items
     ofSetColor(255, 255, 255);
     // Present the user manual
-    cout << "User Manual:\n"
-        "\tPress 'p' to pause simulation\n"
-        "\tPress 'i' to clear all bullets\n"
-        "\tPress 'o' to fire the current bullet (default : standard)\n"
-        "\tPress the right arrow to update frame by frame while paused\n"
-        "\tClick in the window to change the initial velocity\n"
-        "\tPress 'a' to fire a standard bullet\n"
-        "\tPress 'z' to fire a laser like bullet\n"
-        "\tPress 'e' to fire a heavy bullet\n"
-        "\tPress 'r' to fire a very heavy bullet\n"
-        "\tPress 't' to fire a custom bullet\n"
-        << endl;
-
-    tabParticle.emplace_back(new Particle(Vector(0,0,0),1,9.81,15.0f));
-    tabParticle.emplace_back(new Particle(Vector(-10,0,0),1,9.81,15.0f));
-    tabParticle.front()->position = Vector(ofGetWidth()/2-100,ofGetHeight()/2,0);
-    tabParticle.back()->position = Vector(ofGetWidth()/2+100,ofGetHeight()/2,0);
-
-    Vector u = Vector(0.5,0.5,0);
-    Vector v = Vector(1,0,0);
-    cout << "Proj? : " << u.projection(v).to_string() << endl;
+    cout << "User Manual:\n\n"
+        "\tAppuyer sur 'p' pour mettre en pause la simulation\n"
+        "\tAppuyer sur 'i' pour supprimer toutes les particules\n"
+        "\tAppuyer sur la fleche de droite pour mettre a jour frame par frame la simulation lorsqu'elle est en pause\n"
+        "\tUtilisez le clic gauche dans la fenetre de simulation pour changer la velocite (representee par un trait/vecteur)\n"
+        "\tUtilisez le clic droti dans la fenetre de simulation pour changer la position de la particule (represente par un point)\n"
+        "\tAppuyer sur 'b' pour activer ou desactiver le jeu des blobs\n\n"
     
+        "\tSi le jeu des blobs est active\n\n"
+        "\tAppuyer sur 'z' pour deplacer la particule centrale vers le haut\n"
+        "\tAppuyer sur 'q' pour deplacer la particule centrale vers la gauche\n"
+        "\tAppuyer sur 's' pour deplacer la particule centrale vers la droite\n"
+        "\tAppuyer sur 'd' pour deplacer la particule centrale vers le bas\n\n"
+    
+        "\tSinon\n\n"
+        "\tAppuyer sur 'o' pour ajouter une particule\n"
+        "\tAppuyer sur 'a' pour ajouter une particule normale\n"
+        "\tAppuyer sur 'z' pour ajouter une particule de type laser\n"
+        "\tAppuyer sur 'e' pour ajouter une particule legerement plus lourde\n"
+        "\tAppuyer sur 'r' pour ajouter une particule plus lourde\n"
+        "\tAppuyer sur 't' pour ajouter une particule customisee\n"
+        "\tAppuyer sur 'h' pour activer/desactiver le ressort central\n"
+        "\tAppuyer sur 'j' pour activer/desactiver la gravite\n"
+        "\tAppuyer sur 'l' pour activer/desactiver la friction aerienne\n\n"
+    
+        "\tAppuyer sur 'x' pour acceder a la sandbox\n\n"
+        "\tAppuyer sur 'a' pour la creation d'une particule reliee avec le centre par le biais d'un ressort classique\n"
+        "\tAppuyer sur 'z' pour la creation de deux particules reliees par le biais d'un ressort \n"
+        "\tAppuyer sur 'e' pour la creation d'une particule reliee avec le centre par le biais d'une corde elastique\n"
+        "\tAppuyer sur 'r' pour la creation de deux particules reliees par le biais d'une corde elastique\n"
+        "\tAppuyer sur 't' pour la creation d'une particule reliee avec le centre par le biais d'un cable\n"
+        "\tAppuyer sur 'y' pour la creation de deux particules reliees par le biais d'un cable\n"
+        "\tAppuyer sur 'u' pour la creation de deux particules reliees par le biais d'une tige\n\n"
+        << endl;
 }
 
 /**
@@ -49,7 +61,7 @@ void ofApp::checkUnboundParticules()
     for (auto particule = tabParticle.begin(); particule != tabParticle.end();)
     {
         // Check if the particle is out of the screen
-        if ((*particule)->position.y < -RAD || (*particule)->position.x > static_cast<float>(ofGetWidth()) + RAD)
+        if ((*particule)->position.y < -(*particule)->radius || (*particule)->position.x > static_cast<float>(ofGetWidth()) + (*particule)->radius)
         {
             // If so, delete the particle and release the memory
             delete *particule;
@@ -133,15 +145,17 @@ void ofApp::checkBoundaries()
     float f = -1;
     for (auto p : tabParticle)
     {
-        if (p->position.x < RAD)
+        if (p->position.x < p->radius)
         {
+            p->position.x += (p->radius - p->position.x);
             p->velocity.x *= f;
         }
-        if (p->position.x > ofGetWidth() - RAD)
+        if (p->position.x >= ofGetWidth() - p->radius)
         {
+            p->position.x -= (p->radius - glm::abs(ofGetWidth()-p->position.x));
             p->velocity.x *= f;
         }
-        if (p->position.y < RAD)
+        if (p->position.y < p->radius)
         {
             if(p->velocity.y > -9.81*ofGetLastFrameTime())
             {
@@ -152,28 +166,20 @@ void ofApp::checkBoundaries()
                 p->velocity.y *= f;
             }
         }
-        if (p->position.y > ofGetHeight() - RAD)
+        if (p->position.y > ofGetHeight() - p->radius)
         {
+            p->position.y -= (p->radius - glm::abs(ofGetHeight()-p->position.y));
             p->velocity.y *= f;
         }
     }
 }
 
+
+
 void ofApp::updateForces()
 {
-    if (!blobgame)
-    {
-        ParticleGravity pg(Vector(0, -9.81, 0));
-        FixedSpringGenerator sg(Vector(ofGetWidth() / 2, ofGetHeight() / 2, 0), .7, 20);
-        ParticleFriction pf(0.1, 0.2);
-        for (auto p : tabParticle)
-        {
-            particleForceRegistry.add(p, &pg);
-            //particleForceRegistry.add(p,&sg);
-            particleForceRegistry.add(p, &pf);
-        }
-    }
-    else
+    
+    if(blobgame)
     {
         for (auto p = tabParticle.begin(); p != tabParticle.end(); p++)
         {
@@ -181,28 +187,64 @@ void ofApp::updateForces()
             {
                 continue;
             }*/
-            FixedSpringGenerator fsg(mainParticle.position, 200, 20);
+            FixedSpringGenerator fsg(mainParticle.position, 200, 10);
             ParticleFriction pf(0.1, 0.2);
             particleForceRegistry.add(*p, &pf);
             particleForceRegistry.add(*p, &fsg);
         }
     }
-    
+    else if(sandbox)
+    {
+        FixedSpringGenerator fsg(Vector(ofGetWidth() / 2, ofGetHeight() / 2, 0), .7, 20);
+        ParticleSpringGenerator psg( .7, 20, tabParticle.front(), tabParticle.back());
+        WireObject wire(tabParticle.front(), tabParticle.back(), .7, 100);
+        RodObject rod(tabParticle.front(), tabParticle.back(), .7, 100);
+        switch(sbMode)
+        {
+        case StaticSpring:
+            particleForceRegistry.add(tabParticle.front(), &fsg);
+            break;
+        case ParticleSpring:
+            particleForceRegistry.add(tabParticle.front(), &psg);
+            break;
+        case StaticElastic:
+            //particleForceRegistry.add(mainParticle, &fixedElastic);
+            break;
+        case ParticleElastic:
+            //particleForceRegistry.add(mainParticle, &particleElastic);
+            break;
+        case Wire:
+            wire.CheckCollision();
+            break;
+        case Rod:
+            rod.CheckCollision();
+            break;
+        case Default:
+        default:
+            break;
+            
+        }
+    }
+    else
+    {
+        ParticleGravity pg(Vector(0, -9.81, 0));
+        FixedSpringGenerator sg(Vector(ofGetWidth() / 2, ofGetHeight() / 2, 0), .7, 20);
+        ParticleFriction pf(0.1, 0.2);
+        for (auto p : tabParticle)
+        {
+            if(enableGravity){particleForceRegistry.add(p, &pg);}
+            if(enableSpring){particleForceRegistry.add(p,&sg);}
+            if(enableFriction){particleForceRegistry.add(p, &pf);}
+        }
+    }
     particleForceRegistry.updateForces(ofGetLastFrameTime());
 }
 
 //--------------------------------------------------------------
 void ofApp::update()
 {
-    
-    //checkUnboundParticules();
     checkBoundaries();
     if (simPause) return;
-    // Set the delta time using the last frame time7
-    //WireObject wire(tabParticle.front() , tabParticle.back(), 100, 200);
-    //wire.CheckCollision();
-    RodObject rod(tabParticle.front(), tabParticle.back(), 0.1, 200);
-    rod.CheckCollision();
     updateForces();
     updateParticles(tabParticle, ofGetLastFrameTime());
     checkCollision();
@@ -219,15 +261,36 @@ void ofApp::DrawParticle(Particle p)
 
 void ofApp::DrawSystem()
 {
-    ofSetColor(OF_CONSOLE_COLOR_YELLOW);
-    ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, RAD);
-    // Drawing the cursor for initial velocity
-    Vector tempOrigin = Vector(particleOrigin.x, ofGetHeight() - particleOrigin.y);
-    Vector tempVelocity = Vector(particleVelocity.x, ofGetHeight() - particleVelocity.y);
-    ofSetColor(OF_CONSOLE_COLOR_GREEN);
-    ofDrawCircle(tempOrigin.v2(), RAD / 2);
-    ofSetColor(255, 255, 255);
-    ofDrawLine(tempOrigin.v2(), tempVelocity.v2());
+    if(!blobgame && !sandbox){
+        // Drawing a center cursor for debug
+        if(enableSpring)
+        {
+            ofSetColor(OF_CONSOLE_COLOR_YELLOW);
+            ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2,5);
+        }
+        
+        
+        // Drawing the cursor for initial velocity
+        Vector tempOrigin = Vector(particleOrigin.x, ofGetHeight() - particleOrigin.y);
+        Vector tempVelocity = Vector(particleVelocity.x, ofGetHeight() - particleVelocity.y);
+        
+        
+        //Cursor circle as reference
+        ofSetColor(255,255,255);
+        ofDrawCircle(tempOrigin.v2(), RAD / 2);
+
+        // Drawing velocity reference
+        ofSetColor(255, 255, 255);
+        ofDrawLine(tempOrigin.v2(), tempVelocity.v2());
+    }
+    if(sandbox)
+    {
+        Vector firstPosition = Vector(firstParticle.position.x, ofGetHeight() - firstParticle.position.y);
+        ofDrawCircle(firstPosition.v2(), RAD / 2);
+        Vector secondPosition = Vector(secondParticle.position.x, ofGetHeight() - secondParticle.position.y);
+        ofDrawCircle(secondPosition.v2(), RAD / 2);
+        
+    }
 }
 
 void ofApp::DrawParticles()
@@ -239,6 +302,13 @@ void ofApp::DrawParticles()
     // Drawing the particles
     for (Particle* p : tabParticle)
     {
+        if(debug)
+        {
+            ofSetColor(255,0,0);
+            Vector tempOrigin = Vector(p->position.x, ofGetHeight() - p->position.y);
+            Vector tempVelocity = Vector(p->velocity.x, - p->velocity.y);
+            ofDrawLine(tempOrigin.v2(), (tempOrigin+ tempVelocity).v2());
+        }
         DrawParticle(*p);
     }
 }
@@ -287,7 +357,8 @@ void ofApp::keyPressed(int key)
     
     if (blobgame)
     {
-        int moveSpeed = 10;
+        
+        float moveSpeed = 10;
         switch (key)
         {
         case 'z':
@@ -309,23 +380,67 @@ void ofApp::keyPressed(int key)
         case 'b':
             clearParticles();
             blobgame = false;
+            cout << "Mode Ballistique" << endl;
         //les forces aussi
-            break;
-        
-        case 'l':
-            cout << "Particles: " << tabParticle.size() << endl;
             break;
         default:
             break;
         }
+    }else if(sandbox)
+    {
+        switch (key)
+        {
+        case 'a':
+            sbMode = SandboxMode::StaticSpring;
+            clearParticles();
+            tabParticle.emplace_back(firstParticle.duplicate());
+            break;
+            break;
+        case 'z':
+            sbMode = SandboxMode::ParticleSpring;
+            clearParticles();
+            tabParticle.emplace_back(firstParticle.duplicate());
+            tabParticle.emplace_back(secondParticle.duplicate());
+            break;
+        case 'e':
+            sbMode = SandboxMode::StaticElastic;
+            clearParticles();
+            tabParticle.emplace_back(firstParticle.duplicate());
+            //particleElastic = FixedElastic(Vector(ofGetWidth()/2, ofGetHeight()/2, 0), 200, 10);
+            break;
+        case 'r':
+            sbMode = SandboxMode::ParticleElastic;
+            
+            break;
+        case 't':
+            sbMode = SandboxMode::Wire;
+            clearParticles();
+            tabParticle.emplace_back(firstParticle.duplicate());
+            tabParticle.emplace_back(secondParticle.duplicate());
+            break;
+        case 'y':
+            sbMode = SandboxMode::Wire;
+            clearParticles();
+            break;
+        case 'u':
+            sbMode = SandboxMode::Rod;
+            clearParticles();
+            tabParticle.emplace_back(firstParticle.duplicate());
+            tabParticle.emplace_back(secondParticle.duplicate());
+            break;
+        case 'x':
+            cout << "Sandbox desactivee" << endl;
+            sandbox = false;
+            break;
+        } 
     }
     else
     {
-        auto moveSpeed = 10;
+        //auto moveSpeed = 10;
         switch (key)
         {
         
-        case 'z':
+        /*case 'z':
             //tabParticle.front()->addForce(Vector(0,10));
             tabParticle.front()->position.y += moveSpeed;
             break;
@@ -341,13 +456,16 @@ void ofApp::keyPressed(int key)
         case 'd':
             //tabParticle.front()->addForce(Vector(10,0));
             tabParticle.front()->position.x += moveSpeed;
-            break;
-        /*case 'p':11
+            break;*/
+        case 'p':
             simPause = !simPause;
             cout << (!simPause ? "Unpaused" : "Paused") << endl;
             break;
         case 'i':
             clearParticles();
+            break;
+        case 'd':
+            debug = !debug;
             break;
         case 'o':
             currentParticle.position = particleOrigin;
@@ -384,9 +502,26 @@ void ofApp::keyPressed(int key)
         case 'b':
             SetupBlobGame();
             break;
+        case 'x':
+            cout << "Sandbox activee" << endl;
+            sandbox = true;
+            break;
         case 'l':
             cout << "Particles: " << tabParticle.size() << endl;
-            break;*/
+            break;
+        case 'h':
+            enableSpring = !enableSpring;
+            cout << (enableSpring? "Spring enabled" : "Spring disabled") << endl;
+            break;
+        case 'j':
+            enableGravity = !enableGravity;
+            cout << (enableGravity? "Gravity enabled" : "Gravity disabled") << endl;
+            break;
+        case 'k':
+            enableFriction = !enableFriction;
+            cout << (enableFriction? "Friction enabled" : "Friction disabled") << endl;
+            
+            break;
         default:
             break;
         
@@ -413,20 +548,65 @@ void ofApp::mouseDragged(int x, int y, int button)
 void ofApp::mousePressed(int x, int y, int button)
 {
     // Setting the initial velocity with the mouse position
-    switch (button)
+    if(sandbox)
     {
-    case OF_MOUSE_BUTTON_LEFT:
-        particleVelocity = Vector(x, ofGetHeight() - y);
-        currentParticle.velocity.x = particleVelocity.x - particleOrigin.x;
-        currentParticle.velocity.y = particleVelocity.y - particleOrigin.y;
-        break;
-    case OF_MOUSE_BUTTON_RIGHT:
-        particleOrigin = Vector(x, ofGetHeight() - y, 0);
-        particleVelocity = Vector(x, ofGetHeight() - y, 0);
-        currentParticle.setPosition(particleOrigin);
-        break;
-    default:
-        break;
+        switch (button)
+        {
+        case OF_MOUSE_BUTTON_LEFT:
+            switch(sbMode)
+            {
+                case SandboxMode::StaticSpring:
+                case SandboxMode::StaticElastic:
+                    firstParticle.position = Vector(x,y,0);
+                    break;
+                case SandboxMode::ParticleSpring:
+                case SandboxMode::ParticleElastic:
+                case SandboxMode::Wire:
+                case SandboxMode::Rod:
+                    if(isFirst)
+                    {
+                        firstParticle.position = Vector(x,y,0);
+                        isFirst = !isFirst;
+                    }else
+                    {
+                        secondParticle.position = Vector(x,y,0);
+                        isFirst = !isFirst;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            if(isFirst)
+            {
+                firstParticle.position = Vector(x,y,0);
+            }else
+            {
+                secondParticle.position = Vector(x,y,0);
+            }
+            break;
+        case OF_MOUSE_BUTTON_RIGHT:
+            break; 
+        default:
+            break;
+        }
+        
+    }
+    else{
+        switch (button)
+        {
+        case OF_MOUSE_BUTTON_LEFT:
+            particleVelocity = Vector(x, ofGetHeight() - y);
+            currentParticle.velocity.x = particleVelocity.x - particleOrigin.x;
+            currentParticle.velocity.y = particleVelocity.y - particleOrigin.y;
+            break;
+        case OF_MOUSE_BUTTON_RIGHT:
+            particleOrigin = Vector(x, ofGetHeight() - y, 0);
+            particleVelocity = Vector(x, ofGetHeight() - y, 0);
+            currentParticle.setPosition(particleOrigin);
+            break;
+        default:
+            break;
+        }
     }
 }
 

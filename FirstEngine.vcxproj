@@ -109,7 +109,7 @@
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="src\Matrix.cpp" />
     <ClCompile Include="src\Particle.cpp" />
-    <ClCompile Include="src\ParticleElastic.cpp" />
+    <ClCompile Include="src\FixedElastic.cpp" />
     <ClCompile Include="src\ParticleForceGenerator.cpp" />
     <ClCompile Include="src\ParticleForceRegistry.cpp" />
     <ClCompile Include="src\ParticleFriction.cpp" />
@@ -127,7 +127,7 @@
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\Matrix.h" />
     <ClInclude Include="src\Particle.h" />
-    <ClInclude Include="src\ParticleElastic.h" />
+    <ClInclude Include="src\FixedElastic.h" />
     <ClInclude Include="src\ParticleForceGenerator.h" />
     <ClInclude Include="src\ParticleForceRegistry.h" />
     <ClInclude Include="src\ParticleFriction.h" />

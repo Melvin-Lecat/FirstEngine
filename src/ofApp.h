@@ -1,9 +1,15 @@
 #pragma once
 
+#include "FixedElastic.h"
+#include "FixedSpringGenerator.h"
 #include "ofMain.h"
 #include "Vector.h"
 #include "Particle.h"
+#include "FixedElastic.h"
 #include "ParticleForceRegistry.h"
+#include "ParticleGravity.h"
+#include "ParticleFriction.h"
+#include "ParticleSpringGenerator.h"
 
 class ofApp : public ofBaseApp
 {
@@ -34,8 +40,16 @@ public:
     void gotMessage(ofMessage msg);
     void updateParticles(std::list<Particle*> tabParticle, float deltaT);
 
-
-    
+    enum SandboxMode
+    {
+        StaticSpring,
+        ParticleSpring,
+        StaticElastic,
+        ParticleElastic,
+        Wire,
+        Rod,
+        Default
+    };
     
     std::list<Particle*> tabParticle;
     float mass;
@@ -50,6 +64,16 @@ public:
     ParticleForceRegistry particleForceRegistry;
     Particle currentParticle = Particle(particleVelocity, 1, 9.81f,15.0f);
     bool blobgame = false;
-    Particle mainParticle; 
+    bool sandbox = false;
+    bool debug = false;
+    bool enableSpring = false; 
+    bool enableGravity = true; 
+    bool enableFriction = false; 
+    Particle mainParticle;
+    
+    SandboxMode sbMode = Default;
+    Particle firstParticle = Particle(Vector(0,0,0), 1, 9.81f,15.0f);
+    Particle secondParticle=Particle(Vector(0,0,0), 1, 9.81f,15.0f);
+    bool isFirst = false; 
 };
 

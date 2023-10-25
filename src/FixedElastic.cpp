@@ -1,6 +1,6 @@
-﻿#include "ParticleElastic.h"
+﻿#include "FixedElastic.h"
 
-void ParticleElastic::updateForce(Particle* particle, float duration)
+void FixedElastic::updateForce(Particle* particle, float duration)
 {
     cout << "Current length: " << particle->position.distance(point) << endl;
     cout << "Spring Force: " << glm::abs(length - particle->position.distance(point)) << endl;
