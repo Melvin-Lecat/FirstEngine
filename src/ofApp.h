@@ -39,17 +39,7 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     void updateParticles(std::list<Particle*> tabParticle, float deltaT);
-
-    enum SandboxMode
-    {
-        StaticSpring,
-        ParticleSpring,
-        StaticElastic,
-        ParticleElastic,
-        Wire,
-        Rod,
-        Default
-    };
+    
     
     std::list<Particle*> tabParticle;
     float mass;
@@ -59,21 +49,29 @@ public:
     void clearParticles();
 
     // Variables to setup the initial parameters of the particle
-    Vector particleOrigin = Vector(0, 0, 0);
-    Vector particleVelocity = Vector(0, 0, 0);
+    Vector particleOrigin = Vector(ofGetWidth() / 2, ofGetHeight() / 2, 0);
+    Vector particleVelocity = Vector(ofGetWidth() / 2, ofGetHeight() / 2, 0);
     ParticleForceRegistry particleForceRegistry;
     Particle currentParticle = Particle(particleVelocity, 1, 9.81f,15.0f);
     bool blobgame = false;
-    bool sandbox = false;
+    bool demo = false;
     bool debug = false;
     bool enableSpring = false; 
     bool enableGravity = true; 
-    bool enableFriction = false; 
+    bool enableFriction = false;
+    bool enableDemo = false;
     Particle mainParticle;
-    
-    SandboxMode sbMode = Default;
-    Particle firstParticle = Particle(Vector(0,0,0), 1, 9.81f,15.0f);
-    Particle secondParticle=Particle(Vector(0,0,0), 1, 9.81f,15.0f);
-    bool isFirst = false; 
+
+    enum demoMode
+    {
+        Wire,
+        Rod,
+        StaticSpring,
+        StaticElastic,
+        DynamicSpring,
+        DynamicElastic,
+        Default
+    };
+    demoMode mode = Default;    
 };
 
