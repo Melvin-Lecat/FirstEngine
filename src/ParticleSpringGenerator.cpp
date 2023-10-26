@@ -17,3 +17,4 @@ void ParticleSpringGenerator::updateForce(Particle *particle, float duration)
     fsg1.updateForce(particle1, duration);
     fsg2.updateForce(particle2, duration);
 }
+

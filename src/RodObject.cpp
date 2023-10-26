@@ -28,5 +28,6 @@ void RodObject::CheckCollision()
         auto p2Proj = p2->velocity.projection(n);
         p2->velocity -= p2Proj;*/
     }
-    
 }
+
+

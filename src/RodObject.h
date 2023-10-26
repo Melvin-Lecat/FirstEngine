@@ -13,3 +13,5 @@ public:
     RodObject(Particle* p1, Particle* p2, float K, float length);
     void CheckCollision();
 };
+
+

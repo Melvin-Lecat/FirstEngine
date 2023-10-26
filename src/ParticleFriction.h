@@ -12,3 +12,4 @@ public:
     ParticleFriction(float k1,float k2);
     void updateForce(Particle *particle, float duration);
 };
+
