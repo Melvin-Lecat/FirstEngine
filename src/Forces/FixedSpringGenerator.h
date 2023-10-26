@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include "Particle.h"
 #include "ParticleForceGenerator.h"
-#include "Vector.h"
+#include "DataStructures/Vector.h"
+#include "Objects/Particle.h"
 
-class FixedSpringGenerator:public ParticleForceGenerator
+class FixedSpringGenerator : public ParticleForceGenerator
 {
 public:
     float K;
@@ -11,5 +11,5 @@ public:
     Vector point;
     //ParticleSpringHook(Particle *particle1, Particle *particle2, float K, float length);
     FixedSpringGenerator(Vector point, float K, float length);
-    void updateForce(Particle *particle, float duration);
+    void updateForce(Particle* particle, float duration);
 };

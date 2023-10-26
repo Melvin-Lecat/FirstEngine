@@ -1,12 +1,10 @@
 #include "ofApp.h"
 
-#include "ParticleGravity.h"
-#include "ParticleSpringHook.h"
-#include "FixedSpringGenerator.h"
-#include "ParticleSpringGenerator.h"
-#include "ParticleFriction.h"
-#include "RodObject.h"
-#include "WireObject.h"
+#include "Forces/ParticleGravity.h"
+#include "Forces/ParticleSpringHook.h"
+#include "Forces/FixedSpringGenerator.h"
+#include "Forces/ParticleFriction.h"
+#include "Forces/ParticleSpringGenerator.h"
 #define RAD 15
 
 //--------------------------------------------------------------
@@ -27,16 +25,6 @@ void ofApp::setup()
         "\tPress 'r' to fire a very heavy bullet\n"
         "\tPress 't' to fire a custom bullet\n"
         << endl;
-
-    tabParticle.emplace_back(new Particle(Vector(0,0,0),1,9.81,15.0f));
-    tabParticle.emplace_back(new Particle(Vector(-10,0,0),1,9.81,15.0f));
-    tabParticle.front()->position = Vector(ofGetWidth()/2-100,ofGetHeight()/2,0);
-    tabParticle.back()->position = Vector(ofGetWidth()/2+100,ofGetHeight()/2,0);
-
-    Vector u = Vector(0.5,0.5,0);
-    Vector v = Vector(1,0,0);
-    cout << "Proj? : " << u.projection(v).to_string() << endl;
-    
 }
 
 /**
@@ -70,15 +58,11 @@ void ofApp::checkUnboundParticules()
  */
 Vector ofApp::UpdateCollision(float e, Particle *p1, Particle p2)
 {
-    if(p1->velocity.y > -9.81*ofGetLastFrameTime())
-    {
-        p1->velocity.y = 0;
-    }
     Vector n = (p2.position - p1->position).normalized();
     float K = n * (p1->velocity - p2.velocity) * (e + 1) / (p1->getInversedMass() + p2.getInversedMass());
     //auto P = p1.velocity * p1.getMass();
     auto updatedVelocity = p1->velocity - n * K * p1->getInversedMass();
-    auto move = /*updatedVelocity.normalized()*/n.opposite()*glm::abs((p1->radius+p2.radius) - p1->position.distance(p2.position));
+    auto move = updatedVelocity.normalized()*glm::abs((p1->radius+p2.radius) - p1->position.distance(p2.position));
     p1->position += move*  (p1->getMass() / (p1->getMass() + p2.getMass()));
     return updatedVelocity;
 }
@@ -143,14 +127,7 @@ void ofApp::checkBoundaries()
         }
         if (p->position.y < RAD)
         {
-            if(p->velocity.y > -9.81*ofGetLastFrameTime())
-            {
-                p->position.y += (p->radius - p->position.y);
-                p->velocity.y = 0;
-            }else
-            {
-                p->velocity.y *= f;
-            }
+            p->velocity.y *= f;
         }
         if (p->position.y > ofGetHeight() - RAD)
         {
@@ -194,19 +171,13 @@ void ofApp::updateForces()
 //--------------------------------------------------------------
 void ofApp::update()
 {
-    
+    checkCollision();
     //checkUnboundParticules();
     checkBoundaries();
     if (simPause) return;
     // Set the delta time using the last frame time7
-    //WireObject wire(tabParticle.front() , tabParticle.back(), 100, 200);
-    //wire.CheckCollision();
-    RodObject rod(tabParticle.front(), tabParticle.back(), 0.1, 200);
-    rod.CheckCollision();
     updateForces();
     updateParticles(tabParticle, ofGetLastFrameTime());
-    checkCollision();
-    
 }
 
 void ofApp::DrawParticle(Particle p)
@@ -321,28 +292,9 @@ void ofApp::keyPressed(int key)
     }
     else
     {
-        auto moveSpeed = 10;
         switch (key)
         {
-        
-        case 'z':
-            //tabParticle.front()->addForce(Vector(0,10));
-            tabParticle.front()->position.y += moveSpeed;
-            break;
-        case 's':
-            //tabParticle.front()->addForce(Vector(0,-10));
-            
-            tabParticle.front()->position.y -= moveSpeed;
-            break;
-        case 'q':
-            // tabParticle.front()->addForce(Vector(-10,0));
-            tabParticle.front()->position.x -= moveSpeed;
-            break;
-        case 'd':
-            //tabParticle.front()->addForce(Vector(10,0));
-            tabParticle.front()->position.x += moveSpeed;
-            break;
-        /*case 'p':11
+        case 'p':
             simPause = !simPause;
             cout << (!simPause ? "Unpaused" : "Paused") << endl;
             break;
@@ -358,7 +310,7 @@ void ofApp::keyPressed(int key)
             break;
         case 'a':
             cout << "Standard bullet" << endl;
-            currentParticle = Particle(particleVelocity, 1, 9.81f, 10.0f);
+            currentParticle = Particle(particleVelocity, 1, 10.0f);
             break;
         case 'z':
             cout << "Laser" << endl;
@@ -379,14 +331,14 @@ void ofApp::keyPressed(int key)
             cin >> mass;
             cout << "Gravity: ";
             cin >> gravity;
-            currentParticle = Particle(particleVelocity, mass, gravity);
+            currentParticle = Particle(particleVelocity, mass);
             break;
         case 'b':
             SetupBlobGame();
             break;
         case 'l':
             cout << "Particles: " << tabParticle.size() << endl;
-            break;*/
+            break;
         default:
             break;
         
@@ -492,4 +444,3 @@ void ofApp::clearParticles()
     tabParticle.clear();
     cout << "Cleared" << tabParticle.size() << endl;
 }
-
