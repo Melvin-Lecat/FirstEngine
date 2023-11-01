@@ -19,6 +19,7 @@ public:
     Vector operator +=(Vector v);
     Vector operator -(Vector v);
     Vector operator -=(Vector v);
+    bool operator ==(Vector v);
     // Scalar product
     float operator *(Vector v); 
     float operator *=(Vector v);
