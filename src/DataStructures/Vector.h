@@ -25,6 +25,7 @@ public:
     // Multiplication by scalar
     Vector operator *(float k); 
     Vector operator *=(float k);
+    
     std::string to_string();
 
     // Methods

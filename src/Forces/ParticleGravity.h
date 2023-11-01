@@ -3,11 +3,11 @@
 #include "ParticleForceGenerator.h"
 #include "DataStructures/Vector.h"
 
-class ParticleGravity:public ParticleForceGenerator
+class ParticleGravity : public ParticleForceGenerator
 {
 public:
     Vector gravity;
     Vector getGravity();
     ParticleGravity(Vector gravity);
-    void updateForce(Particle *particle, float duration);
+    void updateForce(Particle* particle, float duration) override;
 };

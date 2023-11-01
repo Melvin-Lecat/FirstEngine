@@ -3,22 +3,26 @@
 #include "DataStructures/Vector.h"
 #include "Objects/Particle.h"
 
-FixedSpringGenerator::FixedSpringGenerator(Vector point, float K, float length)
+FixedSpringGenerator::FixedSpringGenerator(Vector point, float k, float length)
 {
     this->point = point;
-    this->K = K;
+    this->k = k;
     this->length = length;
 }
 
-
+/**
+ * @brief Update the particle with a spring force
+ * 
+ * @param particle 
+ * @param duration 
+ */
 void FixedSpringGenerator::updateForce(Particle* particle, float duration)
 {
-    //cout << "Current length: " << particle->position.distance(point) << endl;
-    //cout << "Spring Force: " << glm::abs(length - particle->position.distance(point)) << endl;
-    // Direction * K * longueur du ressort
-    auto direction = (this->point - particle->position).normalized();
-    auto stretch = glm::abs(length - particle->position.distance(point));
+    // Calculate the direction of the spring
+    Vector direction = (this->point - particle->position).normalized();
+    // Calculate the stretch of the spring
+    float stretch = glm::abs(length - particle->position.distance(point));
 
-    //cout << " ====> Ajout de Ressort" << endl;
-    particle->addForce(direction * K * stretch);
+    // Apply the force
+    particle->addForce(direction * k * stretch);
 }

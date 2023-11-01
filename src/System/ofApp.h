@@ -13,7 +13,7 @@ public:
     void checkCollision();
     void checkBoundaries();
     void updateForces();
-    Vector UpdateCollision(float e, Particle *p1,Particle p2);
+    Vector updateCollision(float e, Particle* p1, Particle p2);
     void update();
     void DrawParticle(Particle p);
     void DrawSystem();
@@ -35,8 +35,6 @@ public:
     void updateParticles(std::list<Particle*> tabParticle, float deltaT);
 
 
-    
-    
     std::list<Particle*> tabParticle;
     float mass;
     float gravity;
@@ -48,7 +46,7 @@ public:
     Vector particleOrigin = Vector(0, 0, 0);
     Vector particleVelocity = Vector(0, 0, 0);
     ParticleForceRegistry particleForceRegistry;
-    Particle currentParticle = Particle(particleVelocity, 1, 9.81f,15.0f);
+    Particle currentParticle = Particle(particleVelocity, 1, 9.81f, 15.0f);
     bool blobgame = false;
-    Particle mainParticle; 
+    Particle mainParticle;
 };
