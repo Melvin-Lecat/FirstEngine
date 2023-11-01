@@ -1,10 +1,8 @@
 #include "ofApp.h"
 
 #include "Forces/ParticleGravity.h"
-#include "Forces/ParticleSpringHook.h"
 #include "Forces/FixedSpringGenerator.h"
 #include "Forces/ParticleFriction.h"
-#include "Forces/ParticleSpringGenerator.h"
 #define RAD 15
 
 //--------------------------------------------------------------
@@ -56,14 +54,14 @@ void ofApp::checkUnboundParticules()
  * @brief Return the new velocity of the Particle 1 when in collision with the Particle 2
  *
  */
-Vector ofApp::UpdateCollision(float e, Particle *p1, Particle p2)
+Vector ofApp::updateCollision(float e, Particle* p1, Particle p2)
 {
     Vector n = (p2.position - p1->position).normalized();
     float K = n * (p1->velocity - p2.velocity) * (e + 1) / (p1->getInversedMass() + p2.getInversedMass());
     //auto P = p1.velocity * p1.getMass();
     auto updatedVelocity = p1->velocity - n * K * p1->getInversedMass();
-    auto move = updatedVelocity.normalized()*glm::abs((p1->radius+p2.radius) - p1->position.distance(p2.position));
-    p1->position += move*  (p1->getMass() / (p1->getMass() + p2.getMass()));
+    auto move = updatedVelocity.normalized() * glm::abs((p1->radius + p2.radius) - p1->position.distance(p2.position));
+    p1->position += move * (p1->getMass() / (p1->getMass() + p2.getMass()));
     return updatedVelocity;
 }
 
@@ -87,7 +85,7 @@ void ofApp::checkCollision()
             float minD = glm::pow2((*particle1)->radius + (*particle2)->radius);
 
             // Collision only if the distance is lower than the minimal distance
-            
+
             if (d <= minD)
             {
                 ++numCollisions;
@@ -97,10 +95,10 @@ void ofApp::checkCollision()
                 // Applica1tion de la force sur P1
                 Particle* p1Copy = p1->duplicate();
 
-                p1->velocity = UpdateCollision(e, p1, *p2);
+                p1->velocity = updateCollision(e, p1, *p2);
 
                 // Application de la force sur P2
-                p2->velocity = UpdateCollision(e, p2, *p1Copy);
+                p2->velocity = updateCollision(e, p2, *p1Copy);
             }
             ++tests;
 
@@ -146,7 +144,6 @@ void ofApp::updateForces()
         for (auto p : tabParticle)
         {
             particleForceRegistry.add(p, &pg);
-            //particleForceRegistry.add(p,&sg);
             particleForceRegistry.add(p, &pf);
         }
     }
@@ -154,17 +151,13 @@ void ofApp::updateForces()
     {
         for (auto p = tabParticle.begin(); p != tabParticle.end(); p++)
         {
-            /*if (*p == tabParticle.front())
-            {
-                continue;
-            }*/
             FixedSpringGenerator fsg(mainParticle.position, 200, 20);
             ParticleFriction pf(0.1, 0.2);
             particleForceRegistry.add(*p, &pf);
             particleForceRegistry.add(*p, &fsg);
         }
     }
-    
+
     particleForceRegistry.updateForces(ofGetLastFrameTime());
 }
 
@@ -172,10 +165,9 @@ void ofApp::updateForces()
 void ofApp::update()
 {
     checkCollision();
-    //checkUnboundParticules();
     checkBoundaries();
     if (simPause) return;
-    // Set the delta time using the last frame time7
+    // Set the delta time using the last frame time
     updateForces();
     updateParticles(tabParticle, ofGetLastFrameTime());
 }
@@ -203,7 +195,7 @@ void ofApp::DrawSystem()
 
 void ofApp::DrawParticles()
 {
-    if(blobgame)
+    if (blobgame)
     {
         DrawParticle(mainParticle);
     }
@@ -228,17 +220,17 @@ void ofApp::SetupBlobGame()
     Vector blobgauche = Vector(-60, 0);
     Vector blobhaut = Vector(0, 60);
     Vector blobbas = Vector(0, -60);
-    
+
     clearParticles();
     blobgame = true;
 
-    currentParticle = Particle(particleVelocity, 1, 255,255,255,15.0f);
+    currentParticle = Particle(particleVelocity, 1, 255, 255, 255, 15.0f);
     currentParticle.position = positioncentre;
     currentParticle.velocity = Vector(0, 0);
     mainParticle = currentParticle;
     //tabParticle.push_back(currentParticle.duplicate());
-    
-            
+
+
     currentParticle.position = positioncentre + blobdroite;
     tabParticle.push_back(currentParticle.duplicate());
 
@@ -255,7 +247,6 @@ void ofApp::SetupBlobGame()
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
-    
     if (blobgame)
     {
         int moveSpeed = 10;
@@ -282,7 +273,7 @@ void ofApp::keyPressed(int key)
             blobgame = false;
         //les forces aussi
             break;
-        
+
         case 'l':
             cout << "Particles: " << tabParticle.size() << endl;
             break;
@@ -318,11 +309,11 @@ void ofApp::keyPressed(int key)
             break;
         case 'e':
             cout << "Heavy bullet" << endl;
-            currentParticle = Particle(particleVelocity, 10, 255,255,0, 20.0f);
+            currentParticle = Particle(particleVelocity, 10, 255, 255, 0, 20.0f);
             break;
         case 'r':
             cout << "Very heavy bullet" << endl;
-            currentParticle = Particle(particleVelocity, 100, 255,255,255, 40.0f);
+            currentParticle = Particle(particleVelocity, 100, 255, 255, 255, 40.0f);
             break;
         case 't':
             simPause = false;
@@ -341,7 +332,6 @@ void ofApp::keyPressed(int key)
             break;
         default:
             break;
-        
         }
     }
 }

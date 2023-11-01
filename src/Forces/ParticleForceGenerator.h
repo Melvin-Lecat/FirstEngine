@@ -3,6 +3,7 @@
 
 class ParticleForceGenerator
 {
-    public:
-        virtual void updateForce(Particle *particle, float duration) = 0;
+public:
+    // Virtual method to be implemented by the child classes
+    virtual void updateForce(Particle* particle, float duration) = 0;
 };

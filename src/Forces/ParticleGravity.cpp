@@ -10,9 +10,14 @@ ParticleGravity::ParticleGravity(Vector gravity)
     this->gravity = gravity;
 }
 
-
-void ParticleGravity::updateForce(Particle *particle, float duration)
+/**
+ * @brief Update the particle with a gravity force
+ * 
+ * @param particle 
+ * @param duration 
+ */
+void ParticleGravity::updateForce(Particle* particle, float duration)
 {
-    if (particle->getMass()==0) return;
-    particle->addForce(this->gravity*particle->getMass());
+    if (particle->getMass() == 0) return;
+    particle->addForce(this->gravity * particle->getMass());
 }
