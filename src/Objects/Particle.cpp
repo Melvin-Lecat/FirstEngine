@@ -90,37 +90,3 @@ Particle* Particle::duplicate()
 {
     return new Particle(*this);
 }
-
-/**
- * @brief Add a force to the particle
- * 
- * @param force 
- */
-void Particle::addForce(Vector force)
-{
-    this->accumForce += force;
-}
-
-/**
- * @brief Clear the forces associated to the particle
- * 
- */
-void Particle::clearAccum()
-{
-    this->accumForce = Vector(0, 0, 0);
-}
-
-/**
- * @brief Calculate the new position of the particle using the Euler integration method
- * 
- * @param delta_t 
- */
-void Particle::eulerIntegration(float delta_t)
-{
-    // Update the velocity of the particle...
-    velocity += accumForce * delta_t * pow(0.2, delta_t);
-
-    // ... and its position
-    position += velocity * delta_t;
-    clearAccum();
-}

@@ -1,5 +1,7 @@
 ﻿#include "Vector.h"
 
+#include <string>
+
 Vector::Vector()
 {
     this->x = 0;

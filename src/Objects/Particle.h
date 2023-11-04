@@ -1,15 +1,14 @@
 ﻿#pragma once
 #include "DataStructures/Vector.h"
-#include "GameObject.h"
+#include "RigidBody.h"
 
-class Particle : public GameObject
+class Particle : public RigidBody
 {
 protected:
     float inversedMass;
 
 public:
-    Vector velocity;
-    Vector accumForce;
+    
     float time;
     float radius;
 
@@ -24,8 +23,6 @@ public:
     float getMass();
     float getInversedMass();
     void setMass(float m);
-    void eulerIntegration(float delta_t);
     Particle* duplicate();
-    void addForce(Vector force);
-    void clearAccum();
+    
 };
