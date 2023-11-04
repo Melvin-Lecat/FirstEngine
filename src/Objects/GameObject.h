@@ -11,6 +11,7 @@ public:
     int color[3] = {255, 255, 255};
     float gravity;
     Vector position;
+    of3dPrimitive shape;
 
     void setPosition(Vector newPosition);
     float calculateDistance(GameObject* other);

@@ -24,5 +24,6 @@ public:
     float getInversedMass();
     void setMass(float m);
     Particle* duplicate();
+    //TODO: setup function
     
 };

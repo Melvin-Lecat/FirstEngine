@@ -11,6 +11,7 @@ Particle::Particle()
     this->color[2] = 255;
     this->radius = 1;
     this->gravity = 9.81;
+    this->shape = ofSpherePrimitive();
 }
 
 Particle::Particle(Vector velocity, float mass)
@@ -24,6 +25,7 @@ Particle::Particle(Vector velocity, float mass)
     this->color[2] = 255;
     this->radius = 1;
     this->gravity = 9.81;
+    this->shape = ofSpherePrimitive();
 }
 
 Particle::Particle(Vector velocity, float mass, float radius)
@@ -37,6 +39,7 @@ Particle::Particle(Vector velocity, float mass, float radius)
     this->color[2] = 255;
     this->radius = radius;
     this->gravity = 9.81;
+    this->shape = ofSpherePrimitive();
 }
 
 Particle::Particle(Vector velocity, float mass, float radius, float gravity)
@@ -50,6 +53,7 @@ Particle::Particle(Vector velocity, float mass, float radius, float gravity)
     this->color[2] = 255;
     this->radius = radius;
     this->gravity = gravity;
+    this->shape = ofSpherePrimitive();
 }
 
 Particle::Particle(Vector velocity, float mass, int r, int g, int b, float radius)
@@ -63,6 +67,7 @@ Particle::Particle(Vector velocity, float mass, int r, int g, int b, float radiu
     this->color[2] = b;
     this->radius = radius;
     this->gravity = 9.81;
+    this->shape = ofSpherePrimitive();
 }
 
 
