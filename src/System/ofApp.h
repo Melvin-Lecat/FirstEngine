@@ -42,6 +42,8 @@ public:
     bool simPause = false;
 
     void clearParticles();
+    void unitTests();
+    void vectorTests();
 
     // Variables to setup the initial parameters of the particle
     Vector particleOrigin = Vector(0, 0, 0);

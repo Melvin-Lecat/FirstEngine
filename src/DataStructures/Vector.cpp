@@ -32,13 +32,13 @@ Vector::Vector(float x, float y, float z, float w)
     this->w = w;
 }
 
-
+bool Vector::operator ==(Vector v) { return this->x == v.x && this->y == v.y && this->z == v.z; }
+bool Vector::operator !=(Vector v) { return this->x != v.x || this->y != v.y || this->z != v.z; }
 Vector Vector::operator +(Vector v) { return Vector(this->x + v.x, this->y + v.y, this->z + v.z); }
 Vector Vector::operator +=(Vector v) { return Vector(this->x += v.x, this->y += v.y, this->z += v.z); }
 Vector Vector::operator -(Vector v) { return Vector(this->x - v.x, this->y - v.y, this->z - v.z); }
 Vector Vector::operator -=(Vector v) { return Vector(this->x -= v.x, this->y -= v.y, this->z -= v.z); }
-float Vector::operator *(Vector v) { return this->x * v.x + this->y * v.y; }
-float Vector::operator *=(Vector v) { return this->x * v.x + this->y * v.y; }
+float Vector::operator *(Vector v) { return this->x * v.x + this->y * v.y + this->z * v.z; }
 Vector Vector::operator *(float k) { return Vector(this->x * k, this->y * k, this->z * k); }
 Vector Vector::operator *=(float k) { return Vector(this->x *= k, this->y *= k, this->z *= k); }
 
@@ -93,9 +93,13 @@ Vector Vector::vectorialProduct(Vector w)
     return Vector(y * w.z - z * w.y, z * w.x - x * w.z, x * w.y - y * w.x);
 }
 
+/**
+ * @param v the other vector
+ * @return the projection of this vector on the other vector
+ */
 Vector Vector::projection(Vector v)
 {
-    auto scal = (*this)*v ;
-    auto amp = (v.squaredMagnitude());
-    return v*(scal / amp);
+    auto scal = *this * v ;
+    auto amp = v.squaredMagnitude();
+    return v * (scal / amp);
 }

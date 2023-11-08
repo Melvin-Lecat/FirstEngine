@@ -3,11 +3,15 @@
 #include "Forces/ParticleGravity.h"
 #include "Forces/FixedSpringGenerator.h"
 #include "Forces/ParticleFriction.h"
+#include "Tests/VectorTest.h"
 #define RAD 15
 
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+    // Run the unit tests
+    unitTests();
+    
     // Set the color of the items
     ofSetColor(255, 255, 255);
     // Present the user manual
@@ -433,4 +437,23 @@ void ofApp::clearParticles()
     }
     tabParticle.clear();
     cout << "Cleared" << tabParticle.size() << endl;
+}
+
+/////////////////////////////// UNIT TESTS ///////////////////////////////
+
+/**
+ * @brief Run the unit tests
+ * 
+ */
+void ofApp::unitTests()
+{
+    vectorTests();
+}
+
+void ofApp::vectorTests()
+{
+    VectorTest vectorTest;
+    vectorTest.testScalarProduct();
+    vectorTest.testVectorialProduct();
+    vectorTest.testProjection();
 }

@@ -16,14 +16,14 @@ public:
     Vector(float x, float y, float z, float w);
 
     // Operators
+    bool operator ==(Vector v);
+    bool operator !=(Vector v);
     Vector operator +(Vector v);
     Vector operator +=(Vector v);
     Vector operator -(Vector v);
     Vector operator -=(Vector v);
-    bool operator ==(Vector v);
     // Scalar product
     float operator *(Vector v); 
-    float operator *=(Vector v);
     // Multiplication by scalar
     Vector operator *(float k); 
     Vector operator *=(float k);
