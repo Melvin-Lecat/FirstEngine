@@ -99,7 +99,7 @@ Vector Vector::vectorialProduct(Vector w)
  */
 Vector Vector::projection(Vector v)
 {
-    auto scal = *this * v ;
+    auto scal = *this * v;
     auto amp = v.squaredMagnitude();
     return v * (scal / amp);
 }

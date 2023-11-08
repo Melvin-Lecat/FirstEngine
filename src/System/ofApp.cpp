@@ -442,7 +442,7 @@ void ofApp::clearParticles()
 /////////////////////////////// UNIT TESTS ///////////////////////////////
 
 /**
- * @brief Run the unit tests
+ * @brief Run the unit tests, show nothing if all tests are passed
  * 
  */
 void ofApp::unitTests()
@@ -453,6 +453,7 @@ void ofApp::unitTests()
 void ofApp::vectorTests()
 {
     VectorTest vectorTest;
+    
     vectorTest.testScalarProduct();
     vectorTest.testVectorialProduct();
     vectorTest.testProjection();

@@ -37,7 +37,7 @@ void VectorTest::testProjection()
 {
     Vector v1 = Vector(1, 0, 0);
     Vector v2 = Vector(4, 5, 6);
-    auto result = v1.projection(v2);
+    auto result = v2.projection(v1);
 
     if (result != Vector(4, 0, 0))
     {
