@@ -1,7 +1,7 @@
 #pragma once
-#include "GameObject.h"
+#include "RigidBody.h"
 
-class Rectangle : GameObject
+class Rectangle : public RigidBody
 {
     float width;
     float height;
