@@ -24,6 +24,14 @@ Vector::Vector(float x, float y, float z)
     this->w = 0;
 }
 
+Vector::Vector(float x, float y, float z, float w)
+{
+    this->x = x;
+    this->y = y;
+    this->z = z;
+    this->w = w;
+}
+
 
 Vector Vector::operator +(Vector v) { return Vector(this->x + v.x, this->y + v.y, this->z + v.z); }
 Vector Vector::operator +=(Vector v) { return Vector(this->x += v.x, this->y += v.y, this->z += v.z); }
