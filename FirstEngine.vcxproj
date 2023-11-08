@@ -1306,6 +1306,9 @@
             <MultiProcessorCompilation>true</MultiProcessorCompilation>
             <LinkCompiled>true</LinkCompiled>
         </ClCompile>
+        <ClCompile Include="src\Tests\MatrixTest.cpp" />
+        <ClCompile Include="src\Tests\QuaternionTest.cpp" />
+        <ClCompile Include="src\Tests\VectorTest.cpp" />
     </ItemGroup>
     <ItemGroup>
         <ClInclude Include="src\DataStructures\Matrix.h"/>
@@ -1325,6 +1328,9 @@
         <ClInclude Include="src\Objects\Rectangle.h"/>
         <ClInclude Include="src\Objects\RigidBody.h" />
         <ClInclude Include="src\System\ofApp.h"/>
+        <ClInclude Include="src\Tests\MatrixTest.h" />
+        <ClInclude Include="src\Tests\QuaternionTest.h" />
+        <ClInclude Include="src\Tests\VectorTest.h" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">

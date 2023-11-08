@@ -50,7 +50,6 @@ public:
     Particle currentParticle = Particle(particleVelocity, 1, 9.81f, 15.0f);
     bool blobgame = false;
     Particle mainParticle;
-    Quaternion rotation = Quaternion(90, Vector(1,0,0));
-    Vector testQuaternion = Vector(10,10,10,10);
+    
 };
 

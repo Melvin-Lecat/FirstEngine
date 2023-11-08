@@ -10,8 +10,6 @@ void ofApp::setup()
 {
     // Set the color of the items
     ofSetColor(255, 255, 255);
-    testQuaternion = rotation.applyRotation(testQuaternion, rotation);
-    cout<<testQuaternion.to_string();
     // Present the user manual
     cout << "User Manual:\n"
         "\tPress 'p' to pause simulation\n"
