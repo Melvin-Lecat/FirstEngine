@@ -13,6 +13,7 @@ public:
     Vector();
     Vector(float x, float y);
     Vector(float x, float y, float z);
+    Vector(float x, float y, float z, float w);
 
     // Operators
     Vector operator +(Vector v);

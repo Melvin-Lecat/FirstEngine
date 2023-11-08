@@ -179,6 +179,8 @@
             <MultiProcessorCompilation>true</MultiProcessorCompilation>
             <LinkCompiled>true</LinkCompiled>
         </ClCompile>
+        <ClCompile Include="src\DataStructures\Matrix4x4.cpp" />
+        <ClCompile Include="src\DataStructures\Quaternion.cpp" />
         <ClCompile Include="src\DataStructures\Vector.cpp">
             <AssemblerOutput>NoListing</AssemblerOutput>
             <AssemblerListingLocation>obj\x64\Debug\</AssemblerListingLocation>
@@ -1232,6 +1234,8 @@
     </ItemGroup>
     <ItemGroup>
         <ClInclude Include="src\DataStructures\Matrix.h"/>
+        <ClInclude Include="src\DataStructures\Matrix4x4.h" />
+        <ClInclude Include="src\DataStructures\Quaternion.h" />
         <ClInclude Include="src\DataStructures\Vector.h"/>
         <ClInclude Include="src\Forces\FixedSpringGenerator.h"/>
         <ClInclude Include="src\Forces\ParticleElastic.h"/>
