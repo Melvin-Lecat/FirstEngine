@@ -1,8 +1,22 @@
 #include "GameObject.h"
 
-void GameObject::setPosition(Vector newPosition)
+GameObject::GameObject()
 {
-    this->position = newPosition;
+    this->gravity = 0;
+    this->position = Vector(0, 0, 0);
+    this->linearVelocity = Vector(0, 0, 0);
+    this->angularVelocity = Vector(0, 0, 0);
+    this->linearAcceleration = Vector(0, 0, 0);
+}
+
+GameObject::GameObject(float gravity, Vector position, Vector linearVelocity, Vector angularVelocity,
+                       Vector linearAcceleration)
+{
+    this->gravity = gravity;
+    this->position = position;
+    this->linearVelocity = linearVelocity;
+    this->angularVelocity = angularVelocity;
+    this->linearAcceleration = linearAcceleration;
 }
 
 /**
@@ -24,4 +38,29 @@ void GameObject::setGravity(float gravity)
 float GameObject::getGravity()
 {
     return this->gravity;
+}
+
+void GameObject::setPosition(Vector newPosition)
+{
+    this->position = newPosition;
+}
+
+void GameObject::setLinearVelocity(Vector linearVelocity)
+{
+    this->linearVelocity = linearVelocity;
+}
+
+void GameObject::setAngularVelocity(Vector angularVelocity)
+{
+    this->angularVelocity = angularVelocity;
+}
+
+void GameObject::setLinearAcceleration(Vector linearAcceleration)
+{
+    this->linearAcceleration = linearAcceleration;
+}
+
+void GameObject::setAngularAcceleration(Vector angularAcceleration)
+{
+    this->angularAcceleration = angularAcceleration;
 }
