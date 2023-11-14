@@ -52,6 +52,8 @@ public:
     Particle currentParticle = Particle(particleVelocity, 1, 9.81f, 15.0f);
     bool blobgame = false;
     Particle mainParticle;
+
+    ofCamera cam ;
     
 };
 

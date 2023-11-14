@@ -256,6 +256,7 @@
             <MultiProcessorCompilation>true</MultiProcessorCompilation>
             <LinkCompiled>true</LinkCompiled>
         </ClCompile>
+        <ClCompile Include="src\Forces\CollisionManager2D.cpp" />
         <ClCompile Include="src\Forces\FixedSpringGenerator.cpp">
             <AssemblerOutput>NoListing</AssemblerOutput>
             <AssemblerListingLocation>obj\x64\Debug\</AssemblerListingLocation>
@@ -1241,6 +1242,7 @@
         <ClInclude Include="src\DataStructures\Matrix4x4.h" />
         <ClInclude Include="src\DataStructures\Quaternion.h" />
         <ClInclude Include="src\DataStructures\Vector.h"/>
+        <ClInclude Include="src\Forces\CollisionManager2D.h" />
         <ClInclude Include="src\Forces\FixedSpringGenerator.h"/>
         <ClInclude Include="src\Forces\ParticleElastic.h"/>
         <ClInclude Include="src\Forces\ParticleForceGenerator.h"/>

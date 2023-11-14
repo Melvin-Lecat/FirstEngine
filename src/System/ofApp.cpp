@@ -27,6 +27,9 @@ void ofApp::setup()
         "\tPress 'r' to fire a very heavy bullet\n"
         "\tPress 't' to fire a custom bullet\n"
         << endl;
+
+    cam.
+     
 }
 
 /**
