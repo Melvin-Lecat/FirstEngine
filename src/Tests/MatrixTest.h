@@ -3,5 +3,4 @@
 class MatrixTest
 {
 public:
-    
 };

@@ -3,18 +3,23 @@
 #include "Forces/ParticleGravity.h"
 #include "Forces/FixedSpringGenerator.h"
 #include "Forces/ParticleFriction.h"
+#include "Objects/CollisionManager2D.h"
 #include "Tests/VectorTest.h"
 #define RAD 15
+
+
+bool bHelpText;
 
 //--------------------------------------------------------------
 void ofApp::setup()
 {
     // Run the unit tests
     unitTests();
-    
+
     // Set the color of the items
     ofSetColor(255, 255, 255);
     // Present the user manual
+    // TODO: => UI temporaire 
     cout << "User Manual:\n"
         "\tPress 'p' to pause simulation\n"
         "\tPress 'i' to clear all bullets\n"
@@ -27,9 +32,15 @@ void ofApp::setup()
         "\tPress 'r' to fire a very heavy bullet\n"
         "\tPress 't' to fire a custom bullet\n"
         << endl;
+    boxObject.position = Vector(0, 0, 0);
+    ofSetVerticalSync(true);
 
-    cam.
-     
+    // this uses depth information for occlusion
+    // rather than always drawing things on top of each other
+    ofEnableDepthTest();
+
+    ofSetCircleResolution(64);
+    bHelpText = true;
 }
 
 /**
@@ -57,59 +68,6 @@ void ofApp::checkUnboundParticles()
     }
 }
 
-/**
- * @brief Return the new velocity of the Particle 1 when in collision with the Particle 2
- *
- */
-Vector ofApp::updateCollision(float e, Particle* p1, Particle p2)
-{
-    Vector n = (p2.position - p1->position).normalized();
-    float K = n * (p1->velocity - p2.velocity) * (e + 1) / (p1->getInversedMass() + p2.getInversedMass());
-    //auto P = p1.velocity * p1.getMass();
-    auto updatedVelocity = p1->velocity - n * K * p1->getInversedMass();
-    auto move = updatedVelocity.normalized() * glm::abs((p1->radius + p2.radius) - p1->position.distance(p2.position));
-    p1->position += move * (p1->getMass() / (p1->getMass() + p2.getMass()));
-    return updatedVelocity;
-}
-
-/**
- * @brief Check all the collisions between each particle
- *
- */
-void ofApp::checkCollision()
-{
-    float e = 0.9;
-    int numCollisions = 0;
-    int tests = 0;
-    // Iterates over the list of particles
-    for (auto particle1 = tabParticle.begin(); particle1 != tabParticle.end();)
-    {
-        // Iterates over the list of particles not yet checked
-        for (auto particle2 = tabParticle.begin(); particle2 != particle1;)
-        {
-            if ((*particle1)->checkCollision(*particle2))
-            {
-                ++numCollisions;
-                Particle* p1 = (*particle1);
-                Particle* p2 = (*particle2);
-                // P' = P + Kn
-                // Applica1tion de la force sur P1
-                Particle* p1Copy = p1->duplicate();
-
-                p1->velocity = updateCollision(e, p1, *p2);
-
-                // Application de la force sur P2
-                p2->velocity = updateCollision(e, p2, *p1Copy);
-            }
-            ++tests;
-
-            ++particle2;
-        }
-        ++particle1;
-    }
-    //if (numCollisions)
-    //    cout << "Number of collisions: " << numCollisions << endl;
-}
 
 void ofApp::checkBoundaries()
 {
@@ -165,20 +123,21 @@ void ofApp::updateForces()
 //--------------------------------------------------------------
 void ofApp::update()
 {
-    for (int i = 0; i < 5; i++) {
-        checkCollision();
-        checkBoundaries();
-        if (simPause) return;
-        // Set the delta time using the last frame time
-        updateForces();
-        updateParticles(tabParticle, ofGetLastFrameTime());
-    }
+    CollisionManager2D::CheckCollision(tabParticle);
+    checkBoundaries();
+    if (simPause) return;
+    // Set the delta time using the last frame time
+    updateForces();
+    updateParticles(tabParticle, ofGetLastFrameTime());
+    boxObject.eulerIntegration(ofGetLastFrameTime());
+    boxObject.shape.setOrientation(boxObject.orientation.q());
+    camera.lookAt(boxObject.position.v3());
 }
 
 void ofApp::DrawParticle(Particle p)
 {
     ofSetColor(p.color[0], p.color[1], p.color[2]);
-    Vector realPos = Vector(p.position.x, ofGetHeight() - p.position.y);
+    auto realPos = Vector(p.position.x, ofGetHeight() - p.position.y);
     ofDrawCircle(realPos.v2(), p.radius);
     ofSetColor(255, 255, 255);
 }
@@ -188,8 +147,8 @@ void ofApp::DrawSystem()
     ofSetColor(OF_CONSOLE_COLOR_YELLOW);
     ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, RAD);
     // Drawing the cursor for initial velocity
-    Vector tempOrigin = Vector(particleOrigin.x, ofGetHeight() - particleOrigin.y);
-    Vector tempVelocity = Vector(particleVelocity.x, ofGetHeight() - particleVelocity.y);
+    auto tempOrigin = Vector(particleOrigin.x, ofGetHeight() - particleOrigin.y);
+    auto tempVelocity = Vector(particleVelocity.x, ofGetHeight() - particleVelocity.y);
     ofSetColor(OF_CONSOLE_COLOR_GREEN);
     ofDrawCircle(tempOrigin.v2(), RAD / 2);
     ofSetColor(255, 255, 255);
@@ -212,20 +171,68 @@ void ofApp::DrawParticles()
     }
 }
 
+void ofApp::drawInteractionArea()
+{
+    ofRectangle vp = ofGetCurrentViewport();
+    float r = std::min<float>(vp.width, vp.height) * 0.5f;
+    float x = vp.width * 0.5f;
+    float y = vp.height * 0.5f;
+
+    ofPushStyle();
+    ofSetLineWidth(3);
+    ofSetColor(255, 255, 0);
+    ofNoFill();
+    glDepthMask(false);
+    ofDrawCircle(x, y, r);
+    glDepthMask(true);
+    ofPopStyle();
+}
+
 //--------------------------------------------------------------
 void ofApp::draw()
 {
+    /*camera.setGlobalPosition({ 0,0,0 });
+    camera.begin();
+    camera.lookAt(boxObject.position.v3());
     DrawSystem();
     DrawParticles();
+    //boxObject.setPosition(Vector(ofGetWidth() / 2, ofGetHeight() / 2,0));
+
+    camera.end();*/
+
+    ofBackground(20);
+    cam.begin();
+    ofEnableDepthTest();
+
+    boxObject.setPosition(Vector(0,0,0));
+    boxObject.shape.setOrientation(boxObject.orientation.q());
+    boxObject.shape.draw();
+
+    box.setPosition(0,0,0);
+    cout << "Width: " << boxObject.getWidth() << endl;
+    box.set(boxObject.getWidth(), boxObject.getHeight(), boxObject.getDepth());
+    box.setOrientation(boxObject.orientation.q());
+    box.draw();
+
+
+    ofDrawGrid(1,50,true,true,true,true);
+    ofDisableDepthTest();
+
+    
+    cam.end();
+    drawInteractionArea();
+    ofSetColor(255);
+
 }
 
+// TODO: A archiver
 void ofApp::SetupBlobGame()
 {
-    Vector positioncentre = Vector(ofGetWidth() / 2, ofGetHeight() / 2);
-    Vector blobdroite = Vector(60, 0);
-    Vector blobgauche = Vector(-60, 0);
-    Vector blobhaut = Vector(0, 60);
-    Vector blobbas = Vector(0, -60);
+    auto positioncentre = Vector(ofGetWidth() / 2, ofGetHeight() / 2);
+    auto blobdroite = Vector(60, 0);
+    auto blobgauche = Vector(-60, 0);
+    auto blobhaut = Vector(0, 60);
+    auto blobbas = Vector(0, -60);
 
     clearParticles();
     blobgame = true;
@@ -305,7 +312,7 @@ void ofApp::keyPressed(int key)
         case OF_KEY_RIGHT:
             if (simPause) { updateParticles(tabParticle, ofGetLastFrameTime()); }
             break;
-        case 'a':
+        /*case 'a':
             cout << "Standard bullet" << endl;
             currentParticle = Particle(particleVelocity, 1, 10.0f);
             break;
@@ -316,7 +323,7 @@ void ofApp::keyPressed(int key)
         case 'e':
             cout << "Heavy bullet" << endl;
             currentParticle = Particle(particleVelocity, 10, 255, 255, 0, 20.0f);
-            break;
+            break;*/
         case 'r':
             cout << "Very heavy bullet" << endl;
             currentParticle = Particle(particleVelocity, 100, 255, 255, 255, 40.0f);
@@ -336,9 +343,54 @@ void ofApp::keyPressed(int key)
         case 'l':
             cout << "Particles: " << tabParticle.size() << endl;
             break;
+        case 'z':
+            cout << "Expected position: " << camera.getPosition() + Vector(0, ofGetLastFrameTime(), 0).v3() << endl;
+            camera.setPosition(camera.getPosition() + Vector(0, ofGetLastFrameTime(), 0).v3());
+            cout << "Camera position: " << camera.getPosition() << endl;
+            break;
+        case 's':
+            camera.setPosition(camera.getPosition() + Vector(0, -ofGetLastFrameTime(), 0).v3());
+            break;
+        case 'q':
+            camera.setPosition(camera.getPosition() + Vector(-ofGetLastFrameTime(), 0, 0).v3());
+            break;
+        case 'd':
+            camera.setPosition(camera.getPosition() + Vector(ofGetLastFrameTime(), 0, 0).v3());
+            break;
+        case 'a':
+            camera.setPosition(camera.getPosition() + Vector(0, 0, -ofGetLastFrameTime()).v3());
+            break;
+        case 'e':
+            camera.setPosition(camera.getPosition() + Vector(0, 0, ofGetLastFrameTime()).v3());
+            break;
         default:
             break;
         }
+    }
+    switch(key) {
+    case ' ':
+        cam.getOrtho() ? cam.disableOrtho() : cam.enableOrtho();
+        break;
+    case 'C':
+    case 'c':
+        cam.getMouseInputEnabled() ? cam.disableMouseInput() : cam.enableMouseInput();
+        break;
+    case 'F':
+    case 'f':
+        ofToggleFullscreen();
+        break;
+    case 'H':
+    case 'h':
+        bHelpText ^=true;
+        break;
+    case 'I':
+    case 'i':
+        cam.getInertiaEnabled() ? cam.disableInertia() : cam.enableInertia();
+        break;
+    case 'Y':
+    case 'y':
+        cam.setRelativeYAxis(!cam.getRelativeYAxis());
+        break;
     }
 }
 
@@ -455,7 +507,7 @@ void ofApp::unitTests()
 void ofApp::vectorTests()
 {
     VectorTest vectorTest;
-    
+
     vectorTest.testScalarProduct();
     vectorTest.testVectorialProduct();
     vectorTest.testProjection();

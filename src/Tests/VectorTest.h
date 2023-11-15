@@ -4,10 +4,7 @@
 class VectorTest
 {
 public:
-    
     void testScalarProduct();
     void testVectorialProduct();
     void testProjection();
-    
-    
 };

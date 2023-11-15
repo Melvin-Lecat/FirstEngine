@@ -2,6 +2,25 @@
 
 #include "Particle.h"
 
+RigidBody::RigidBody()
+{
+    this->gravity = 0;
+    this->position = Vector(0, 0, 0);
+    this->linearVelocity = Vector(0, 0, 0);
+    this->angularVelocity = Vector(0, 0, 0);
+    this->linearAcceleration = Vector(0, 0, 0);
+}
+
+RigidBody::RigidBody(float _gravity, Vector _linearVelocity, Vector _angularVelocity,
+    Vector _linearAcceleration)
+{
+    this->gravity = _gravity;
+    this->linearVelocity = _linearVelocity;
+    this->angularVelocity = _angularVelocity;
+    this->linearAcceleration = _linearAcceleration;
+}
+
+
 /**
  * @brief Calculate the new position of the particle using the Euler integration method
  * 
@@ -15,6 +34,15 @@ void RigidBody::eulerIntegration(float delta_t)
 
     // ... and its position
     position += velocity * delta_t;
+
+    {
+        angularVelocity = Vector(0, 0, 2);
+        angularVelocity += angularAcceleration * delta_t;
+        orientation = orientation + orientation.multiplication(orientation, Quaternion::toQuaternion(angularVelocity)) * 0.5 *
+            delta_t;
+
+    }
+
     clearAccum();
 }
 
@@ -35,4 +63,51 @@ void RigidBody::addForce(Vector force)
 void RigidBody::clearAccum()
 {
     this->accumForce = Vector(0, 0, 0);
+}
+
+/**
+ * @brief Calculate the distance between this object and another
+ * 
+ * @param other The other object
+ * @return The distance between the two objects
+ */
+float RigidBody::calculateDistance(GameObject* other)
+{
+    return this->position.distance(other->position);
+}
+
+
+void RigidBody::setGravity(float gravity)
+{
+    this->gravity = gravity;
+}
+
+float RigidBody::getGravity()
+{
+    return this->gravity;
+}
+
+void RigidBody::setPosition(Vector newPosition)
+{
+    this->position = newPosition;
+}
+
+void RigidBody::setLinearVelocity(Vector linearVelocity)
+{
+    this->linearVelocity = linearVelocity;
+}
+
+void RigidBody::setAngularVelocity(Vector angularVelocity)
+{
+    this->angularVelocity = angularVelocity;
+}
+
+void RigidBody::setLinearAcceleration(Vector linearAcceleration)
+{
+    this->linearAcceleration = linearAcceleration;
+}
+
+void RigidBody::setAngularAcceleration(Vector angularAcceleration)
+{
+    this->angularAcceleration = angularAcceleration;
 }

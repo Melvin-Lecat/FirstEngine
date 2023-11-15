@@ -9,7 +9,7 @@ public:
 
     Matrix4x4(Vector v1, Vector v2, Vector v3);
     Matrix4x4(Vector v1, Vector v2, Vector v3, Vector v4);
-    
+
     Matrix4x4 operator +(Matrix4x4 m);
     Matrix4x4 operator +=(Matrix4x4 m);
     Matrix4x4 operator -(Matrix4x4 m);
@@ -20,8 +20,6 @@ public:
     // Multiplication by scalar
     Matrix4x4 operator *(float k);
     Matrix4x4 operator *=(float k);
-    
-    static Matrix4x4 zero();
-    
-};
 
+    static Matrix4x4 zero();
+};

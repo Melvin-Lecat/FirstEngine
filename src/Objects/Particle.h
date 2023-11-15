@@ -9,7 +9,6 @@ protected:
     float inversedMass;
 
 public:
-    
     float time;
     float radius;
 
@@ -29,5 +28,4 @@ public:
     void draw() override;
     void updateColor() override;
     //TODO: setup function
-    
 };

@@ -3,6 +3,25 @@
 
 class Box : public RigidBody
 {
+private:
+
+public:
+    float getWidth()
+    {
+        return width;
+    }
+        
+    float getHeight()
+    {
+        return height;
+    }
+    float getDepth()
+    {
+        return depth;
+    }
+
+private:
+    
     float width;
     float height;
     float depth;

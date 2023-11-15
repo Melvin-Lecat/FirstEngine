@@ -13,7 +13,7 @@ public:
         ParticleForceGenerator* fg;
     };
 
-    typedef std::vector<ParticleForceRegistration> Registre;
+    using Registre = std::vector<ParticleForceRegistration>;
     Registre rg;
     void add(Particle* particle, ParticleForceGenerator* fg);
     void remove(Particle* particle, ParticleForceGenerator* forceGenerator);

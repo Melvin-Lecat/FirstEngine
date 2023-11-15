@@ -103,3 +103,4 @@ Vector Vector::projection(Vector v)
     auto amp = v.squaredMagnitude();
     return v * (scal / amp);
 }
+

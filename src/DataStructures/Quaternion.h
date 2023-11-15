@@ -6,7 +6,7 @@
 class Quaternion
 {
 public:
-    float w,x,y,z;
+    float w, x, y, z;
     Quaternion(float w, float x, float y, float z);
     Quaternion(float angle, Vector n);
     //passage quaternion vers matrice 4x4
@@ -25,7 +25,11 @@ public:
     //Quaternion slerp(Quaternion q1, Quaternion q2, float t);
     Vector applyRotation(Vector v, Quaternion q);
     Matrix quatToMat();
-    
+    Quaternion operator *(float val);
+
     Quaternion operator /(float k);
-    
+    Quaternion operator +(Quaternion q);
+    static Quaternion toQuaternion(Vector v);
+    std::string to_string();
+    glm::quat q();
 };

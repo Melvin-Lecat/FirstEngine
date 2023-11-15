@@ -5,34 +5,34 @@
 #include "DataStructures/Vector.h"
 #include "Objects/Particle.h"
 #include "Forces/ParticleForceRegistry.h"
+#include "Objects/Box.h"
 
 class ofApp : public ofBaseApp
 {
 public:
     void setup();
-    void checkUnboundParticles();
-    void checkCollision();
+    void checkUnboundParticules();
     void checkBoundaries();
     void updateForces();
-    Vector updateCollision(float e, Particle* p1, Particle p2);
-    void update();
+    void update() ;
     void DrawParticle(Particle p);
     void DrawSystem();
     void DrawParticles();
-    void draw();
+    void drawInteractionArea();
+    void draw() ;
     void SetupBlobGame();
 
-    void keyPressed(int key);
-    void keyReleased(int key);
-    void mouseMoved(int x, int y);
-    void mouseDragged(int x, int y, int button);
-    void mousePressed(int x, int y, int button);
-    void mouseReleased(int x, int y, int button);
-    void mouseEntered(int x, int y);
-    void mouseExited(int x, int y);
-    void windowResized(int w, int h);
-    void dragEvent(ofDragInfo dragInfo);
-    void gotMessage(ofMessage msg);
+    void keyPressed(int key) ;
+    void keyReleased(int key) ;
+    void mouseMoved(int x, int y) ;
+    void mouseDragged(int x, int y, int button) ;
+    void mousePressed(int x, int y, int button) ;
+    void mouseReleased(int x, int y, int button) ;
+    void mouseEntered(int x, int y) ;
+    void mouseExited(int x, int y) ;
+    void windowResized(int w, int h) ;
+    void dragEvent(ofDragInfo dragInfo) ;
+    void gotMessage(ofMessage msg) ;
     void updateParticles(std::list<Particle*> tabParticle, float deltaT);
 
 
@@ -53,7 +53,8 @@ public:
     bool blobgame = false;
     Particle mainParticle;
 
-    ofCamera cam ;
-    
+    ofCamera camera;
+    Box boxObject = Box(1, 2, 3);
+    ofEasyCam cam;
+    ofBoxPrimitive box;
 };
-

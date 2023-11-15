@@ -96,6 +96,7 @@ Particle* Particle::duplicate()
     return new Particle(*this);
 }
 
+
 /**
  * @brief Check the collision with another particle
  *
