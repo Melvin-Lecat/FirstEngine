@@ -1,99 +1,69 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<ItemGroup>
-		<ClCompile Include="src\ofApp.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
-		<ClCompile Include="src\main.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
-		<ClCompile Include="src\GameObject.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
-		<ClCompile Include="src\Matrix.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
-		<ClCompile Include="src\Particle.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
-		<ClCompile Include="src\ParticleForceGenerator.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
-		<ClCompile Include="src\ParticleForceRegistry.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
-		<ClCompile Include="src\ParticleFriction.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
-		<ClCompile Include="src\ParticleGravity.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
-		<ClCompile Include="src\ParticleSpringHook.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
-		<ClCompile Include="src\Rectangle.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
-		<ClCompile Include="src\SpringGenerator.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
-		<ClCompile Include="src\Vector.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
-		<ClCompile Include="src\main.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
-		<ClCompile Include="src\ofApp.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
-	</ItemGroup>
-	<ItemGroup>
-		<Filter Include="src">
-			<UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
-		</Filter>
-	</ItemGroup>
-	<ItemGroup>
-		<ClInclude Include="src\ofApp.h">
-			<Filter>src</Filter>
-		</ClInclude>
-		<ClInclude Include="src\GameObject.h">
-			<Filter>src</Filter>
-		</ClInclude>
-		<ClInclude Include="src\Matrix.h">
-			<Filter>src</Filter>
-		</ClInclude>
-		<ClInclude Include="src\Particle.h">
-			<Filter>src</Filter>
-		</ClInclude>
-		<ClInclude Include="src\ParticleForceGenerator.h">
-			<Filter>src</Filter>
-		</ClInclude>
-		<ClInclude Include="src\ParticleForceRegistry.h">
-			<Filter>src</Filter>
-		</ClInclude>
-		<ClInclude Include="src\ParticleFriction.h">
-			<Filter>src</Filter>
-		</ClInclude>
-		<ClInclude Include="src\ParticleGravity.h">
-			<Filter>src</Filter>
-		</ClInclude>
-		<ClInclude Include="src\ParticleSpringHook.h">
-			<Filter>src</Filter>
-		</ClInclude>
-		<ClInclude Include="src\Rectangle.h">
-			<Filter>src</Filter>
-		</ClInclude>
-		<ClInclude Include="src\SpringGenerator.h">
-			<Filter>src</Filter>
-		</ClInclude>
-		<ClInclude Include="src\Vector.h">
-			<Filter>src</Filter>
-		</ClInclude>
-		<ClInclude Include="src\ofApp.h">
-			<Filter>src</Filter>
-		</ClInclude>
-	</ItemGroup>
-	<ItemGroup>
-		<ResourceCompile Include="icon.rc" />
-	</ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ofApp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataStructures\Matrix.cpp" />
+    <ClCompile Include="src\DataStructures\Matrix4x4.cpp" />
+    <ClCompile Include="src\DataStructures\Quaternion.cpp" />
+    <ClCompile Include="src\DataStructures\Vector.cpp" />
+    <ClCompile Include="src\Forces\FixedSpringGenerator.cpp" />
+    <ClCompile Include="src\Forces\ParticleElastic.cpp" />
+    <ClCompile Include="src\Forces\ParticleForceGenerator.cpp" />
+    <ClCompile Include="src\Forces\ParticleForceRegistry.cpp" />
+    <ClCompile Include="src\Forces\ParticleFriction.cpp" />
+    <ClCompile Include="src\Forces\ParticleGravity.cpp" />
+    <ClCompile Include="src\Forces\ParticleSpringGenerator.cpp" />
+    <ClCompile Include="src\Forces\ParticleSpringHook.cpp" />
+    <ClCompile Include="src\Objects\GameObject.cpp" />
+    <ClCompile Include="src\Objects\Particle.cpp" />
+    <ClCompile Include="src\Objects\Rectangle.cpp" />
+    <ClCompile Include="src\Objects\RigidBody.cpp" />
+    <ClCompile Include="src\System\main.cpp" />
+    <ClCompile Include="src\System\ofApp.cpp" />
+    <ClCompile Include="src\Tests\MatrixTest.cpp" />
+    <ClCompile Include="src\Tests\QuaternionTest.cpp" />
+    <ClCompile Include="src\Tests\VectorTest.cpp" />
+    <ClCompile Include="src\Forces\ParticleRod.cpp" />
+    <ClCompile Include="src\Objects\Drawable.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\ofApp.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataStructures\Matrix.h" />
+    <ClInclude Include="src\DataStructures\Matrix4x4.h" />
+    <ClInclude Include="src\DataStructures\Quaternion.h" />
+    <ClInclude Include="src\DataStructures\Vector.h" />
+    <ClInclude Include="src\Forces\FixedSpringGenerator.h" />
+    <ClInclude Include="src\Forces\ParticleElastic.h" />
+    <ClInclude Include="src\Forces\ParticleForceGenerator.h" />
+    <ClInclude Include="src\Forces\ParticleForceRegistry.h" />
+    <ClInclude Include="src\Forces\ParticleFriction.h" />
+    <ClInclude Include="src\Forces\ParticleGravity.h" />
+    <ClInclude Include="src\Forces\ParticleSpringGenerator.h" />
+    <ClInclude Include="src\Forces\ParticleSpringHook.h" />
+    <ClInclude Include="src\Objects\GameObject.h" />
+    <ClInclude Include="src\Objects\Particle.h" />
+    <ClInclude Include="src\Objects\Rectangle.h" />
+    <ClInclude Include="src\Objects\RigidBody.h" />
+    <ClInclude Include="src\System\ofApp.h" />
+    <ClInclude Include="src\Tests\MatrixTest.h" />
+    <ClInclude Include="src\Tests\QuaternionTest.h" />
+    <ClInclude Include="src\Tests\VectorTest.h" />
+    <ClInclude Include="src\Forces\ParticleRod.h" />
+    <ClInclude Include="src\Objects\Drawable.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="icon.rc" />
+  </ItemGroup>
 </Project>
