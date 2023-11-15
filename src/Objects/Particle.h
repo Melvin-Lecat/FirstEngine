@@ -1,8 +1,9 @@
 ﻿#pragma once
 #include "DataStructures/Vector.h"
 #include "RigidBody.h"
+#include "Drawable.h"
 
-class Particle : public RigidBody
+class Particle : public RigidBody, public Drawable
 {
 protected:
     float inversedMass;
@@ -24,6 +25,9 @@ public:
     float getInversedMass();
     void setMass(float m);
     Particle* duplicate();
+    bool checkCollision(Particle* particle);
+    void draw() override;
+    void updateColor() override;
     //TODO: setup function
     
 };

@@ -26,3 +26,15 @@ Rectangle::Rectangle(float width, float height, float length, int color[3])
     this->color[2] = color[2];
     this->shape = ofBoxPrimitive(width, height, length);
 }
+
+/**
+ * @brief Draw the rectangle
+ *
+ */
+void Rectangle::draw()
+{
+    ofSetColor(color[0], color[1], color[2]);
+    Vector realPos = Vector(position.x, ofGetHeight() - position.y);
+    ofDrawRectangle(realPos.v2(), width, length);
+    ofSetColor(255, 255, 255);
+}
