@@ -19,9 +19,9 @@ FixedSpringGenerator::FixedSpringGenerator(Vector point, float k, float length)
 void FixedSpringGenerator::updateForce(Particle* particle, float duration)
 {
     // Calculate the direction of the spring
-    Vector direction = (this->point - particle->position).normalized();
+    Vector direction = (particle->position - this->point).normalized();
     // Calculate the stretch of the spring
-    float stretch = glm::abs(length - particle->position.distance(point));
+    float stretch = length - particle->position.distance(point);
 
     // Apply the force
     particle->addForce(direction * k * stretch);
