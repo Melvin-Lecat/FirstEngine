@@ -15,13 +15,12 @@ RigidBody::RigidBody()
 }
 
 RigidBody::RigidBody(float _gravity, Vector _linearVelocity, Vector _angularVelocity,
-    Vector _linearAcceleration)
+                     Vector _linearAcceleration)
 {
     this->gravity = _gravity;
     this->linearVelocity = _linearVelocity;
     this->angularVelocity = _angularVelocity;
     this->linearAcceleration = _linearAcceleration;
-    
 }
 
 
@@ -40,8 +39,9 @@ void RigidBody::eulerIntegration(float delta_t)
     position += velocity * delta_t;
 
     {
-        angularVelocity = angularVelocity +  angularAcceleration * delta_t;
-        orientation = orientation + orientation.multiplication(Quaternion::toQuaternion(angularVelocity),orientation) * 0.5 *
+        angularVelocity = angularVelocity + angularAcceleration * delta_t;
+        orientation = orientation + orientation.multiplication(Quaternion::toQuaternion(angularVelocity), orientation) *
+            0.5 *
             delta_t;
         orientation = orientation / orientation.norme(orientation);
         cout << orientation.norme(orientation) << endl;

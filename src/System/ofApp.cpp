@@ -53,7 +53,8 @@ void ofApp::checkUnboundParticles()
     for (auto particle = tabParticle.begin(); particle != tabParticle.end();)
     {
         // Check if the particle is out of the screen
-        if ((*particle)->position.y < -(*particle)->radius || (*particle)->position.x > static_cast<float>(ofGetWidth()) + (*particle)->radius)
+        if ((*particle)->position.y < -(*particle)->radius || (*particle)->position.x > static_cast<float>(ofGetWidth())
+            + (*particle)->radius)
         {
             // If so, delete the particle and release the memory
             delete *particle;
@@ -108,7 +109,7 @@ void ofApp::updateForces()
     }
     else
     {
-        for (auto p = tabParticle.begin(); p != tabParticle.end(); p++)
+        for (auto p = tabParticle.begin(); p != tabParticle.end(); ++p)
         {
             FixedSpringGenerator fsg(mainParticle.position, 200, 20);
             ParticleFriction pf(0.1, 0.2);
@@ -204,25 +205,24 @@ void ofApp::draw()
     cam.begin();
     ofEnableDepthTest();
 
-    boxObject.setPosition(Vector(0,0,0));
+    boxObject.setPosition(Vector(0, 0, 0));
     boxObject.shape.setOrientation(boxObject.orientation.q());
     boxObject.shape.draw();
 
-    box.setPosition(0,0,0);
+    box.setPosition(0, 0, 0);
     box.set(boxObject.getWidth(), boxObject.getHeight(), boxObject.getDepth());
     box.setOrientation(boxObject.orientation.q());
-    
+
     box.draw();
 
 
-    ofDrawGrid(200,10,true,true,true,true);
+    ofDrawGrid(200, 10, true, true, true, true);
     ofDisableDepthTest();
 
-    
+
     cam.end();
     drawInteractionArea();
     ofSetColor(255);
-
 }
 
 // TODO: A archiver
@@ -367,7 +367,8 @@ void ofApp::keyPressed(int key)
             break;
         }
     }
-    switch(key) {
+    switch (key)
+    {
     case ' ':
         cam.getOrtho() ? cam.disableOrtho() : cam.enableOrtho();
         break;
@@ -381,7 +382,7 @@ void ofApp::keyPressed(int key)
         break;
     case 'H':
     case 'h':
-        bHelpText ^=true;
+        bHelpText ^= true;
         break;
     case 'I':
     case 'i':

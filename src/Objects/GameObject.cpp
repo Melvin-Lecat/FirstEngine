@@ -4,6 +4,7 @@ GameObject::GameObject()
 {
     this->position = Vector(0, 0, 0);
 }
+
 /**
  * @brief Calculate the distance between this object and another
  * 

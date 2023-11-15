@@ -36,7 +36,8 @@ Quaternion Quaternion::toQuaternion(Vector v)
 
 std::string Quaternion::to_string()
 {
-    return "w: " + std::to_string(this->w) + "\n x: " + std::to_string(this->x) + "\n y: " + std::to_string(this->y) + "\n z: " + std::to_string(this->z);
+    return "w: " + std::to_string(this->w) + "\n x: " + std::to_string(this->x) + "\n y: " + std::to_string(this->y) +
+        "\n z: " + std::to_string(this->z);
 }
 
 glm::quat Quaternion::q()

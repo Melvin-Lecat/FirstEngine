@@ -5,8 +5,10 @@ class DebugObject
 {
 public:
     Vector xAxis, yAxis, zAxis;
-    bool debugMode=  false;
+    bool debugMode = false;
+
     void toggleDebugMode()
     {
         debugMode = !debugMode;
-    }};
+    }
+};

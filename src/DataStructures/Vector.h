@@ -42,5 +42,4 @@ public:
     Vector normalized();
     Vector vectorialProduct(Vector w);
     Vector projection(Vector v);
-
 };

@@ -12,7 +12,7 @@ class RigidBody : public GameObject
 public:
     Vector velocity;
     Vector linearVelocity;
-    Vector angularVelocity = Vector(10,0,0);
+    Vector angularVelocity = Vector(10, 0, 0);
     Vector linearAcceleration;
     Vector angularAcceleration = Vector(0, 0, 0);
     Vector accumForce;
@@ -37,5 +37,4 @@ public:
     void setLinearVelocity(Vector linearVelocity);
     void setAngularAcceleration(Vector angularAcceleration);
     void setLinearAcceleration(Vector linearAcceleration);
-    
 };

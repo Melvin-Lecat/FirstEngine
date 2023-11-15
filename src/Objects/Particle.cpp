@@ -116,7 +116,7 @@ bool Particle::checkCollision(Particle* particle)
 void Particle::draw()
 {
     ofSetColor(color[0], color[1], color[2]);
-    Vector realPos = Vector(position.x, ofGetHeight() - position.y);
+    auto realPos = Vector(position.x, ofGetHeight() - position.y);
     ofDrawCircle(realPos.v2(), radius);
     ofSetColor(255, 255, 255);
 }
@@ -135,9 +135,9 @@ void Particle::updateColor()
     float absDistance = abs(distanceToDiagonal);
 
     // Déclaration et définition des couleurs
-    int color1[3] = { 0, 139, 139 };  // Jaune (Rouge, Vert, Bleu)
-    int color2[3] = { 102, 51, 153 };  // Cyan (Rouge, Vert, Bleu)
-    int color3[3] = { 0, 255, 127 };  // Magenta (Rouge, Vert, Bleu)
+    int color1[3] = {0, 139, 139}; // Jaune (Rouge, Vert, Bleu)
+    int color2[3] = {102, 51, 153}; // Cyan (Rouge, Vert, Bleu)
+    int color3[3] = {0, 255, 127}; // Magenta (Rouge, Vert, Bleu)
 
     if (distanceToDiagonal < 0)
     {
