@@ -54,7 +54,7 @@ public:
     Particle mainParticle;
 
     ofCamera camera;
-    Box boxObject = Box(1, 2, 3);
+    Box boxObject = Box(100, 200, 300);
     ofEasyCam cam;
     ofBoxPrimitive box;
 };

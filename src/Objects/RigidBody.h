@@ -12,12 +12,13 @@ class RigidBody : public GameObject
 public:
     Vector velocity;
     Vector linearVelocity;
-    Vector angularVelocity;
+    Vector angularVelocity = Vector(10,0,0);
     Vector linearAcceleration;
     Vector angularAcceleration = Vector(0, 0, 0);
     Vector accumForce;
-    Quaternion orientation = Quaternion(1, 0, 0, 0);
+    Quaternion orientation_0 = Quaternion(1, 0, 0, 0);
     float gravity;
+    Quaternion orientation = Quaternion(1, 0, 0, 0);
 
 
     RigidBody();

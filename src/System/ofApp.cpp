@@ -209,13 +209,13 @@ void ofApp::draw()
     boxObject.shape.draw();
 
     box.setPosition(0,0,0);
-    cout << "Width: " << boxObject.getWidth() << endl;
     box.set(boxObject.getWidth(), boxObject.getHeight(), boxObject.getDepth());
     box.setOrientation(boxObject.orientation.q());
+    
     box.draw();
 
 
-    ofDrawGrid(1,50,true,true,true,true);
+    ofDrawGrid(200,10,true,true,true,true);
     ofDisableDepthTest();
 
     
