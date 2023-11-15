@@ -33,23 +33,23 @@ void ofApp::setup()
  * @brief Check if the particles are out of the screen and delete them
  * 
  */
-void ofApp::checkUnboundParticules()
+void ofApp::checkUnboundParticles()
 {
     // Iterates over the list of particles
-    for (auto particule = tabParticle.begin(); particule != tabParticle.end();)
+    for (auto particle = tabParticle.begin(); particle != tabParticle.end();)
     {
         // Check if the particle is out of the screen
-        if ((*particule)->position.y < -RAD || (*particule)->position.x > static_cast<float>(ofGetWidth()) + RAD)
+        if ((*particle)->position.y < -(*particle)->radius || (*particle)->position.x > static_cast<float>(ofGetWidth()) + (*particle)->radius)
         {
             // If so, delete the particle and release the memory
-            delete *particule;
+            delete *particle;
             // Remove the particle from the list
-            particule = tabParticle.erase(particule);
+            particle = tabParticle.erase(particle);
         }
         else
         {
             // Else, go to the next particle
-            ++particule;
+            ++particle;
         }
     }
 }
@@ -84,13 +84,7 @@ void ofApp::checkCollision()
         // Iterates over the list of particles not yet checked
         for (auto particle2 = tabParticle.begin(); particle2 != particle1;)
         {
-            // Gets the distance and the minimal distance between the particles (squared values to be faster)
-            float d = ((*particle1)->position - (*particle2)->position).squaredMagnitude();
-            float minD = glm::pow2((*particle1)->radius + (*particle2)->radius);
-
-            // Collision only if the distance is lower than the minimal distance
-
-            if (d <= minD)
+            if ((*particle1)->checkCollision(*particle2))
             {
                 ++numCollisions;
                 Particle* p1 = (*particle1);
@@ -110,8 +104,8 @@ void ofApp::checkCollision()
         }
         ++particle1;
     }
-    if (numCollisions)
-        cout << "Number of collisions: " << numCollisions << "\r" << flush;
+    //if (numCollisions)
+    //    cout << "Number of collisions: " << numCollisions << endl;
 }
 
 void ofApp::checkBoundaries()
@@ -119,19 +113,19 @@ void ofApp::checkBoundaries()
     float f = -1;
     for (auto p : tabParticle)
     {
-        if (p->position.x < RAD)
+        if (p->position.x < p->radius)
         {
             p->velocity.x *= f;
         }
-        if (p->position.x > ofGetWidth() - RAD)
+        if (p->position.x > ofGetWidth() - p->radius)
         {
             p->velocity.x *= f;
         }
-        if (p->position.y < RAD)
+        if (p->position.y < p->radius)
         {
             p->velocity.y *= f;
         }
-        if (p->position.y > ofGetHeight() - RAD)
+        if (p->position.y > ofGetHeight() - p->radius)
         {
             p->velocity.y *= f;
         }
@@ -168,12 +162,14 @@ void ofApp::updateForces()
 //--------------------------------------------------------------
 void ofApp::update()
 {
-    checkCollision();
-    checkBoundaries();
-    if (simPause) return;
-    // Set the delta time using the last frame time
-    updateForces();
-    updateParticles(tabParticle, ofGetLastFrameTime());
+    for (int i = 0; i < 5; i++) {
+        checkCollision();
+        checkBoundaries();
+        if (simPause) return;
+        // Set the delta time using the last frame time
+        updateForces();
+        updateParticles(tabParticle, ofGetLastFrameTime());
+    }
 }
 
 void ofApp::DrawParticle(Particle p)
@@ -201,12 +197,15 @@ void ofApp::DrawParticles()
 {
     if (blobgame)
     {
-        DrawParticle(mainParticle);
+        mainParticle.draw();
+        //DrawParticle(mainParticle);
     }
     // Drawing the particles
     for (Particle* p : tabParticle)
     {
-        DrawParticle(*p);
+        p->updateColor();
+        p->draw();
+        //DrawParticle(*p);
     }
 }
 

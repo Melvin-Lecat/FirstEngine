@@ -10,7 +10,7 @@ class ofApp : public ofBaseApp
 {
 public:
     void setup();
-    void checkUnboundParticules();
+    void checkUnboundParticles();
     void checkCollision();
     void checkBoundaries();
     void updateForces();
