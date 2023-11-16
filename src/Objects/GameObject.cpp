@@ -20,3 +20,18 @@ void GameObject::setPosition(Vector newPosition)
 {
     this->position = newPosition;
 }
+
+float GameObject::getMass()
+{
+    return 1 / inversedMass;
+}
+
+float GameObject::getInversedMass()
+{
+    return inversedMass;
+}
+
+void GameObject::setMass(float m)
+{
+    inversedMass = 1 / m;
+}

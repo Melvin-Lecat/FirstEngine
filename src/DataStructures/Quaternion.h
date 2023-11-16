@@ -9,7 +9,6 @@ public:
     float w, x, y, z;
     Quaternion(float w, float x, float y, float z);
     Quaternion(float angle, Vector n);
-    //passage quaternion vers matrice 4x4
 
     // Methods
     Quaternion negation(Quaternion q);
