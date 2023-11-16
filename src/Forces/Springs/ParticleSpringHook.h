@@ -1,7 +1,7 @@
 #pragma once
 #include "Objects/Particle.h"
-#include "ParticleForceGenerator.h"
 #include "DataStructures/Vector.h"
+#include "Forces/ParticleForceGenerator.h"
 
 class ParticleSpringHook : public ParticleForceGenerator
 {

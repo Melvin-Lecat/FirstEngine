@@ -24,14 +24,24 @@ Quaternion Quaternion::operator /(float k)
     }
 }
 
+Quaternion Quaternion::operator*(float val) { return Quaternion(w * val, x * val, y * val, z * val); }
+
+Quaternion Quaternion::operator*(Quaternion q)
+{
+    return Quaternion(this->w * q.w - (this->x * q.x + this->y * q.y + this->z * q.z),
+                      this->w * q.x + q.w * this->x + (this->y * q.z - this->z * q.y),
+                      this->w * q.y + q.w * this->y + (this->z * q.x - this->x * q.z),
+                      this->w * q.z + q.w * this->z + (this->x * q.y - this->y * q.x));
+}
+
 Quaternion Quaternion::operator+(Quaternion q)
 {
     return Quaternion(this->w + q.w, this->x + q.x, this->y + q.y, this->z + q.z);
 }
 
-Quaternion Quaternion::toQuaternion(Vector v)
+Quaternion Quaternion::operator-(Quaternion q)
 {
-    return Quaternion(0, v.x, v.y, v.z);
+    return q * conjugate(*this);
 }
 
 std::string Quaternion::to_string()
@@ -40,72 +50,88 @@ std::string Quaternion::to_string()
         "\n z: " + std::to_string(this->z);
 }
 
+/**
+ * @return the opposite quaternion
+ */
+Quaternion Quaternion::opposite(Quaternion q)
+{
+    return Quaternion(-q.w, -q.x, -q.y, -q.z);
+}
+
+/**
+ * @return the quaternion corresponding to the vector
+ */
+Quaternion Quaternion::toQuaternion(Vector v)
+{
+    return Quaternion(0, v.x, v.y, v.z);
+}
+
+/**
+ * @return the quaternion corresponding to the glm::quat
+ */
 glm::quat Quaternion::q()
 {
     return glm::quat(w, x, y, z);
 }
 
-Quaternion Quaternion::negation(Quaternion q)
-{
-    return Quaternion(-q.w, -q.x, -q.y, -q.z);
-}
-
-Quaternion Quaternion::identitePos()
+/**
+ * @return the identity quaternion
+ */
+Quaternion Quaternion::identity()
 {
     return Quaternion(1, 0, 0, 0);
 }
 
-Quaternion Quaternion::identiteNeg()
+/**
+ * @return the magnitude of the quaternion
+ */
+float Quaternion::magnitude()
 {
-    return Quaternion(-1, 0, 0, 0);
+    return glm::sqrt(glm::pow2(w) + glm::pow2(x) + glm::pow2(y) + glm::pow2(z));
 }
 
-float Quaternion::norme(Quaternion q)
+Quaternion Quaternion::normalize()
 {
-    return glm::sqrt(glm::pow2(q.w) + glm::pow2(q.x) + glm::pow2(q.y) + glm::pow2(q.z));
+    return *this / magnitude();
 }
 
-Quaternion Quaternion::conjugue(Quaternion q)
+/**
+ * @return the conjugate of the quaternion
+ */
+Quaternion Quaternion::conjugate(Quaternion q)
 {
     return Quaternion(q.w, -q.x, -q.y, -q.z);
 }
 
+/**
+ * @return the inverse of the quaternion
+ */
 Quaternion Quaternion::inverse(Quaternion q)
 {
-    return conjugue(q) / norme(q);
+    return conjugate(q) / magnitude();
 }
 
-Quaternion Quaternion::multiplication(Quaternion q1, Quaternion q2)
+/**
+ * @return the scalar product of the two quaternions
+ */
+float Quaternion::scalarProduct(Quaternion q)
 {
-    return Quaternion(q1.w * q2.w - (q1.x * q2.x + q1.y * q2.y + q1.z * q2.z),
-                      q1.w * q2.x + q2.w * q1.x + (q1.y * q2.z - q1.z * q2.y),
-                      q1.w * q2.y + q2.w * q1.y + (q1.z * q2.x - q1.x * q2.z),
-                      q1.w * q2.z + q2.w * q1.z + (q1.x * q2.y - q1.y * q2.x));
+    return (this->w * q.w + this->x * q.x + this->y * q.y + this->z * q.z);
 }
 
-Quaternion Quaternion::difference(Quaternion q1, Quaternion q2)
-{
-    return multiplication(q2, conjugue(q1));
-}
-
-float Quaternion::produitScalaire(Quaternion q1, Quaternion q2)
-{
-    return (q1.w * q2.w + q1.x * q2.x + q1.y * q2.y + q1.z * q2.z);
-}
-
-/*Quaternion Quaternion::slerp(Quaternion q1, Quaternion q2, float t)
-{
-    //return multiplication(multiplication(q2, inverse(q1)),q1);
-    // Il manque la gestion de la puissance
-}*/
-
+/**
+ * @return the vector after rotation
+ */
 Vector Quaternion::applyRotation(Vector v, Quaternion q)
 {
     auto p = Quaternion(v.w, v.x, v.y, v.z);
-    Quaternion final = multiplication(multiplication(q, p), conjugue(q));
+    Quaternion final = (q * p) *  conjugate(q);
     return Vector(final.x, final.y, final.z, final.w);
 }
 
+/**
+ * @return the matrix corresponding to the quaternion
+ */
 Matrix Quaternion::quatToMat()
 {
     return Matrix(Vector(1 - 2 * (glm::pow2(this->y) + glm::pow2(this->z)), 2 * (this->x * this->y + this->z * this->w),
@@ -116,4 +142,8 @@ Matrix Quaternion::quatToMat()
                          1 - 2 * (glm::pow2(this->x) + glm::pow2(this->y))));
 }
 
-Quaternion Quaternion::operator*(float val) { return Quaternion(w * val, x * val, y * val, z * val); }
+/*Quaternion Quaternion::slerp(Quaternion q1, Quaternion q2, float t)
+{
+    //return multiplication(multiplication(q2, inverse(q1)),q1);
+    // Il manque la gestion de la puissance
+}*/

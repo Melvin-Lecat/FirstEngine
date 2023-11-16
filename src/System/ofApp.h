@@ -43,8 +43,6 @@ public:
     bool simPause = false;
 
     void clearParticles();
-    void unitTests();
-    void vectorTests();
 
     // Variables to setup the initial parameters of the particle
     Vector particleOrigin = Vector(0, 0, 0);
@@ -58,4 +56,9 @@ public:
     Box boxObject = Box(100, 200, 300);
     ofEasyCam cam;
     ofBoxPrimitive box;
+
+    // Tests methods
+    void unitTests();
+    void vectorTests();
+    void matrixTests();
 };

@@ -22,6 +22,7 @@ public:
     // Multiplication by scalar
     Matrix operator *(float k);
     Matrix operator *=(float k);
+    
     std::string to_string();
 
     static Matrix zero();
