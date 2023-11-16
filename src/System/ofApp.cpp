@@ -130,6 +130,7 @@ void ofApp::update()
     // Set the delta time using the last frame time
     updateForces();
     updateParticles(tabParticle, ofGetLastFrameTime());
+    boxObject.addForce(Vector(0,10,0), Vector(1,1,1));
     boxObject.eulerIntegration(ofGetLastFrameTime());
     boxObject.shape.setOrientation(boxObject.orientation.q());
     camera.lookAt(boxObject.position.v3());

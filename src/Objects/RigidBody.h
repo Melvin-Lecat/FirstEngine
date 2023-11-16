@@ -20,8 +20,8 @@ public:
     Quaternion orientation_0 = Quaternion(1, 0, 0, 0);
     float gravity;
     Quaternion orientation = Quaternion(1, 0, 0, 0);
-    Matrix tenseurJ;
-    Matrix inversedTenseurJ;
+    Matrix tenseurJ = Matrix::zero();
+    Matrix inversedTenseurJ = Matrix::zero();
     Vector torque = Vector(0,0,0);
 
     RigidBody();
@@ -29,6 +29,7 @@ public:
               Vector _linearAcceleration);
 
     void eulerIntegration(float delta_t);
+    void addForce(Vector force);
     void addForce(Vector force, Vector pointApplication);
     void clearAccum();
 

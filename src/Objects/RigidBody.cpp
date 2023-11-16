@@ -7,11 +7,13 @@ RigidBody::RigidBody()
     this->gravity = 0;
     this->position = Vector(0, 0, 0);
     this->linearVelocity = Vector(0, 0, 0);
-    this->angularVelocity = Vector(0, 10, 0);
+    this->angularVelocity = Vector(0, 0, 0);
     this->linearAcceleration = Vector(0, 0, 0);
-    this->angularAcceleration = Vector(0, 0, 1);
+    this->angularAcceleration = Vector(0, 0, 0);
     this->orientation_0 = Quaternion(1, 0, 0, 0);
     this->orientation = Quaternion(1, 0, 0, 0);
+    //verification récupération de tenseur venant bien de box
+    
 }
 
 RigidBody::RigidBody(float _gravity, Vector _linearVelocity, Vector _angularVelocity,
@@ -21,6 +23,8 @@ RigidBody::RigidBody(float _gravity, Vector _linearVelocity, Vector _angularVelo
     this->linearVelocity = _linearVelocity;
     this->angularVelocity = _angularVelocity;
     this->linearAcceleration = _linearAcceleration;
+    this->tenseurJ = tenseurJ;
+    this->inversedTenseurJ = inversedTenseurJ;
 }
 
 
@@ -33,12 +37,15 @@ void RigidBody::eulerIntegration(float delta_t)
 {
     // TODO: Update the implementation
     // Update the velocity of the particle...
-    velocity += accumForce * delta_t * pow(0.2, delta_t);
+   // velocity += accumForce * delta_t * pow(0.2, delta_t);
 
     // ... and its position
-    position += velocity * delta_t;
-
+   // position += velocity * delta_t;
+    
     {
+        updateInversedJ();
+        calculateAngularAcceleration();
+        
         angularVelocity = angularVelocity + angularAcceleration * delta_t;
         orientation = orientation + orientation.multiplication(Quaternion::toQuaternion(angularVelocity), orientation) *
             0.5 *
@@ -55,12 +62,20 @@ void RigidBody::eulerIntegration(float delta_t)
  * 
  * @param force 
  */
+
+void RigidBody::addForce(Vector force)
+{
+    this->accumForce += force;
+}
+
 void RigidBody::addForce(Vector force, Vector pointApplication)
 {
     this->accumForce += force;
-    //MODIF PointApplication != l
-    
-    this->torque = torque + (pointApplication.vectorialProduct(force));
+    Vector l(0,0,0);
+    l.x = abs(pointApplication.x - position.x);
+    l.y = abs(pointApplication.y - position.y);
+    l.z = abs(pointApplication.z - position.z);
+    this->torque = torque + (l.vectorialProduct(force));
 }
 
 /**
@@ -121,12 +136,14 @@ void RigidBody::setAngularAcceleration(Vector angularAcceleration)
 
 void RigidBody::calculateAngularAcceleration()
 {
-    setAngularAcceleration(torque * inversedTenseurJ());
+    setAngularAcceleration(Vector(torque.x * inversedTenseurJ.l1.x + torque.y * inversedTenseurJ.l2.x + torque.z * inversedTenseurJ.l3.x,
+        torque.x * inversedTenseurJ.l1.y + torque.y * inversedTenseurJ.l2.y + torque.z * inversedTenseurJ.l3.y,
+        torque.x * inversedTenseurJ.l1.z + torque.y * inversedTenseurJ.l2.z + torque.z * inversedTenseurJ.l3.z));
 }
 
 void RigidBody::updateInversedJ()
 {
-    inversedTenseurJ = orientation.quatToMat() * inversedTenseurJ * orientation.quatToMat(); // Changer pour inversion dernière matrice
+    inversedTenseurJ = (orientation.quatToMat() * inversedTenseurJ) * orientation.quatToMat().inverse();
 }
 
 void RigidBody::moveCenterMass(Vector translation)
