@@ -11,7 +11,7 @@ class GameObject
 public:
     int color[3] = {255, 255, 255};
     Vector position;
-    float inversedMass = 0;
+    float inversedMass = 1;
 
     of3dPrimitive shape;
 

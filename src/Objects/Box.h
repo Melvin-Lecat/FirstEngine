@@ -4,8 +4,19 @@
 class Box : public RigidBody
 {
 private:
-
+    float width;
+    float height;
+    float depth;
+    
 public:
+    Box();
+    Box(float width, float height, float length);
+    Box(float width, float height, float length, int color[3]);
+    Box(float width, float height, float length, float _gravity, Vector _linearVelocity, Vector _angularVelocity,
+        Vector _linearAcceleration, int color[3]);
+    
+    
+
     float getWidth()
     {
         return width;
@@ -21,19 +32,7 @@ public:
         return depth;
     }
 
-private:
-    float width;
-    float height;
-    float depth;
 
-public:
-    Box();
-    Box(float width, float height, float length);
-    Box(float width, float height, float length, int color[3]);
-    Box(float width, float height, float length, float _gravity, Vector _linearVelocity, Vector _angularVelocity,
-        Vector _linearAcceleration, int color[3]);
-    
-    
     /**
 * @brief Draw the rectangle
 *

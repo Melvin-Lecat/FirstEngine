@@ -3,7 +3,7 @@
 Particle::Particle()
 {
     this->position = Vector(0, 0, 0);
-    this->velocity = Vector(0, 0, 0);
+    this->linearVelocity = Vector(0, 0, 0);
     this->inversedMass = 0;
     this->time = 0;
     this->color[0] = 255;
@@ -17,7 +17,7 @@ Particle::Particle()
 Particle::Particle(Vector velocity, float mass)
 {
     this->position = Vector(0, 0, 0);
-    this->velocity = velocity;
+    this->linearVelocity = velocity;
     this->inversedMass = 1 / mass;
     this->time = 0;
     this->color[0] = 255;
@@ -31,7 +31,7 @@ Particle::Particle(Vector velocity, float mass)
 Particle::Particle(Vector velocity, float mass, float radius)
 {
     this->position = Vector(0, 0, 0);
-    this->velocity = velocity;
+    this->linearVelocity = velocity;
     this->inversedMass = 1 / mass;
     this->time = 0;
     this->color[0] = 255;
@@ -45,7 +45,7 @@ Particle::Particle(Vector velocity, float mass, float radius)
 Particle::Particle(Vector velocity, float mass, float radius, float gravity)
 {
     this->position = Vector(0, 0, 0);
-    this->velocity = velocity;
+    this->linearVelocity = velocity;
     this->inversedMass = 1 / mass;
     this->time = 0;
     this->color[0] = 255;
@@ -59,7 +59,7 @@ Particle::Particle(Vector velocity, float mass, float radius, float gravity)
 Particle::Particle(Vector velocity, float mass, int r, int g, int b, float radius)
 {
     this->position = Vector(0, 0, 0);
-    this->velocity = velocity;
+    this->linearVelocity = velocity;
     this->inversedMass = 1 / mass;
     this->time = 0;
     this->color[0] = r;
