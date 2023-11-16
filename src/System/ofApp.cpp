@@ -4,6 +4,7 @@
 #include "Forces/Springs/FixedSpringGenerator.h"
 #include "Forces/ParticleFriction.h"
 #include "Objects/CollisionManager2D.h"
+#include "Tests/MatrixTest.h"
 #include "Tests/VectorTest.h"
 #define RAD 15
 
@@ -503,6 +504,7 @@ void ofApp::clearParticles()
 void ofApp::unitTests()
 {
     vectorTests();
+    matrixTests();
 }
 
 void ofApp::vectorTests()
@@ -512,4 +514,19 @@ void ofApp::vectorTests()
     vectorTest.testScalarProduct();
     vectorTest.testVectorialProduct();
     vectorTest.testProjection();
+}
+
+void ofApp::matrixTests()
+{
+    MatrixTest matrixTest;
+
+    matrixTest.testMatrixAddition();
+    matrixTest.testMatrixSubtraction();
+    matrixTest.testMatrixMultiplication();
+    matrixTest.testMatrixMultiplicationByScalar();
+
+    matrixTest.testMatrix4x4Addition();
+    matrixTest.testMatrix4x4Subtraction();
+    matrixTest.testMatrix4x4Multiplication();
+    matrixTest.testMatrix4x4MultiplicationByScalar();
 }

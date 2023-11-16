@@ -857,7 +857,6 @@
             <MultiProcessorCompilation>true</MultiProcessorCompilation>
             <LinkCompiled>true</LinkCompiled>
         </ClCompile>
-        <ClCompile Include="src\Objects\Rectangle.cpp" />
         <ClCompile Include="src\Objects\Box.cpp">
             <AssemblerOutput>NoListing</AssemblerOutput>
             <AssemblerListingLocation>obj\x64\Debug\</AssemblerListingLocation>
@@ -953,7 +952,6 @@
         <ClInclude Include="src\Objects\CollisionManager2D.h" />
         <ClInclude Include="src\Objects\DebugObject.h" />
         <ClInclude Include="src\Objects\Box.h" />
-        <ClInclude Include="src\Objects\Rectangle.h" />
         <ClInclude Include="src\Objects\RigidBody.h" />
         <ClInclude Include="src\Tests\MatrixTest.h" />
         <ClInclude Include="src\Tests\QuaternionTest.h" />
