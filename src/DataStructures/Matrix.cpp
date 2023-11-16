@@ -85,19 +85,17 @@ Matrix Matrix::inverse()
 
     if (det == 0)
     {
-        return zero();
+        throw std::runtime_error("Matrix is not invertible (determinant is zero).");
     }
-    else
-    {
-        Vector v1(l2.y * l3.z - l2.z * l3.y, l1.z * l3.y - l1.y * l3.z, l1.y * l2.z - l1.z * l2.y);
-        Vector v2(l2.z * l3.x - l2.x * l3.z, l1.x * l3.z - l1.z * l3.x, l1.z * l2.x - l1.x * l2.z);
-        Vector v3(l2.x * l3.y - l2.y * l3.x, l1.y * l3.x - l1.x * l3.y, l1.x * l2.y - l1.y * l2.x);
+    
+    Vector v1(l2.y * l3.z - l2.z * l3.y, l1.z * l3.y - l1.y * l3.z, l1.y * l2.z - l1.z * l2.y);
+    Vector v2(l2.z * l3.x - l2.x * l3.z, l1.x * l3.z - l1.z * l3.x, l1.z * l2.x - l1.x * l2.z);
+    Vector v3(l2.x * l3.y - l2.y * l3.x, l1.y * l3.x - l1.x * l3.y, l1.x * l2.y - l1.y * l2.x);
 
-        Matrix adjoint(v1, v2, v3);
+    Matrix adjoint(v1, v2, v3);
 
-        float invDet = 1.0f / det;
-        Matrix inverseMatrix = adjoint * invDet;
+    float invDet = 1.0f / det;
+    Matrix inverseMatrix = adjoint * invDet;
 
-        return inverseMatrix;
-    }
+    return inverseMatrix;
 }
