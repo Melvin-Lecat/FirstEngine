@@ -16,7 +16,7 @@ public:
     Matrix operator +=(Matrix m);
     Matrix operator -(Matrix m);
     Matrix operator -=(Matrix m);
-    // Scalar product
+    // Matrix product
     Matrix operator *(Matrix m);
     Matrix operator *=(Matrix m);
     // Multiplication by scalar
