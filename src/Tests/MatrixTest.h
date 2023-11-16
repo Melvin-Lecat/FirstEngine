@@ -9,6 +9,7 @@ public:
     static void testMatrixSubtraction();
     static void testMatrixMultiplication();
     static void testMatrixMultiplicationByScalar();
+    static void testMatrixInverse();
 
     // Matrix 4x4 tests
     static void testMatrix4x4Addition();

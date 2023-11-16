@@ -55,6 +55,38 @@ void MatrixTest::testMatrixMultiplicationByScalar()
     }
 }
 
+void MatrixTest::testMatrixInverse()
+{
+    Vector v0;
+
+    Matrix m1(Vector(1, 0, 0), Vector(0, 1, 0), Vector(0, 0, 1));
+    Matrix m2(Vector(1, 2, 1), Vector(-4, 0, 2), Vector(5, 4, -2));
+    Matrix m3(v0, v0, v0);
+    auto result1 = m1.inverse();
+    auto result2 = m2.inverse();
+
+    auto test1_1 = result1 * m1 - m1;
+    auto test1_2 = m1 * result1 - m1;
+    auto test2_1 = result2 * m2 - m1;
+    auto test2_2 = m2 * result2 - m1;
+
+    float epsilon = 0.0001f;
+
+    if ((test1_1.l1.magnitude() > epsilon) || (test1_1.l2.magnitude() > epsilon) || (test1_1.l3.magnitude() > epsilon) || (test1_2.l1.magnitude() > epsilon) || (test1_2.l2.magnitude() > epsilon) || (test1_2.l3.magnitude() > epsilon) ||
+        (test2_1.l1.magnitude() > epsilon) || (test2_1.l2.magnitude() > epsilon) || (test2_1.l3.magnitude() > epsilon) || (test2_2.l1.magnitude() > epsilon) || (test2_2.l2.magnitude() > epsilon) || (test2_2.l3.magnitude() > epsilon))
+    {
+        std::cout << "Error in MatrixTest::testMatrixInverse()" << std::endl;
+    }
+    try
+    {
+        m3.inverse();
+        std::cout << "Error in MatrixTest::testMatrixInverse()" << std::endl;
+    }
+    catch (const std::runtime_error& e)
+    {
+    }
+}
+
 void MatrixTest::testMatrix4x4Addition()
 {
     Matrix4x4 m = Matrix4x4(Vector(1, 2, 3, 4), Vector(5, 6, 7, 8), Vector(9, 10, 11, 12), Vector(13, 14, 15, 16));
