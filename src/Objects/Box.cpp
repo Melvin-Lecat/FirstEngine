@@ -6,11 +6,10 @@ Box::Box()
     this->height = 1;
     this->depth = 1;
     this->shape = ofBoxPrimitive(width, height, depth);
-    this->tenseurJ.l1 = Vector((getMass()/12)*(glm::gtx::pow2(width)+glm::gtx::pow2(height)),0,0);
-    this->tenseurJ.l2 = Vector(0,(getMass()/12)*(glm::gtx::pow2(depth)+glm::gtx::pow2(height)),0);
-    this->tenseurJ.l3 = Vector(0,0,(getMass()/12)*(glm::gtx::pow2(depth)+glm::gtx::pow2(width)));
-    // DUPPLICATION 
-    //this->inversedTenseurJ = ;
+    this->tenseurJ.l1 = Vector((getMass()/12)*(glm::pow2(width)+glm::pow2(height)),0,0);
+    this->tenseurJ.l2 = Vector(0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(height)),0);
+    this->tenseurJ.l3 = Vector(0,0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(width)));
+    this->inversedTenseurJ = tenseurJ.inverse();
     RigidBody();
 }
 
@@ -20,9 +19,10 @@ Box::Box(float width, float height, float length)
     this->height = height;
     this->depth = length;
     this->shape = ofBoxPrimitive(width, height, length);
-    this->tenseurJ.l1 = Vector((getMass()/12)*(glm::gtx::pow2(width)+glm::gtx::pow2(height)),0,0);
-    this->tenseurJ.l2 = Vector(0,(getMass()/12)*(glm::gtx::pow2(depth)+glm::gtx::pow2(height)),0);
-    this->tenseurJ.l3 = Vector(0,0,(getMass()/12)*(glm::gtx::pow2(depth)+glm::gtx::pow2(width)));
+    this->tenseurJ.l1 = Vector((getMass()/12)*(glm::pow2(width)+glm::pow2(height)),0,0);
+    this->tenseurJ.l2 = Vector(0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(height)),0);
+    this->tenseurJ.l3 = Vector(0,0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(width)));
+    this->inversedTenseurJ = tenseurJ.inverse();
     RigidBody();
 }
 
@@ -35,9 +35,10 @@ Box::Box(float width, float height, float length, int color[3])
     this->color[1] = color[1];
     this->color[2] = color[2];
     this->shape = ofBoxPrimitive(width, height, length);
-    this->tenseurJ.l1 = Vector((getMass()/12)*(glm::gtx::pow2(width)+glm::gtx::pow2(height)),0,0);
-    this->tenseurJ.l2 = Vector(0,(getMass()/12)*(glm::gtx::pow2(depth)+glm::gtx::pow2(height)),0);
-    this->tenseurJ.l3 = Vector(0,0,(getMass()/12)*(glm::gtx::pow2(depth)+glm::gtx::pow2(width)));
+    this->tenseurJ.l1 = Vector((getMass()/12)*(glm::pow2(width)+glm::pow2(height)),0,0);
+    this->tenseurJ.l2 = Vector(0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(height)),0);
+    this->tenseurJ.l3 = Vector(0,0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(width)));
+    this->inversedTenseurJ = tenseurJ.inverse();
 }
 
 Box::Box(float width, float height, float length, float _gravity, Vector _linearVelocity, Vector _angularVelocity,
@@ -50,8 +51,9 @@ Box::Box(float width, float height, float length, float _gravity, Vector _linear
     this->color[1] = color[1];
     this->color[2] = color[2];
     this->shape = ofBoxPrimitive(width, height, length);
-    this->tenseurJ.l1 = Vector((getMass()/12)*(glm::gtx::pow2(width)+glm::gtx::pow2(height)),0,0);
-    this->tenseurJ.l2 = Vector(0,(getMass()/12)*(glm::gtx::pow2(depth)+glm::gtx::pow2(height)),0);
-    this->tenseurJ.l3 = Vector(0,0,(getMass()/12)*(glm::gtx::pow2(depth)+glm::gtx::pow2(width)));
+    this->tenseurJ.l1 = Vector((getMass()/12)*(glm::pow2(width)+glm::pow2(height)),0,0);
+    this->tenseurJ.l2 = Vector(0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(height)),0);
+    this->tenseurJ.l3 = Vector(0,0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(width)));
+    this->inversedTenseurJ = tenseurJ.inverse();
     RigidBody(_gravity, _linearVelocity, _angularVelocity, _linearAcceleration);
 }
