@@ -93,9 +93,7 @@ void ofApp::update()
     checkBoundaries();
     if (simPause) return;
     // Set the delta time using the last frame time
-    updateForces();
-    // Todo à modifier pour implémenter des gameobjects
-    // Todo à modifier pour implémenter des gameobjects
+    updateForces();// Todo à modifier pour implémenter des gameobjects
     static int i = 0;
     static bool b = false;
     i++;
