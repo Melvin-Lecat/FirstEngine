@@ -36,10 +36,10 @@ void RigidBody::eulerIntegration(float delta_t)
 {
     // TODO: Update the implementation
     // Update the velocity of the particle...
-    //linearVelocity += accumForce * delta_t;
+    linearVelocity += accumForce * delta_t;
 
     // ... and its position
-    //position += linearVelocity * delta_t;
+    position += linearVelocity * delta_t;
 
     {
         updateInversedJ();
