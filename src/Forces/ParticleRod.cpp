@@ -15,12 +15,12 @@ void ParticleRod::updateForce(Particle* particle, float duration)
     FixedSpringGenerator fsg2(this->particle2->position, k, length);
 
     Vector direction1 = (this->particle2->position - this->particle1->position).normalized();
-    Vector velocityProj1 = this->particle1->velocity.projection(direction1);
+    Vector velocityProj1 = this->particle1->linearVelocity.projection(direction1);
     float stretch1 = length - this->particle2->position.distance(this->particle1->position);
     float force1 = k * stretch1;
 
     Vector direction2 = (this->particle1->position - this->particle2->position).normalized();
-    Vector velocityProj2 = this->particle2->velocity.projection(direction2);
+    Vector velocityProj2 = this->particle2->linearVelocity.projection(direction2);
     float stretch2 = length - this->particle1->position.distance(this->particle2->position);
     float force2 = k * stretch2;
     cout << stretch1 << endl;

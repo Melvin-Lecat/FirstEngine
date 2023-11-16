@@ -104,6 +104,8 @@
         <PostBuildEvent/>
     </ItemDefinitionGroup>
     <ItemGroup>
+        <ClCompile Include="src\2D\Blob.cpp" />
+        <ClCompile Include="src\2D\SetupParticule.cpp" />
         <ClCompile Include="src\DataStructures\Matrix.cpp">
             <AssemblerOutput>NoListing</AssemblerOutput>
             <AssemblerListingLocation>obj\x64\Debug\</AssemblerListingLocation>
@@ -640,22 +642,23 @@
         <ClCompile Include="src\Tests\VectorTest.cpp"/>
     </ItemGroup>
     <ItemGroup>
-        <ClInclude Include="src\DataStructures\Matrix.h"/>
-        <ClInclude Include="src\DataStructures\Matrix4x4.h"/>
-        <ClInclude Include="src\Forces\CollisionManager2D.h"/>
-        <ClInclude Include="src\Forces\ParticleElastic.h"/>
-        <ClInclude Include="src\Forces\ParticleFriction.h"/>
-        <ClInclude Include="src\Forces\ParticleGravity.h"/>
-        <ClInclude Include="src\Forces\ParticleSpringGenerator.h"/>
-        <ClInclude Include="src\Forces\ParticleSpringHook.h"/>
-        <ClInclude Include="src\Objects\CollisionManager2D.h"/>
-        <ClInclude Include="src\Objects\DebugObject.h"/>
-        <ClInclude Include="src\Objects\Box.h"/>
-        <ClInclude Include="src\Objects\Rectangle.h"/>
-        <ClInclude Include="src\Objects\RigidBody.h"/>
-        <ClInclude Include="src\Tests\MatrixTest.h"/>
-        <ClInclude Include="src\Tests\QuaternionTest.h"/>
-        <ClInclude Include="src\Tests\VectorTest.h"/>
+        <ClInclude Include="src\2D\Blob.h" />
+        <ClInclude Include="src\DataStructures\Matrix.h" />
+        <ClInclude Include="src\DataStructures\Matrix4x4.h" />
+        <ClInclude Include="src\Forces\CollisionManager2D.h" />
+        <ClInclude Include="src\Forces\ParticleElastic.h" />
+        <ClInclude Include="src\Forces\ParticleFriction.h" />
+        <ClInclude Include="src\Forces\ParticleGravity.h" />
+        <ClInclude Include="src\Forces\ParticleSpringGenerator.h" />
+        <ClInclude Include="src\Forces\ParticleSpringHook.h" />
+        <ClInclude Include="src\Objects\CollisionManager2D.h" />
+        <ClInclude Include="src\Objects\DebugObject.h" />
+        <ClInclude Include="src\Objects\Box.h" />
+        <ClInclude Include="src\Objects\Rectangle.h" />
+        <ClInclude Include="src\Objects\RigidBody.h" />
+        <ClInclude Include="src\Tests\MatrixTest.h" />
+        <ClInclude Include="src\Tests\QuaternionTest.h" />
+        <ClInclude Include="src\Tests\VectorTest.h" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">
@@ -668,10 +671,10 @@
             <AdditionalIncludeDirectories>$(OF_ROOT)\libs\openFrameworksCompiled\project\vs</AdditionalIncludeDirectories>
         </ResourceCompile>
     </ItemGroup>
-    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
     <ProjectExtensions>
         <VisualStudio>
-            <UserProperties RESOURCE_FILE="icon.rc"/>
+            <UserProperties RESOURCE_FILE="icon.rc" />
         </VisualStudio>
     </ProjectExtensions>
     <ItemGroup Label="ProjectConfigurations">
@@ -694,7 +697,7 @@
         <Keyword>Win32Proj</Keyword>
         <RootNamespace>FirstEngine</RootNamespace>
     </PropertyGroup>
-    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props"/>
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
         <ConfigurationType>Application</ConfigurationType>
         <CharacterSet>Unicode</CharacterSet>
@@ -706,16 +709,16 @@
         <WholeProgramOptimization>true</WholeProgramOptimization>
         <PlatformToolset>v143</PlatformToolset>
     </PropertyGroup>
-    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props"/>
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
     <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
-        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
-        <Import Project="..\..\..\libs\openFrameworksCompiled\project\vs\openFrameworksRelease.props"/>
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+        <Import Project="..\..\..\libs\openFrameworksCompiled\project\vs\openFrameworksRelease.props" />
     </ImportGroup>
     <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
-        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
-        <Import Project="..\..\..\libs\openFrameworksCompiled\project\vs\openFrameworksDebug.props"/>
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+        <Import Project="..\..\..\libs\openFrameworksCompiled\project\vs\openFrameworksDebug.props" />
     </ImportGroup>
-    <PropertyGroup Label="UserMacros"/>
+    <PropertyGroup Label="UserMacros" />
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
         <OutDir>bin\</OutDir>
         <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
@@ -750,7 +753,7 @@
             <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
             <ForceFileOutput>MultiplyDefinedSymbolOnly</ForceFileOutput>
         </Link>
-        <PostBuildEvent/>
+        <PostBuildEvent />
     </ItemDefinitionGroup>
     <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
         <ClCompile>
@@ -775,13 +778,13 @@
             <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
             <ForceFileOutput>MultiplyDefinedSymbolOnly</ForceFileOutput>
         </Link>
-        <PostBuildEvent/>
+        <PostBuildEvent />
     </ItemDefinitionGroup>
     <ItemGroup>
-        <ClCompile Include="src\Objects\Drawable.cpp"/>
-        <ClCompile Include="src\Forces\ParticleRod.cpp"/>
-        <ClCompile Include="src\DataStructures\Matrix4x4.cpp"/>
-        <ClCompile Include="src\DataStructures\Quaternion.cpp"/>
+        <ClCompile Include="src\Objects\Drawable.cpp" />
+        <ClCompile Include="src\Forces\ParticleRod.cpp" />
+        <ClCompile Include="src\DataStructures\Matrix4x4.cpp" />
+        <ClCompile Include="src\DataStructures\Quaternion.cpp" />
         <ClCompile Include="src\DataStructures\Vector.cpp">
             <AssemblerOutput>NoListing</AssemblerOutput>
             <AssemblerListingLocation>obj\x64\Debug\</AssemblerListingLocation>
@@ -1459,16 +1462,16 @@
         </ClCompile>
     </ItemGroup>
     <ItemGroup>
-        <ClInclude Include="src\Objects\Drawable.h"/>
-        <ClInclude Include="src\Forces\ParticleRod.h"/>
-        <ClInclude Include="src\DataStructures\Quaternion.h"/>
-        <ClInclude Include="src\DataStructures\Vector.h"/>
-        <ClInclude Include="src\Forces\FixedSpringGenerator.h"/>
-        <ClInclude Include="src\Forces\ParticleForceGenerator.h"/>
-        <ClInclude Include="src\Forces\ParticleForceRegistry.h"/>
-        <ClInclude Include="src\Objects\GameObject.h"/>
-        <ClInclude Include="src\Objects\Particle.h"/>
-        <ClInclude Include="src\System\ofApp.h"/>
+        <ClInclude Include="src\Objects\Drawable.h" />
+        <ClInclude Include="src\Forces\ParticleRod.h" />
+        <ClInclude Include="src\DataStructures\Quaternion.h" />
+        <ClInclude Include="src\DataStructures\Vector.h" />
+        <ClInclude Include="src\Forces\FixedSpringGenerator.h" />
+        <ClInclude Include="src\Forces\ParticleForceGenerator.h" />
+        <ClInclude Include="src\Forces\ParticleForceRegistry.h" />
+        <ClInclude Include="src\Objects\GameObject.h" />
+        <ClInclude Include="src\Objects\Particle.h" />
+        <ClInclude Include="src\System\ofApp.h" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">

@@ -34,28 +34,19 @@ public:
     void windowResized(int w, int h) override;
     void dragEvent(ofDragInfo dragInfo) override;
     void gotMessage(ofMessage msg) override;
-    void updateParticles(std::list<Particle*> tabParticle, float deltaT);
 
 
-    std::list<Particle*> tabParticle;
-    float mass;
     float gravity;
     bool simPause = false;
 
-    void clearParticles();
     void unitTests();
     void vectorTests();
+    
 
-    // Variables to setup the initial parameters of the particle
-    Vector particleOrigin = Vector(0, 0, 0);
-    Vector particleVelocity = Vector(0, 0, 0);
     ParticleForceRegistry particleForceRegistry;
-    Particle currentParticle = Particle(particleVelocity, 1, 9.81f, 15.0f);
-    bool blobgame = false;
-    Particle mainParticle;
+    std::list<Box> tabBox;
 
-    ofCamera camera;
-    Box boxObject = Box(100, 200, 300);
+    Box boxObject = Box(10, 20, 30);
     ofEasyCam cam;
-    ofBoxPrimitive box;
+    bool showAxis = true;
 };

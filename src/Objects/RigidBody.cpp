@@ -6,7 +6,7 @@ RigidBody::RigidBody()
 {
     this->gravity = 0;
     this->position = Vector(0, 0, 0);
-    this->linearVelocity = Vector(0, 0, 0);
+    this->linearVelocity = Vector(0, 100, 0);
     this->angularVelocity = Vector(0, 10, 0);
     this->linearAcceleration = Vector(0, 0, 0);
     this->angularAcceleration = Vector(0, 0, 1);
@@ -33,10 +33,10 @@ void RigidBody::eulerIntegration(float delta_t)
 {
     // TODO: Update the implementation
     // Update the velocity of the particle...
-    velocity += accumForce * delta_t * pow(0.2, delta_t);
+    linearVelocity += accumForce * delta_t;
 
     // ... and its position
-    position += velocity * delta_t;
+    position += linearVelocity * delta_t;
 
     {
         angularVelocity = angularVelocity + angularAcceleration * delta_t;
@@ -44,7 +44,6 @@ void RigidBody::eulerIntegration(float delta_t)
             0.5 *
             delta_t;
         orientation = orientation / orientation.norme(orientation);
-        cout << orientation.norme(orientation) << endl;
     }
 
     clearAccum();

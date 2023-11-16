@@ -14,5 +14,5 @@ ParticleFriction::ParticleFriction(float k1, float k2)
  */
 void ParticleFriction::updateForce(Particle* particle, float duration)
 {
-    particle->addForce(particle->velocity * (-k1));
+    particle->addForce(particle->linearVelocity * (-k1));
 }

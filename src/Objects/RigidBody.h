@@ -10,7 +10,6 @@
 class RigidBody : public GameObject
 {
 public:
-    Vector velocity;
     Vector linearVelocity;
     Vector angularVelocity = Vector(10, 0, 0);
     Vector linearAcceleration;
