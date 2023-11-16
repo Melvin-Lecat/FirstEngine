@@ -95,6 +95,7 @@ void ofApp::update()
     // Set the delta time using the last frame time
     updateForces();
     // Todo à modifier pour implémenter des gameobjects
+    // Todo à modifier pour implémenter des gameobjects
     static int i = 0;
     static bool b = false;
     i++;
@@ -137,8 +138,6 @@ void ofApp::draw()
     boxObject.shape.setOrientation(boxObject.orientation.q());
     boxObject.shape.setPosition(boxObject.position.v3());
     boxObject.shape.draw();
-
-    //ofDrawArrow((boxObject.position + Vector(3,0,0)), boxObject.position + boxObject.linearVelocity, 10);
     
     ofDrawGrid(VP_STEP, VP_SIZE/VP_STEP, false, showAxis, showAxis, showAxis);
     ofDisableDepthTest();
