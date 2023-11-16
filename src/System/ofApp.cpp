@@ -1,6 +1,7 @@
 #include "ofApp.h"
 
 #include "Forces/ParticleGravity.h"
+#include "Tests/MatrixTest.h"
 #include "Tests/VectorTest.h"
 
 # define VP_STEP 50

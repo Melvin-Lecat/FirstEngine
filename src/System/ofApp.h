@@ -39,8 +39,7 @@ public:
     float gravity;
     bool simPause = false;
 
-    void unitTests();
-    void vectorTests();
+
     
 
     ParticleForceRegistry particleForceRegistry;
