@@ -1,7 +1,7 @@
 #include "ofApp.h"
 
 #include "Forces/ParticleGravity.h"
-#include "Forces/FixedSpringGenerator.h"
+#include "Forces/Springs/FixedSpringGenerator.h"
 #include "Forces/ParticleFriction.h"
 #include "Objects/CollisionManager2D.h"
 #include "Tests/VectorTest.h"
