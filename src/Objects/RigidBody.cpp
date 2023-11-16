@@ -53,9 +53,12 @@ void RigidBody::eulerIntegration(float delta_t)
  * 
  * @param force 
  */
-void RigidBody::addForce(Vector force)
+void RigidBody::addForce(Vector force, Vector pointApplication)
 {
     this->accumForce += force;
+    //MODIF PointApplication != l
+    
+    this->torque = torque + (pointApplication.vectorialProduct(force));
 }
 
 /**
@@ -112,4 +115,19 @@ void RigidBody::setLinearAcceleration(Vector linearAcceleration)
 void RigidBody::setAngularAcceleration(Vector angularAcceleration)
 {
     this->angularAcceleration = angularAcceleration;
+}
+
+void RigidBody::calculateAngularAcceleration()
+{
+    setAngularAcceleration(torque * inversedTenseurJ());
+}
+
+void RigidBody::updateInversedJ()
+{
+    inversedTenseurJ = orientation.quatToMat() * inversedTenseurJ * orientation.quatToMat(); // Changer pour inversion dernière matrice
+}
+
+void RigidBody::moveCenterMass(Vector translation)
+{
+    tenseurJ = tenseurJ + (Matrix(Vector(glm::pow2(translation.y) + glm::pow2(translation.z) , -translation.x * translation.y , -translation.x * translation.z), Vector(-translation.x * translation.y , glm::pow2(translation.x) + glm::pow2(translation.z) , -translation.y * translation.z), Vector(-translation.x * translation.z , -translation.y * translation.z , glm::pow2(translation.x) + glm::pow2(translation.y))) * getMass() );
 }
