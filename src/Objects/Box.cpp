@@ -2,9 +2,9 @@
 
 Box::Box()
 {
-    this->width = 1;
-    this->height = 1;
-    this->depth = 1;
+    this->width = 1;// b
+    this->height = 1; // c
+    this->depth = 1;// a
     this->shape = ofBoxPrimitive(width, height, depth);
     this->tenseurJ.l1 = Vector((getMass()/12)*(glm::pow2(width)+glm::pow2(height)),0,0);
     this->tenseurJ.l2 = Vector(0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(height)),0);

@@ -12,7 +12,7 @@ RigidBody::RigidBody()
     this->angularAcceleration = Vector(0, 0, 0);
     this->orientation_0 = Quaternion(1, 0, 0, 0);
     this->orientation = Quaternion(1, 0, 0, 0);
-    //verification récupération de tenseur venant bien de box
+    // todo verification récupération de tenseur venant bien de box
     
 }
 
@@ -23,8 +23,7 @@ RigidBody::RigidBody(float _gravity, Vector _linearVelocity, Vector _angularVelo
     this->linearVelocity = _linearVelocity;
     this->angularVelocity = _angularVelocity;
     this->linearAcceleration = _linearAcceleration;
-    this->tenseurJ = tenseurJ;
-    this->inversedTenseurJ = inversedTenseurJ;
+
 }
 
 
@@ -37,11 +36,11 @@ void RigidBody::eulerIntegration(float delta_t)
 {
     // TODO: Update the implementation
     // Update the velocity of the particle...
-   // velocity += accumForce * delta_t * pow(0.2, delta_t);
+    //linearVelocity += accumForce * delta_t;
 
     // ... and its position
-   // position += velocity * delta_t;
-    
+    //position += linearVelocity * delta_t;
+
     {
         updateInversedJ();
         calculateAngularAcceleration();
@@ -53,6 +52,7 @@ void RigidBody::eulerIntegration(float delta_t)
     }
 
     clearAccum();
+    angularAcceleration = Vector(0, 0, 0);
 }
 
 /**
