@@ -65,8 +65,39 @@ Matrix Matrix::operator *=(float k)
 
 std::string Matrix::to_string()
 {
-    return "ok";
+    std::stringstream ss;
+    int s = 5;
+
+    ss << "| " << std::setw(s) << l1.x << " " << std::setw(s) << l2.x << " " << std::setw(s) << l3.x << " |" << std::endl;
+    ss << "| " << std::setw(s) << l1.y << " " << std::setw(s) << l2.y << " " << std::setw(s) << l3.y << " |" << std::endl;
+    ss << "| " << std::setw(s) << l1.z << " " << std::setw(s) << l2.z << " " << std::setw(s) << l3.z << " |" << std::endl;
+
+    return ss.str();
+    //return "ok";
     //return "l1:" + std::to_string(this->l1) + "   l2: " + std::to_string(this->l2) + "   l3: " + std::to_string(this->l3);
 }
 
 Matrix Matrix::zero() { return Matrix(Vector(0, 0, 0), Vector(0, 0, 0), Vector(0, 0, 0)); }
+
+Matrix Matrix::inverse()
+{
+    float det = l1.x * (l2.y * l3.z - l2.z * l3.y) - l1.y * (l2.x * l3.z - l2.z * l3.x) + l1.z * (l2.x * l3.y - l2.y * l3.x);
+
+    if (det == 0)
+    {
+        return zero();
+    }
+    else
+    {
+        Vector v1(l2.y * l3.z - l2.z * l3.y, l1.z * l3.y - l1.y * l3.z, l1.y * l2.z - l1.z * l2.y);
+        Vector v2(l2.z * l3.x - l2.x * l3.z, l1.x * l3.z - l1.z * l3.x, l1.z * l2.x - l1.x * l2.z);
+        Vector v3(l2.x * l3.y - l2.y * l3.x, l1.y * l3.x - l1.x * l3.y, l1.x * l2.y - l1.y * l2.x);
+
+        Matrix adjoint(v1, v2, v3);
+
+        float invDet = 1.0f / det;
+        Matrix inverseMatrix = adjoint * invDet;
+
+        return inverseMatrix;
+    }
+}

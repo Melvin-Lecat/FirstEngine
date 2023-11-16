@@ -25,4 +25,5 @@ public:
     std::string to_string();
 
     static Matrix zero();
+    Matrix inverse();
 };
