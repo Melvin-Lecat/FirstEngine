@@ -72,18 +72,22 @@ void MatrixTest::testMatrixInverse()
 
     float epsilon = 0.0001f;
 
-    if ((test1_1.l1.magnitude() > epsilon) || (test1_1.l2.magnitude() > epsilon) || (test1_1.l3.magnitude() > epsilon) || (test1_2.l1.magnitude() > epsilon) || (test1_2.l2.magnitude() > epsilon) || (test1_2.l3.magnitude() > epsilon) ||
-        (test2_1.l1.magnitude() > epsilon) || (test2_1.l2.magnitude() > epsilon) || (test2_1.l3.magnitude() > epsilon) || (test2_2.l1.magnitude() > epsilon) || (test2_2.l2.magnitude() > epsilon) || (test2_2.l3.magnitude() > epsilon))
+    if ((test1_1.l1.magnitude() > epsilon) || (test1_1.l2.magnitude() > epsilon) || (test1_1.l3.magnitude() > epsilon)
+        || (test1_2.l1.magnitude() > epsilon) || (test1_2.l2.magnitude() > epsilon) || (test1_2.l3.magnitude() >
+            epsilon) ||
+        (test2_1.l1.magnitude() > epsilon) || (test2_1.l2.magnitude() > epsilon) || (test2_1.l3.magnitude() > epsilon)
+        || (test2_2.l1.magnitude() > epsilon) || (test2_2.l2.magnitude() > epsilon) || (test2_2.l3.magnitude() >
+            epsilon))
     {
         std::cout << "Error in MatrixTest::testMatrixInverse()" << std::endl;
     }
     try
     {
         m3.inverse();
-        std::cout << "Error in MatrixTest::testMatrixInverse()" << std::endl;
     }
     catch (const std::runtime_error& e)
     {
+        std::cout << "Error in MatrixTest::testMatrixInverse()" << std::endl;
     }
 }
 
@@ -94,7 +98,8 @@ void MatrixTest::testMatrix4x4Addition()
     auto result = m + m2;
 
     // (1+1, 2+2, 3+3, 4+4) = (2, 4, 6, 8), (5+5, 6+6, 7+7, 8+8) = (10, 12, 14, 16), (9+9, 10+10, 11+11, 12+12) = (18, 20, 22, 24), (13+13, 14+14, 15+15, 16+16) = (26, 28, 30, 32)
-    if (result.l1 != Vector(2, 4, 6, 8) || result.l2 != Vector(10, 12, 14, 16) || result.l3 != Vector(18, 20, 22, 24) || result.l4 != Vector(26, 28, 30, 32))
+    if (result.l1 != Vector(2, 4, 6, 8) || result.l2 != Vector(10, 12, 14, 16) || result.l3 != Vector(18, 20, 22, 24) ||
+        result.l4 != Vector(26, 28, 30, 32))
     {
         std::cout << "Error in MatrixTest::testMatrix4x4Addition()" << std::endl;
     }
@@ -107,7 +112,8 @@ void MatrixTest::testMatrix4x4Subtraction()
     auto result = m - m2;
 
     // (1-1, 2-2, 3-3, 4-4) = (0, 0, 0, 0), (5-5, 6-6, 7-7, 8-8) = (0, 0, 0, 0), (9-9, 10-10, 11-11, 12-12) = (0, 0, 0, 0), (13-13, 14-14, 15-15, 16-16) = (0, 0, 0, 0)
-    if (result.l1 != Vector::zero() || result.l2 != Vector::zero() || result.l3 != Vector::zero() || result.l4 != Vector::zero())
+    if (result.l1 != Vector::zero() || result.l2 != Vector::zero() || result.l3 != Vector::zero() || result.l4 !=
+        Vector::zero())
     {
         std::cout << "Error in MatrixTest::testMatrix4x4Subtraction()" << std::endl;
     }
@@ -120,7 +126,8 @@ void MatrixTest::testMatrix4x4Multiplication()
     auto result = m * m2;
 
     // (1x1+2x5+3x9+4x13, 1x2+2x6+3x10+4x14, 1x3+2x7+3x11+4x15, 1x4+2x8+3x12+4x16) = (90, 100, 110, 120), (5x1+6x5+7x9+8x13, 5x2+6x6+7x10+8x14, 5x3+6x7+7x11+8x15, 5x4+6x8+7x12+8x16) = (202, 228, 254, 280), (9x1+10x5+11x9+12x13, 9x2+10x6+11x10+12x14, 9x3+10x7+11x11+12x15, 9x4+10x8+11x12+12x16) = (314, 356, 398, 440), (13x1+14x5+15x9+16x13, 13x2+14x6+15x10+16x14, 13x3+14x7+15x11+16x15, 13x4+14x8+15x12+16x16) = (426, 484, 542, 600)
-    if (result.l1 != Vector(90, 100, 110, 120) || result.l2 != Vector(202, 228, 254, 280) || result.l3 != Vector(314, 356, 398, 440) || result.l4 != Vector(426, 484, 542, 600))
+    if (result.l1 != Vector(90, 100, 110, 120) || result.l2 != Vector(202, 228, 254, 280) || result.l3 !=
+        Vector(314, 356, 398, 440) || result.l4 != Vector(426, 484, 542, 600))
     {
         std::cout << "Error in MatrixTest::testMatrix4x4Multiplication()" << std::endl;
     }
@@ -132,7 +139,8 @@ void MatrixTest::testMatrix4x4MultiplicationByScalar()
     auto result = m * 2;
 
     // (1x2, 2x2, 3x2, 4x2) = (2, 4, 6, 8), (5x2, 6x2, 7x2, 8x2) = (10, 12, 14, 16), (9x2, 10x2, 11x2, 12x2) = (18, 20, 22, 24), (13x2, 14x2, 15x2, 16x2) = (26, 28, 30, 32)
-    if (result.l1 != Vector(2, 4, 6, 8) || result.l2 != Vector(10, 12, 14, 16) || result.l3 != Vector(18, 20, 22, 24) || result.l4 != Vector(26, 28, 30, 32))
+    if (result.l1 != Vector(2, 4, 6, 8) || result.l2 != Vector(10, 12, 14, 16) || result.l3 != Vector(18, 20, 22, 24) ||
+        result.l4 != Vector(26, 28, 30, 32))
     {
         std::cout << "Error in MatrixTest::testMatrix4x4MultiplicationByScalar()" << std::endl;
     }
