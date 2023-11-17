@@ -2,6 +2,7 @@
 
 #include "Forces/ParticleGravity.h"
 #include "Tests/MatrixTest.h"
+#include "Tests/QuaternionTest.h"
 #include "Tests/VectorTest.h"
 
 # define VP_STEP 50
@@ -258,6 +259,7 @@ void ofApp::unitTests()
 {
     vectorTests();
     matrixTests();
+    quaternionTests();
 }
 
 void ofApp::vectorTests()
@@ -283,4 +285,21 @@ void ofApp::matrixTests()
     matrixTest.testMatrix4x4Subtraction();
     matrixTest.testMatrix4x4Multiplication();
     matrixTest.testMatrix4x4MultiplicationByScalar();
+}
+
+void ofApp::quaternionTests()
+{
+    QuaternionTest quaternionTest;
+
+    quaternionTest.testQuaternionAddition();
+    quaternionTest.testQuaternionMultiplication();
+    quaternionTest.testQuaternionMultiplicationByScalar();
+    quaternionTest.testQuaternionDivision();
+
+    quaternionTest.testQuaternionDifference();
+    quaternionTest.testQuaternionNormalize();
+    quaternionTest.testQuaternionInverse();
+    quaternionTest.testQuaternionScalarProduct();
+    quaternionTest.testQuaternionApplyRotation();
+    quaternionTest.testQuaternionToMatrix();
 }

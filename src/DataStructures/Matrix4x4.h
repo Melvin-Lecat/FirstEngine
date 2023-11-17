@@ -21,5 +21,8 @@ public:
     Matrix4x4 operator *(float k);
     Matrix4x4 operator *=(float k);
 
+    bool operator ==(Matrix4x4 m);
+    bool operator !=(Matrix4x4 m);
+
     static Matrix4x4 zero();
 };

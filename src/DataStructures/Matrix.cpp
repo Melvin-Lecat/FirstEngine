@@ -63,6 +63,16 @@ Matrix Matrix::operator *=(float k)
     return Matrix(this->l1 * k, this->l2 * k, this->l3 * k);
 }
 
+bool Matrix::operator ==(Matrix m)
+{
+    return this->l1 == m.l1 && this->l2 == m.l2 && this->l3 == m.l3;
+}
+
+bool Matrix::operator !=(Matrix m)
+{
+    return this->l1 != m.l1 || this->l2 != m.l2 || this->l3 != m.l3;
+}
+
 std::string Matrix::to_string()
 {
     std::stringstream ss;

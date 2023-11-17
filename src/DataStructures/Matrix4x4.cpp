@@ -88,4 +88,14 @@ Matrix4x4 Matrix4x4::operator *=(float k)
     return Matrix4x4(this->l1 *= k, this->l2 *= k, this->l3 *= k, this->l4 *= k);
 }
 
+bool Matrix4x4::operator ==(Matrix4x4 m)
+{
+    return this->l1 == m.l1 && this->l2 == m.l2 && this->l3 == m.l3 && this->l4 == m.l4;
+}
+
+bool Matrix4x4::operator !=(Matrix4x4 m)
+{
+    return this->l1 != m.l1 || this->l2 != m.l2 || this->l3 != m.l3 || this->l4 != m.l4;
+}
+
 Matrix4x4 Matrix4x4::zero() { return Matrix4x4(Vector(0, 0, 0), Vector(0, 0, 0), Vector(0, 0, 0), Vector(0, 0, 0)); }

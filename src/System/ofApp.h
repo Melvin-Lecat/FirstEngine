@@ -53,4 +53,5 @@ public:
     void unitTests();
     void vectorTests();
     void matrixTests();
+    void quaternionTests();
 };

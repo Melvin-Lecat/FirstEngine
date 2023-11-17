@@ -15,10 +15,12 @@ public:
     Quaternion operator *(float val);
     Quaternion operator *(Quaternion q);
     Quaternion operator +(Quaternion q);
-    Quaternion operator -(Quaternion q);
+    bool operator ==(Quaternion q);
+    bool operator !=(Quaternion q);
     std::string to_string();
 
     // Methods
+    Quaternion difference(Quaternion q);
     static Quaternion opposite(Quaternion q);
     static Quaternion toQuaternion(Vector v);
     glm::quat q();
@@ -26,9 +28,8 @@ public:
     float magnitude();
     Quaternion normalize();
     static Quaternion conjugate(Quaternion q);
-    Quaternion inverse(Quaternion q);
+    Quaternion inverse();
     float scalarProduct(Quaternion q);
     Vector applyRotation(Vector v, Quaternion q);
     Matrix quatToMat();
-    // Quaternion slerp(Quaternion q1, Quaternion q2, float t);
 };

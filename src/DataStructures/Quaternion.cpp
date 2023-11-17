@@ -18,10 +18,11 @@ Quaternion::Quaternion(float angle, Vector n)
 
 Quaternion Quaternion::operator /(float k)
 {
-    if (k != 0)
+    if (k == 0)
     {
-        return Quaternion(this->w / k, this->x / k, this->y / k, this->z / k);
+        throw std::invalid_argument("Division by 0");
     }
+    return Quaternion(this->w / k, this->x / k, this->y / k, this->z / k);
 }
 
 Quaternion Quaternion::operator*(float val) { return Quaternion(w * val, x * val, y * val, z * val); }
@@ -39,15 +40,28 @@ Quaternion Quaternion::operator+(Quaternion q)
     return Quaternion(this->w + q.w, this->x + q.x, this->y + q.y, this->z + q.z);
 }
 
-Quaternion Quaternion::operator-(Quaternion q)
+bool Quaternion::operator ==(Quaternion q)
 {
-    return q * conjugate(*this);
+    return (this->w == q.w && this->x == q.x && this->y == q.y && this->z == q.z);
+}
+
+bool Quaternion::operator !=(Quaternion q)
+{
+    return (this->w != q.w || this->x != q.x || this->y != q.y || this->z != q.z);
 }
 
 std::string Quaternion::to_string()
 {
     return "w: " + std::to_string(this->w) + "\n x: " + std::to_string(this->x) + "\n y: " + std::to_string(this->y) +
         "\n z: " + std::to_string(this->z);
+}
+
+/**
+ * @return the difference between the two quaternions
+ */
+Quaternion Quaternion::difference(Quaternion q)
+{
+    return q * conjugate(*this);
 }
 
 /**
@@ -106,9 +120,9 @@ Quaternion Quaternion::conjugate(Quaternion q)
 /**
  * @return the inverse of the quaternion
  */
-Quaternion Quaternion::inverse(Quaternion q)
+Quaternion Quaternion::inverse()
 {
-    return conjugate(q) / magnitude();
+    return conjugate(*this) / magnitude();
 }
 
 /**
@@ -141,9 +155,3 @@ Matrix Quaternion::quatToMat()
                   Vector(2 * (this->x * this->z + this->y * this->w), 2 * (this->y * this->z - this->x * this->w),
                          1 - 2 * (glm::pow2(this->x) + glm::pow2(this->y))));
 }
-
-/*Quaternion Quaternion::slerp(Quaternion q1, Quaternion q2, float t)
-{
-    //return multiplication(multiplication(q2, inverse(q1)),q1);
-    // Il manque la gestion de la puissance
-}*/
