@@ -204,6 +204,8 @@ void ofApp::mouseDragged(int x, int y, int button)
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
+    auto pos = cam.screenToWorld(ofVec3f(x, y, 0));
+    cout << pos << endl;
     // Setting the initial velocity with the mouse position
     // todo en 3D
     switch (button)

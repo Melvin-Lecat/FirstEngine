@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include "RigidBody.h"
+#include "Shape.h"
 
-class Box : public RigidBody
+class Box : public Shape
 {
 private:
     float width;
@@ -14,7 +14,6 @@ public:
     Box(float width, float height, float length, int color[3]);
     Box(float width, float height, float length, float _gravity, Vector _linearVelocity, Vector _angularVelocity,
         Vector _linearAcceleration, int color[3]);
-    
     
 
     float getWidth()

@@ -588,6 +588,7 @@
         <ClInclude Include="src\Objects\DebugObject.h" />
         <ClInclude Include="src\Objects\Box.h" />
         <ClInclude Include="src\Objects\RigidBody.h" />
+        <ClInclude Include="src\Objects\Shape.h" />
         <ClInclude Include="src\Tests\MatrixTest.h" />
         <ClInclude Include="src\Tests\QuaternionTest.h" />
         <ClInclude Include="src\Tests\VectorTest.h" />

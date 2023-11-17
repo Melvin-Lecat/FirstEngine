@@ -46,7 +46,6 @@ void RigidBody::eulerIntegration(float delta_t)
         angularVelocity = angularVelocity + angularAcceleration * delta_t;
         orientation = orientation + (Quaternion::toQuaternion(angularVelocity) * orientation) * 0.5 * delta_t;
         orientation = orientation.normalize();
-        cout << orientation.magnitude() << endl;
     }
 
     clearAccum();

@@ -43,11 +43,13 @@ public:
     
 
     ParticleForceRegistry particleForceRegistry;
-    std::list<Box> tabBox;
+    std::list<Shape> tabBox;
 
     Box boxObject = Box(10, 20, 30);
     ofEasyCam cam;
     bool showAxis = true;
+
+    
 
     // Tests methods
     void unitTests();
