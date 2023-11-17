@@ -23,19 +23,17 @@ RigidBody::RigidBody(float _gravity, Vector _linearVelocity, Vector _angularVelo
     this->linearVelocity = _linearVelocity;
     this->angularVelocity = _angularVelocity;
     this->linearAcceleration = _linearAcceleration;
-
 }
 
 
 /**
- * @brief Calculate the new position of the particle using the Euler integration method
+ * @brief Calculate the new position of the object using the Euler integration method
  * 
  * @param delta_t 
  */
 void RigidBody::eulerIntegration(float delta_t)
 {
-    // TODO: Update the implementation
-    // Update the velocity of the particle...
+    // Update the velocity of the object...
     linearVelocity += accumForce * delta_t;
 
     // ... and its position
@@ -56,7 +54,7 @@ void RigidBody::eulerIntegration(float delta_t)
 }
 
 /**
- * @brief Add a force to the particle
+ * @brief Add a force to the object
  * 
  * @param force 
  */
@@ -77,7 +75,7 @@ void RigidBody::addForce(Vector force, Vector pointApplication)
 }
 
 /**
- * @brief Clear the forces associated to the particle
+ * @brief Clear the forces associated to the object
  * 
  */
 void RigidBody::clearAccum()
