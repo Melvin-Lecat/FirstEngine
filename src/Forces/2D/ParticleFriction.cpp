@@ -1,9 +1,8 @@
 #include "ParticleFriction.h"
 
-ParticleFriction::ParticleFriction(float k1, float k2)
+ParticleFriction::ParticleFriction(float k1)
 {
     this->k1 = k1;
-    this->k2 = k2;
 }
 
 /**

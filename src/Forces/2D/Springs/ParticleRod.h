@@ -1,6 +1,6 @@
 #pragma once
 #include "Objects/Particle.h"
-#include "Forces/ParticleForceGenerator.h"
+#include "Forces/2D/ParticleForceGenerator.h"
 
 class ParticleRod : public ParticleForceGenerator
 {

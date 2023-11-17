@@ -1,6 +1,7 @@
 #include "ofApp.h"
 
-#include "Forces/ParticleGravity.h"
+#include "Forces/FrictionGenerator.h"
+#include "Forces/GravityGenerator.h"
 #include "Tests/MatrixTest.h"
 #include "Tests/QuaternionTest.h"
 #include "Tests/VectorTest.h"
@@ -33,7 +34,7 @@ void ofApp::setup()
         "\tPress 'r' to fire a very heavy bullet\n"
         "\tPress 't' to fire a custom bullet\n"
         << endl;
-    boxObject.position = Vector(0, 0, 0);
+    object.position = Vector(0, 0, 0);
     ofSetVerticalSync(true);
 
     // this uses depth information for occlusion
@@ -42,6 +43,7 @@ void ofApp::setup()
 
     ofSetCircleResolution(64);
     bHelpText = true;
+    tabShape.emplace_back(object);
 }
 
 void ofApp::checkBoundaries()
@@ -49,40 +51,49 @@ void ofApp::checkBoundaries()
     for(auto box: tabShape)
     {
         // Check X borders
-        if (glm::abs(box.position.x )> 500)
+        if (glm::abs(box.position.x )> VP_SIZE)
+        {
+            box.position.x = glm::sign(box.position.x) >0 ? VP_SIZE : -VP_SIZE;
             box.linearVelocity *= -1;
+        }
 
         // Check Y borders
-        if (abs(box.position.y) > 500)
+        if (abs(box.position.y) > VP_SIZE)
+        {
+            box.position.y = glm::sign(box.position.y) >0 ? VP_SIZE : -VP_SIZE;
             box.linearVelocity *= -1;
+        }
 
         // Check Z borders
-        if (abs(box.position.z) > 500)
+        if (abs(box.position.z) > VP_SIZE)
+        {
+            box.position.z = glm::sign(box.position.z) >0 ? VP_SIZE : -VP_SIZE;
             box.linearVelocity *= -1;
+        }
 
     }
 
     
     // Check X borders
-    if (abs(boxObject.position.x) >= VP_SIZE)
+    if (abs(object.position.x) >= VP_SIZE)
     {
-        boxObject.position.x = glm::sign(boxObject.position.x) >0 ? VP_SIZE : -VP_SIZE; 
-        boxObject.linearVelocity.x *= -1;    
+        object.position.x = glm::sign(object.position.x) >0 ? VP_SIZE : -VP_SIZE; 
+        object.linearVelocity.x *= -1;    
     }
     
 
     // Check Y borders
-    if (abs(boxObject.position.y) >= VP_SIZE)
+    if (abs(object.position.y) >= VP_SIZE)
     {
-        boxObject.position.y = glm::sign(boxObject.position.y) >0 ? VP_SIZE : -VP_SIZE; 
-        boxObject.linearVelocity.y *= -1;
+        object.position.y = glm::sign(object.position.y) >0 ? VP_SIZE : -VP_SIZE; 
+        object.linearVelocity.y *= -1;
     }
 
     // Check Z borders
-    if (abs(boxObject.position.z) >= VP_SIZE)
+    if (abs(object.position.z) >= VP_SIZE)
     {
-        boxObject.position.z = glm::sign(boxObject.position.z) >0 ? VP_SIZE : -VP_SIZE; 
-        boxObject.linearVelocity.z *= -1;
+        object.position.z = glm::sign(object.position.z) >0 ? VP_SIZE : -VP_SIZE; 
+        object.linearVelocity.z *= -1;
     }
 
 }
@@ -90,18 +101,21 @@ void ofApp::checkBoundaries()
 void ofApp::updateForces()
 {
     {
-        ParticleGravity pg(Vector(0, -9.81, 0));
+        GravityGenerator genGravity(Vector(0, -9.81, 0));
+        FrictionGenerator genFriction(0.1);
         // Appliquer les forces
+        forceRegistry.add(&object, &genGravity);
+        forceRegistry.add(&object, &genFriction);
 
     }
-    particleForceRegistry.updateForces(ofGetLastFrameTime());
+    forceRegistry.updateForces(delta_t);
 }
 Vector force; 
 
 //--------------------------------------------------------------
 void ofApp::update()
 {
-    
+    delta_t =static_cast<float>(ofGetLastFrameTime()) * simSpeed;
     checkBoundaries();
     if (simPause) return;
     // Set the delta time using the last frame time
@@ -113,9 +127,9 @@ void ofApp::update()
     {
         b = true; 
     }
-    force = Vector(0,200,200);
-    if(!b) boxObject.addForce(force, Vector(0,-10,0));
-    boxObject.eulerIntegration(ofGetLastFrameTime());
+    force = Vector(20,20,20);
+    if(!b) object.addForce(force, Vector(0,-10,0));
+    object.eulerIntegration(delta_t);
     
 }
 
@@ -146,12 +160,16 @@ void ofApp::draw()
     cam.begin();
     ofEnableDepthTest();
 
-    boxObject.draw();
+    object.draw();
 
     //ofDrawAxis(1000000);  
     ofDrawGrid(VP_STEP, VP_SIZE/VP_STEP, true, showAxis, showAxis, showAxis);
     ofDisableDepthTest();
-    ofDrawArrow(boxObject.position.v3(), (boxObject.position + boxObject.linearVelocity).v3(), 10);
+    if(object.linearVelocity.magnitude() >2){
+        ofSetColor(ofColor::greenYellow);
+        ofDrawArrow(object.position.v3(), (object.position + object.linearVelocity).v3(), 10);
+        ofSetColor(ofColor::white);
+    }
     
     cam.end();
     drawInteractionArea();

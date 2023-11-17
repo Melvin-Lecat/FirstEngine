@@ -1,27 +1,19 @@
 #pragma once
 
 #include "ofMain.h"
-#include "DataStructures/Quaternion.h"
 #include "DataStructures/Vector.h"
-#include "Objects/Particle.h"
-#include "Forces/ParticleForceRegistry.h"
+#include "Forces/ForceRegistry.h"
 #include "Objects/Box.h"
 
 class ofApp : public ofBaseApp
 {
 public:
     void setup() override;
-    void checkUnboundParticles();
-    void checkUnboundParticules();
     void checkBoundaries();
     void updateForces();
     void update() override;
-    void DrawParticle(Particle p);
-    void DrawSystem();
-    void DrawParticles();
     void drawInteractionArea();
     void draw() override;
-    void SetupBlobGame();
 
     void keyPressed(int key) override;
     void keyReleased(int key) override;
@@ -35,17 +27,19 @@ public:
     void dragEvent(ofDragInfo dragInfo) override;
     void gotMessage(ofMessage msg) override;
 
-
+    float delta_t = 0.01f;
     float gravity;
+    
+    float simSpeed= 2.0f;
     bool simPause = false;
 
 
     
 
-    ParticleForceRegistry particleForceRegistry;
+    ForceRegistry forceRegistry;
     std::list<Shape> tabShape;
 
-    Box boxObject = Box(20, 20, 20);
+    Box object = Box(20, 20, 20);
     ofEasyCam cam;
     bool showAxis = true;
 
@@ -55,8 +49,8 @@ public:
     // GUI Objects
 
     bool GameState = false;
-    
-    
+
+
     // Tests methods
     void unitTests();
     void vectorTests();
