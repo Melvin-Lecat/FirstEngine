@@ -48,30 +48,41 @@ void ofApp::checkBoundaries()
     for(auto box: tabShape)
     {
         // Check X borders
-        if (abs(box.position.x )> VP_SIZE)
+        if (glm::abs(box.position.x )> 500)
             box.linearVelocity *= -1;
 
         // Check Y borders
-        if (abs(box.position.y) > VP_SIZE)
+        if (abs(box.position.y) > 500)
             box.linearVelocity *= -1;
 
         // Check Z borders
-        if (abs(box.position.z) > VP_SIZE)
+        if (abs(box.position.z) > 500)
             box.linearVelocity *= -1;
 
     }
 
-    auto box = &boxObject;
-    if (abs(box->position.x) > VP_SIZE)
-        box->linearVelocity *= -1;
+    
+    // Check X borders
+    if (abs(boxObject.position.x) >= VP_SIZE)
+    {
+        boxObject.position.x = glm::sign(boxObject.position.x) >0 ? VP_SIZE : -VP_SIZE; 
+        boxObject.linearVelocity.x *= -1;    
+    }
+    
 
     // Check Y borders
-    if (abs(box->position.y) > VP_SIZE)
-        box->linearVelocity *= -1;
+    if (abs(boxObject.position.y) >= VP_SIZE)
+    {
+        boxObject.position.y = glm::sign(boxObject.position.y) >0 ? VP_SIZE : -VP_SIZE; 
+        boxObject.linearVelocity.y *= -1;
+    }
 
     // Check Z borders
-    if (abs(box->position.z) > VP_SIZE)
-        box->linearVelocity *= -1;
+    if (abs(boxObject.position.z) >= VP_SIZE)
+    {
+        boxObject.position.z = glm::sign(boxObject.position.z) >0 ? VP_SIZE : -VP_SIZE; 
+        boxObject.linearVelocity.z *= -1;
+    }
 
 }
 
@@ -101,8 +112,8 @@ void ofApp::update()
     {
         b = true; 
     }
-    force = Vector(0,0,20);
-    if(!b) boxObject.addForce(force, Vector(0,0,0));
+    force = Vector(0,200,200);
+    if(!b) boxObject.addForce(force, Vector(0,-10,0));
     boxObject.eulerIntegration(ofGetLastFrameTime());
     
 }
@@ -136,17 +147,10 @@ void ofApp::draw()
 
     boxObject.draw();
 
-    if(drawLine)
-    {
-        ofSetColor(ofColor::aqua);
-        ofDrawLine(firstP.v3(), secP.v3());
-    }
-    ofSetColor(ofColor::red);
-    ofDrawArrow((boxObject.position).v3(), (boxObject.position + force*10).v3(), 10);
-    ofSetColor(ofColor::white);
     //ofDrawAxis(1000000);  
     ofDrawGrid(VP_STEP, VP_SIZE/VP_STEP, true, showAxis, showAxis, showAxis);
     ofDisableDepthTest();
+    ofDrawArrow(boxObject.position.v3(), (boxObject.position + boxObject.linearVelocity).v3(), 10);
     
     cam.end();
     drawInteractionArea();
@@ -214,7 +218,6 @@ void ofApp::mousePressed(int x, int y, int button)
     
     static bool isFirst = true;
     auto pos = cam.screenToWorld(ofVec3f(x, y,0 ));
-    cout << pos << endl;
     // Setting the initial velocity with the mouse position
     // todo en 3D
     switch (button)
