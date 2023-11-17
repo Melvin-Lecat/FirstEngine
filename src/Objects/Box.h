@@ -40,8 +40,9 @@ public:
     void draw()
     {
         ofSetColor(color[0], color[1], color[2]);
-        auto realPos = Vector(position.x, ofGetHeight() - position.y);
-        ofDrawRectangle(realPos.v2(), width, depth);
+        shape.setPosition(position.v3());
+        shape.setOrientation(orientation.q());
+        shape.draw();
         ofSetColor(255, 255, 255);
     }
 };
