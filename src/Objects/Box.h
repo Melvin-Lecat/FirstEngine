@@ -12,9 +12,12 @@ public:
     Box();
     Box(float width, float height, float length);
     Box(float width, float height, float length, int color[3]);
+    Box(float width, float height, float length, Vector translation);
     Box(float width, float height, float length, float _gravity, Vector _linearVelocity, Vector _angularVelocity,
         Vector _linearAcceleration, int color[3]);
-    
+    void addForce(Vector force, Vector pointApplication);
+    void addForce(Vector force);
+
 
     float getWidth()
     {
@@ -36,12 +39,5 @@ public:
 * @brief Draw the rectangle
 *
 */
-    void draw()
-    {
-        ofSetColor(color[0], color[1], color[2]);
-        shape.setPosition(position.v3());
-        shape.setOrientation(orientation.q());
-        shape.draw();
-        ofSetColor(255, 255, 255);
-    }
+    void draw(); 
 };

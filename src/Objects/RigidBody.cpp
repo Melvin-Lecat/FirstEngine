@@ -13,7 +13,6 @@ RigidBody::RigidBody()
     this->orientation_0 = Quaternion(1, 0, 0, 0);
     this->orientation = Quaternion(1, 0, 0, 0);
     // todo verification récupération de tenseur venant bien de box
-    
 }
 
 RigidBody::RigidBody(float _gravity, Vector _linearVelocity, Vector _angularVelocity,
@@ -23,7 +22,6 @@ RigidBody::RigidBody(float _gravity, Vector _linearVelocity, Vector _angularVelo
     this->linearVelocity = _linearVelocity;
     this->angularVelocity = _angularVelocity;
     this->linearAcceleration = _linearAcceleration;
-
 }
 
 
@@ -44,14 +42,15 @@ void RigidBody::eulerIntegration(float delta_t)
     {
         updateInversedJ();
         calculateAngularAcceleration();
-        
+
         angularVelocity = angularVelocity + angularAcceleration * delta_t;
         orientation = orientation + (Quaternion::toQuaternion(angularVelocity) * orientation) * 0.5 * delta_t;
         orientation = orientation.normalize();
     }
 
+    // Clears the force applied to the object
     clearAccum();
-    angularAcceleration = Vector(0, 0, 0);
+    torque = Vector(0, 0, 0);
 }
 
 /**
@@ -68,10 +67,11 @@ void RigidBody::addForce(Vector force)
 void RigidBody::addForce(Vector force, Vector pointApplication)
 {
     this->accumForce += force;
-    Vector l(0,0,0);
-    l.x = abs(pointApplication.x - position.x);
-    l.y = abs(pointApplication.y - position.y);
-    l.z = abs(pointApplication.z - position.z);
+    Vector l(0, 0, 0);
+    auto center = position + massCenter;
+    l.x = (pointApplication.x - center.x);
+    l.y = (pointApplication.y - center.y);
+    l.z = (pointApplication.z - center.z);
     this->torque = torque + (l.vectorialProduct(force));
 }
 
@@ -133,7 +133,8 @@ void RigidBody::setAngularAcceleration(Vector angularAcceleration)
 
 void RigidBody::calculateAngularAcceleration()
 {
-    setAngularAcceleration(Vector(torque.x * inversedTenseurJ.l1.x + torque.y * inversedTenseurJ.l2.x + torque.z * inversedTenseurJ.l3.x,
+    setAngularAcceleration(Vector(
+        torque.x * inversedTenseurJ.l1.x + torque.y * inversedTenseurJ.l2.x + torque.z * inversedTenseurJ.l3.x,
         torque.x * inversedTenseurJ.l1.y + torque.y * inversedTenseurJ.l2.y + torque.z * inversedTenseurJ.l3.y,
         torque.x * inversedTenseurJ.l1.z + torque.y * inversedTenseurJ.l2.z + torque.z * inversedTenseurJ.l3.z));
 }
@@ -145,5 +146,16 @@ void RigidBody::updateInversedJ()
 
 void RigidBody::moveCenterMass(Vector translation)
 {
-    tenseurJ = tenseurJ + (Matrix(Vector(glm::pow2(translation.y) + glm::pow2(translation.z) , -translation.x * translation.y , -translation.x * translation.z), Vector(-translation.x * translation.y , glm::pow2(translation.x) + glm::pow2(translation.z) , -translation.y * translation.z), Vector(-translation.x * translation.z , -translation.y * translation.z , glm::pow2(translation.x) + glm::pow2(translation.y))) * getMass() );
+    cout << "Tenseur avant move: " << this->tenseurJ.to_string() << endl;
+
+    tenseurJ = tenseurJ + (Matrix(
+        Vector(glm::pow2(translation.y) + glm::pow2(translation.z), -translation.x * translation.y,
+               -translation.x * translation.z),
+        Vector(-translation.x * translation.y, glm::pow2(translation.x) + glm::pow2(translation.z),
+               -translation.y * translation.z),
+        Vector(-translation.x * translation.z, -translation.y * translation.z,
+               glm::pow2(translation.x) + glm::pow2(translation.y))) * getMass());
+    cout << "Tenseur avant move: " << this->tenseurJ.to_string() << endl;
+
+    massCenter =  translation;
 }
