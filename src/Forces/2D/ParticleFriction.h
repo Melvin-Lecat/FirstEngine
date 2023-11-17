@@ -7,8 +7,7 @@ class ParticleFriction : public ParticleForceGenerator
 {
 public:
     float k1;
-    float k2;
     Vector friction;
-    ParticleFriction(float k1, float k2);
+    ParticleFriction(float k1);
     void updateForce(Particle* particle, float duration) override;
 };
