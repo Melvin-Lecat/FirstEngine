@@ -145,7 +145,6 @@ void RigidBody::updateInversedJ()
 
 void RigidBody::moveCenterMass(Vector translation)
 {
-    cout << "Tenseur avant move: " << this->tenseurJ.to_string() << endl;
 
     tenseurJ = tenseurJ + (Matrix(
         Vector(glm::pow2(translation.y) + glm::pow2(translation.z), -translation.x * translation.y,
@@ -154,7 +153,6 @@ void RigidBody::moveCenterMass(Vector translation)
                -translation.y * translation.z),
         Vector(-translation.x * translation.z, -translation.y * translation.z,
                glm::pow2(translation.x) + glm::pow2(translation.y))) * getMass());
-    cout << "Tenseur avant move: " << this->tenseurJ.to_string() << endl;
 
     massCenter =  translation;
 }

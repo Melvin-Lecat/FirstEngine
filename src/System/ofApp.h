@@ -45,7 +45,7 @@ public:
     ParticleForceRegistry particleForceRegistry;
     std::list<Shape> tabShape;
 
-    Box boxObject = Box(10, 20, 30,Vector(0,10,-15));
+    Box boxObject = Box(20, 20, 20);
     ofEasyCam cam;
     bool showAxis = true;
 

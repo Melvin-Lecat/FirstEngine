@@ -23,6 +23,7 @@ Box::Box(float width, float height, float length)
     this->tenseurJ.l2 = Vector(0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(height)),0);
     this->tenseurJ.l3 = Vector(0,0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(width)));
     this->inversedTenseurJ = tenseurJ.inverse();
+    massCenter = Vector(0,0,0);
     RigidBody();
 }
 
@@ -39,6 +40,7 @@ Box::Box(float width, float height, float length, int color[3])
     this->tenseurJ.l2 = Vector(0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(height)),0);
     this->tenseurJ.l3 = Vector(0,0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(width)));
     this->inversedTenseurJ = tenseurJ.inverse();
+    RigidBody();
 }
 Box::Box(float width, float height, float length, Vector translation)
 {
@@ -53,7 +55,6 @@ Box::Box(float width, float height, float length, Vector translation)
     this->tenseurJ.l2 = Vector(0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(height)),0);
     this->tenseurJ.l3 = Vector(0,0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(width)));
     this->moveCenterMass(translation);
-    cout << "centerMass" << this->massCenter.to_string() << endl;
     this->inversedTenseurJ = tenseurJ.inverse();
     RigidBody();
 }
@@ -96,18 +97,16 @@ void Box::addForce(Vector force)
 
 void Box::draw()
 {
-    
-    ofSetColor(color[0], color[1], color[2]);
-    cout << position.v3() << endl;
+    // Draw the center of mass of the box
+    Vector realCenter = orientation.applyRotation(massCenter,orientation);
+    ofSetColor(ofColor::yellow, 255);
+    ofDrawSphere((position + realCenter).v3(), 5);
+
+    // Draw the box
+    ofSetColor(color[0], color[1], color[2], 150);
     shape.setPosition(position.v3());
     shape.setOrientation(orientation.q());
     shape.draw();
-
-   Vector realCenter = orientation.applyRotation(massCenter,orientation);
-    ofSetColor(ofColor::aqua);
-    ofDrawSphere((position + realCenter).v3(), 10);
-
-    
     ofSetColor(255, 255, 255);
     
 }
