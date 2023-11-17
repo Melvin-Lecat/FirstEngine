@@ -413,6 +413,7 @@
         <ClCompile Include="src\Forces\Springs\ParticleSpringGenerator.cpp" />
         <ClCompile Include="src\Forces\Springs\ParticleSpringHook.cpp" />
         <ClCompile Include="src\Objects\CollisionManager2D.cpp"/>
+        <ClCompile Include="src\Objects\Cone.cpp" />
         <ClCompile Include="src\Objects\DebugObject.cpp"/>
         <ClCompile Include="src\Objects\Particle.cpp">
             <AssemblerOutput>NoListing</AssemblerOutput>
@@ -583,6 +584,7 @@
         <ClInclude Include="src\Forces\Springs\ParticleSpringGenerator.h" />
         <ClInclude Include="src\Forces\Springs\ParticleSpringHook.h" />
         <ClInclude Include="src\Objects\CollisionManager2D.h" />
+        <ClInclude Include="src\Objects\Cone.h" />
         <ClInclude Include="src\Objects\DebugObject.h" />
         <ClInclude Include="src\Objects\Box.h" />
         <ClInclude Include="src\Objects\RigidBody.h" />
