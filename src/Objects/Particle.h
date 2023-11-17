@@ -26,6 +26,6 @@ public:
     Particle* duplicate();
     bool checkCollision(Particle* particle);
     void draw() override;
-    void updateColor() override;
+    void updateColor() ;
     //TODO: setup function
 };

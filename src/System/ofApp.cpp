@@ -42,13 +42,11 @@ void ofApp::setup()
 
     ofSetCircleResolution(64);
     bHelpText = true;
-    
-    boxObject.addForce(Vector(0,20,0));
 }
 
 void ofApp::checkBoundaries()
 {
-    for(auto box: tabBox)
+    for(auto box: tabShape)
     {
         // Check X borders
         if (abs(box.position.x )> VP_SIZE)
@@ -87,6 +85,7 @@ void ofApp::updateForces()
     }
     particleForceRegistry.updateForces(ofGetLastFrameTime());
 }
+Vector force; 
 
 //--------------------------------------------------------------
 void ofApp::update()
@@ -99,11 +98,12 @@ void ofApp::update()
     static int i = 0;
     static bool b = false;
     i++;
-    if(i == 2 )
+    if(i == 3 )
     {
         b = true; 
     }
-    if(!b) boxObject.addForce(Vector(0,0,1), Vector(3,0,0));
+    force = Vector(0,0,20);
+    if(!b) boxObject.addForce(force, Vector(0,0,0));
     boxObject.eulerIntegration(ofGetLastFrameTime());
     
 }
@@ -135,16 +135,24 @@ void ofApp::draw()
     cam.begin();
     ofEnableDepthTest();
 
-    boxObject.shape.setOrientation(boxObject.orientation.q());
-    boxObject.shape.setPosition(boxObject.position.v3());
-    boxObject.shape.draw();
-    
-    ofDrawGrid(VP_STEP, VP_SIZE/VP_STEP, false, showAxis, showAxis, showAxis);
+    boxObject.draw();
+
+    if(drawLine)
+    {
+        ofSetColor(ofColor::aqua);
+        ofDrawLine(firstP.v3(), secP.v3());
+    }
+    ofSetColor(ofColor::red);
+    ofDrawArrow((boxObject.position).v3(), (boxObject.position + force*10).v3(), 10);
+    ofSetColor(ofColor::white);
+    //ofDrawAxis(1000000);  
+    ofDrawGrid(VP_STEP, VP_SIZE/VP_STEP, true, showAxis, showAxis, showAxis);
     ofDisableDepthTest();
     
     cam.end();
     drawInteractionArea();
     ofSetColor(255);
+
 }
 
 
@@ -204,17 +212,28 @@ void ofApp::mouseDragged(int x, int y, int button)
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
-    auto pos = cam.screenToWorld(ofVec3f(x, y, 0));
+    
+    static bool isFirst = true;
+    auto pos = cam.screenToWorld(ofVec3f(x, y,0 ));
     cout << pos << endl;
     // Setting the initial velocity with the mouse position
     // todo en 3D
     switch (button)
     {
     case OF_MOUSE_BUTTON_LEFT:
-
         break;
     case OF_MOUSE_BUTTON_RIGHT:
-
+        if(isFirst)
+        {
+            firstP = Vector(pos.x, pos.y, pos.z);
+            drawLine = false;
+        } else
+        {
+            secP = Vector(pos.x, pos.y, pos.z);
+            drawLine = true;
+        }
+        
+        isFirst = !isFirst;
         break;
     default:
         break;
