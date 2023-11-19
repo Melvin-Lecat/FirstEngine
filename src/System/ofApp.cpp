@@ -6,6 +6,7 @@
 #include "Tests/QuaternionTest.h"
 #include "Tests/VectorTest.h"
 
+
 # define VP_STEP 50
 # define VP_SIZE 500
 
@@ -44,58 +45,88 @@ void ofApp::setup()
     ofSetCircleResolution(64);
     bHelpText = true;
     tabShape.emplace_back(object);
+
+    // Setup the GUI
+    helpPanel.setup("User Manual:");
+    helpPanel.setSize(ofGetWidth() / 2, ofGetHeight());
+    AddMultiLineText(helpPanel, lines, multilineText);
+
+
+    controlPanel.setup("Control Buttons");
+    controlPanel.setPosition(glm::vec3(0,(ofGetHeight()/2),0));
+    gamePaused.setup("PauseGame");
+    gamePaused.addListener(this,&ofApp::TogglePause);
+    controlPanel.add(&gamePaused);
+
+    
+    debugPanel.setup("Object Details");
+    debugPanel.setSize(ofGetWidth() / 2, ofGetHeight());
+
+}
+void ofApp::TogglePause()
+{
+    simPause = !simPause;
 }
 
+void ofApp::AddMultiLineText(ofxPanel& _panel,std::vector<ofxLabel*> &_lines, std::string _text)
+{
+    auto textLines = ofSplitString(_text, "\n");
+    _lines = std::vector<ofxLabel*>(textLines.size());
+    for (int i=0; i<textLines.size(); i++)
+    {
+        _lines[i] = new ofxLabel();
+        _lines[i]->setup(textLines[i]);
+        _panel.add(lines[i]);
+    }
+}
 void ofApp::checkBoundaries()
 {
-    for(auto box: tabShape)
+    for (auto box : tabShape)
     {
         // Check X borders
-        if (glm::abs(box.position.x )> VP_SIZE)
+        if (glm::abs(box.position.x) > VP_SIZE)
         {
-            box.position.x = glm::sign(box.position.x) >0 ? VP_SIZE : -VP_SIZE;
+            box.position.x = glm::sign(box.position.x) > 0 ? VP_SIZE : -VP_SIZE;
             box.linearVelocity *= -1;
         }
 
         // Check Y borders
         if (abs(box.position.y) > VP_SIZE)
         {
-            box.position.y = glm::sign(box.position.y) >0 ? VP_SIZE : -VP_SIZE;
+            box.position.y = glm::sign(box.position.y) > 0 ? VP_SIZE : -VP_SIZE;
             box.linearVelocity *= -1;
         }
 
         // Check Z borders
         if (abs(box.position.z) > VP_SIZE)
         {
-            box.position.z = glm::sign(box.position.z) >0 ? VP_SIZE : -VP_SIZE;
+            box.position.z = glm::sign(box.position.z) > 0 ? VP_SIZE : -VP_SIZE;
             box.linearVelocity *= -1;
         }
-
     }
 
-    
+
     // Check X borders
     if (abs(object.position.x) >= VP_SIZE)
     {
-        object.position.x = glm::sign(object.position.x) >0 ? VP_SIZE : -VP_SIZE; 
-        object.linearVelocity.x *= -1;    
+        object.position.x = glm::sign(object.position.x) > 0 ? VP_SIZE : -VP_SIZE;
+        object.linearVelocity.x *= -1;
     }
-    
+
 
     // Check Y borders
     if (abs(object.position.y) >= VP_SIZE)
     {
-        object.position.y = glm::sign(object.position.y) >0 ? VP_SIZE : -VP_SIZE; 
+        object.position.y = glm::sign(object.position.y) > 0 ? VP_SIZE : -VP_SIZE;
         object.linearVelocity.y *= -1;
     }
 
     // Check Z borders
     if (abs(object.position.z) >= VP_SIZE)
     {
-        object.position.z = glm::sign(object.position.z) >0 ? VP_SIZE : -VP_SIZE; 
+        object.position.z = glm::sign(object.position.z) > 0 ? VP_SIZE : -VP_SIZE;
         object.linearVelocity.z *= -1;
     }
-
 }
 
 void ofApp::updateForces()
@@ -106,34 +137,31 @@ void ofApp::updateForces()
         // Appliquer les forces
         forceRegistry.add(&object, &genGravity);
         forceRegistry.add(&object, &genFriction);
-
     }
     forceRegistry.updateForces(delta_t);
 }
-Vector force; 
+
+Vector force;
 
 //--------------------------------------------------------------
 void ofApp::update()
 {
-    delta_t =static_cast<float>(ofGetLastFrameTime()) * simSpeed;
+    delta_t = static_cast<float>(ofGetLastFrameTime()) * simSpeed;
     checkBoundaries();
     if (simPause) return;
     // Set the delta time using the last frame time
-    updateForces();// Todo à modifier pour implémenter des gameobjects
+    updateForces(); // Todo à modifier pour implémenter des gameobjects
     static int i = 0;
     static bool b = false;
     i++;
-    if(i == 3 )
+    if (i == 3)
     {
-        b = true; 
+        b = true;
     }
-    force = Vector(20,20,20);
-    if(!b) object.addForce(force, Vector(0,-10,0));
+    force = Vector(20, 20, 20);
+    if (!b) object.addForce(force, Vector(0, -10, 0));
     object.eulerIntegration(delta_t);
-    
 }
-
-
 
 
 void ofApp::drawInteractionArea()
@@ -163,20 +191,22 @@ void ofApp::draw()
     object.draw();
 
     //ofDrawAxis(1000000);  
-    ofDrawGrid(VP_STEP, VP_SIZE/VP_STEP, true, showAxis, showAxis, showAxis);
+    ofDrawGrid(VP_STEP, VP_SIZE / VP_STEP, true, showAxis, showAxis, showAxis);
     ofDisableDepthTest();
-    if(object.linearVelocity.magnitude() >2){
+    if (object.linearVelocity.magnitude() > 2)
+    {
         ofSetColor(ofColor::greenYellow);
         ofDrawArrow(object.position.v3(), (object.position + object.linearVelocity).v3(), 10);
         ofSetColor(ofColor::white);
     }
-    
+
     cam.end();
     drawInteractionArea();
     ofSetColor(255);
 
+    helpPanel.draw();
+    controlPanel.draw();
 }
-
 
 
 //--------------------------------------------------------------
@@ -234,9 +264,8 @@ void ofApp::mouseDragged(int x, int y, int button)
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
-    
     static bool isFirst = true;
-    auto pos = cam.screenToWorld(ofVec3f(x, y,0 ));
+    auto pos = cam.screenToWorld(ofVec3f(x, y, 0));
     // Setting the initial velocity with the mouse position
     // todo en 3D
     switch (button)
@@ -244,16 +273,17 @@ void ofApp::mousePressed(int x, int y, int button)
     case OF_MOUSE_BUTTON_LEFT:
         break;
     case OF_MOUSE_BUTTON_RIGHT:
-        if(isFirst)
+        if (isFirst)
         {
             firstP = Vector(pos.x, pos.y, pos.z);
             drawLine = false;
-        } else
+        }
+        else
         {
             secP = Vector(pos.x, pos.y, pos.z);
             drawLine = true;
         }
-        
+
         isFirst = !isFirst;
         break;
     default:
