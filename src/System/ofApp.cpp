@@ -49,18 +49,24 @@ void ofApp::setup()
     // Setup the GUI
     helpPanel.setup("User Manual:");
     helpPanel.setSize(ofGetWidth() / 2, ofGetHeight());
-    AddMultiLineText(helpPanel, lines, multilineText);
+    AddMultiLineText(helpPanel, helpLines, multilineText);
 
 
     controlPanel.setup("Control Buttons");
-    controlPanel.setPosition(glm::vec3(0,(ofGetHeight()/2),0));
+    controlPanel.setPosition(glm::vec3(0,ofGetHeight()/2,0));
     gamePaused.setup("PauseGame");
     gamePaused.addListener(this,&ofApp::TogglePause);
     controlPanel.add(&gamePaused);
 
     
     debugPanel.setup("Object Details");
-    debugPanel.setSize(ofGetWidth() / 2, ofGetHeight());
+    debugPanel.setSize(ofGetWidth() / 4, ofGetHeight());
+    debugPanel.setPosition(glm::vec3(ofGetWidth()/3,0,0));
+    
+    debugPanel.add(position.setup("Position",""));
+    AddMultiLineText(debugPanel, debugLines1, object.position.to_string());
+    debugPanel.add(velocity.setup("Velocity",""));
+    AddMultiLineText(debugPanel, debugLines2, object.linearVelocity.to_string());
 
 }
 void ofApp::TogglePause()
@@ -68,15 +74,23 @@ void ofApp::TogglePause()
     simPause = !simPause;
 }
 
-void ofApp::AddMultiLineText(ofxPanel& _panel,std::vector<ofxLabel*> &_lines, std::string _text)
+void ofApp::AddMultiLineText(ofxPanel& _panel,std::vector<ofxLabel*> &_lines, const std::string& _text)
 {
     auto textLines = ofSplitString(_text, "\n");
     _lines = std::vector<ofxLabel*>(textLines.size());
     for (int i=0; i<textLines.size(); i++)
     {
         _lines[i] = new ofxLabel();
-        _lines[i]->setup(textLines[i]);
-        _panel.add(lines[i]);
+        _lines[i]->setup(std::to_string(i),textLines[i]);
+        _panel.add(_lines[i]);
+    }
+}
+void updateLines(std::vector<ofxLabel*>& lines,const std::string &_text)
+{
+    auto textSplit = ofSplitString(_text, "\n");
+    for (int i=0; i<lines.size(); i++)
+    {
+        lines[i]->setup("",textSplit[i]);
     }
 }
 void ofApp::checkBoundaries()
@@ -163,7 +177,6 @@ void ofApp::update()
     object.eulerIntegration(delta_t);
 }
 
-
 void ofApp::drawInteractionArea()
 {
     ofRectangle vp = ofGetCurrentViewport();
@@ -206,6 +219,9 @@ void ofApp::draw()
 
     helpPanel.draw();
     controlPanel.draw();
+    debugPanel.draw();
+    updateLines(debugLines1,object.position.to_string());
+    updateLines(debugLines2,object.linearVelocity.to_string());
 }
 
 
