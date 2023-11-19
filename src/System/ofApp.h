@@ -11,7 +11,7 @@ class ofApp : public ofBaseApp
 public:
     void setup() override;
     void TogglePause();
-    void AddMultiLineText(ofxPanel& _panel, std::vector<ofxLabel*>& _lines, const std::string& _text);
+    void AddMultiLineText(ofxPanel& _panel, std::vector<ofxLabel*>& _lines, std::string _text);
     void checkBoundaries();
     void updateForces();
     void update() override;
@@ -51,14 +51,14 @@ public:
 
     // GUI Objects
     ofxPanel helpPanel, controlPanel, debugPanel;
-    std::vector <ofxLabel*> helpLines,debugLines1, debugLines2;
+    std::vector <ofxLabel*> lines;
 
     // todo toggle ?
     ofxButton gamePaused ;
 
     
     
-    std::string multilineText = 
+    std::string multilineText = "\n"
         "Press 'p' to pause simulation\n"
         "Press 'i' to clear all bullets\n"
         "Press 'o' to fire the current bullet (default : standard)\n"
@@ -68,7 +68,7 @@ public:
         "Press 'z' to fire a laser like bullet\n"
         "Press 'e' to fire a heavy bullet\n"
         "Press 'r' to fire a very heavy bullet\n"
-        "Press 't' to fire a custom bullet";
+        "Press 't' to fire a custom bullet\n";
     bool GameState = false;
 
 
