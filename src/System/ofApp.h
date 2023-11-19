@@ -52,11 +52,10 @@ public:
     // GUI Objects
     ofxPanel helpPanel, controlPanel, debugPanel;
     std::vector <ofxLabel*> helpLines,debugLines1, debugLines2;
-
+    std::vector <ofxLabel*> lines;
     // todo toggle ?
     ofxButton gamePaused ;
-
-    
+    ofxLabel position,velocity;
     
     std::string multilineText = 
         "Press 'p' to pause simulation\n"
