@@ -15,6 +15,7 @@ public:
     void AddMultiLineText(ofxPanel& _panel, std::vector<ofxLabel*>& _lines, const std::string& _text);
     void checkBoundaries();
     void updateForces();
+    void addForceObject(Shape &obj, Vector forceIntensity, Vector pointApplication);
     void update() override;
     void drawInteractionArea();
     void draw() override;
@@ -42,8 +43,8 @@ public:
     ForceRegistry forceRegistry;
     std::list<Shape> tabShape;
 
-    //Box object = Box(20, 20, 20);
     Cone object = Cone(40, 80);
+    //Box object = Box(20, 20, 20);
     ofEasyCam cam;
     bool showAxis = true;
 

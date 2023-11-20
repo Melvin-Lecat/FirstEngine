@@ -36,7 +36,7 @@ void ofApp::setup()
         "\tPress 't' to fire a custom bullet\n"
         << endl;
     object.position = Vector(0, 0, 0);
-    object.moveCenterMass(Vector(10,0,0));
+    //object.moveCenterMass(Vector(10,0,0));
     ofSetVerticalSync(true);
 
     // this uses depth information for occlusion
@@ -158,6 +158,12 @@ void ofApp::updateForces()
 
 Vector force;
 
+void ofApp::addForceObject(Shape& obj, Vector forceIntensity, Vector pointApplication)
+{
+    
+    (obj).addForce(forceIntensity, pointApplication);
+}
+
 //--------------------------------------------------------------
 void ofApp::update()
 {
@@ -173,8 +179,8 @@ void ofApp::update()
     {
         b = true;
     }
-    force = Vector(10, 10, 20);
-    if (!b) object.addForce(force, Vector(0, 0, 0));
+    force = Vector(20, 0, 30);
+    if (!b) addForceObject(object, force, Vector(10, 10, 10));
     object.eulerIntegration(delta_t);
 }
 
