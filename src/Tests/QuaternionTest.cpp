@@ -127,8 +127,8 @@ void QuaternionTest::testQuaternionToMatrix()
 {
     Quaternion q = Quaternion(1, 2, 3, 4);
     auto result = q.quatToMat();
-    // TODO: calculate the expected result
-    Matrix expected = Matrix(Vector(-28, 4, 6), Vector(4, -28, 2), Vector(6, 2, -28));
+    // Calculated manually
+    Matrix expected = Matrix(Vector(-49, 20,10), Vector(4, -39, 28), Vector(22, 20, -25));
 
     if (result != expected)
     {
