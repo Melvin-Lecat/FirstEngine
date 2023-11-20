@@ -104,6 +104,9 @@ float Quaternion::magnitude()
     return glm::sqrt(glm::pow2(w) + glm::pow2(x) + glm::pow2(y) + glm::pow2(z));
 }
 
+/**
+ * @return the normalized quaternion
+ */
 Quaternion Quaternion::normalize()
 {
     return *this / magnitude();

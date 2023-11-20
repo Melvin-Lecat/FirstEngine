@@ -13,8 +13,8 @@ public:
     Box(float width, float height, float length);
     Box(float width, float height, float length, int color[3]);
     Box(float width, float height, float length, Vector translation);
-    Box(float width, float height, float length, float _gravity, Vector _linearVelocity, Vector _angularVelocity,
-        Vector _linearAcceleration, int color[3]);
+    Box(float width, float height, float length, float gravity, Vector linearVelocity, Vector angularVelocity,
+        Vector linearAcceleration, int color[3]);
     void addForce(Vector force, Vector pointApplication);
     void addForce(Vector force);
 

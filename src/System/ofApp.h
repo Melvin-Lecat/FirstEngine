@@ -12,7 +12,7 @@ class ofApp : public ofBaseApp
 public:
     void setup() override;
     void TogglePause();
-    void AddMultiLineText(ofxPanel& _panel, std::vector<ofxLabel*>& _lines, const std::string& _text);
+    void AddMultiLineText(ofxPanel& panel, std::vector<ofxLabel*>& lines, const std::string& text);
     void checkBoundaries();
     void updateForces();
     void addForceObject(Shape &obj, Vector forceIntensity, Vector pointApplication);

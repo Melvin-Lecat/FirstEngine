@@ -38,8 +38,8 @@ Cone::Cone(float radius, float height, int color[3])
     this->inversedTenseurJ = tenseurJ.inverse();
 }
 
-Cone::Cone(float radius, float height, float _gravity, Vector _linearVelocity, Vector _angularVelocity,
-         Vector _linearAcceleration, int color[3])
+Cone::Cone(float radius, float height, float gravity, Vector linearVelocity, Vector angularVelocity,
+         Vector linearAcceleration, int color[3])
 {
     this->radius = radius;
     this->height = height;
@@ -51,9 +51,8 @@ Cone::Cone(float radius, float height, float _gravity, Vector _linearVelocity, V
     this->tenseurJ.l2 = Vector(0,(3*getMass()/20)*(glm::pow2(radius)+glm::pow2(height)/4),0);
     this->tenseurJ.l3 = Vector(0,0,(3*getMass()/10)*glm::pow2(radius));
     this->inversedTenseurJ = tenseurJ.inverse();
-    RigidBody(_gravity, _linearVelocity, _angularVelocity, _linearAcceleration);
+    RigidBody(gravity, linearVelocity, angularVelocity, linearAcceleration);
 }
-
 void Cone::draw()
 {
     // Draw the center of mass of the cone

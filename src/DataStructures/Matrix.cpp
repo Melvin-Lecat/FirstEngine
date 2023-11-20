@@ -89,6 +89,11 @@ std::string Matrix::to_string()
 
 Matrix Matrix::zero() { return Matrix(Vector(0, 0, 0), Vector(0, 0, 0), Vector(0, 0, 0)); }
 
+/**
+ * @brief Compute the inverse of the matrix
+ * 
+ * @return The inverse of the matrix if it exists or throw an error if it doesn't
+ */
 Matrix Matrix::inverse()
 {
     float det = l1.x * (l2.y * l3.z - l2.z * l3.y) - l1.y * (l2.x * l3.z - l2.z * l3.x) + l1.z * (l2.x * l3.y - l2.y * l3.x);

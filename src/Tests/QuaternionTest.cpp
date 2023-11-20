@@ -77,10 +77,10 @@ void QuaternionTest::testQuaternionDifference()
 
 void QuaternionTest::testQuaternionNormalize()
 {
-    Quaternion q1 = Quaternion(1, 0, 0, 0);
+    Quaternion q1 = Quaternion(0, 0, 0, 5);
     auto result = q1.normalize();
 
-    if (result != Quaternion(1, 0, 0, 0))
+    if (result != Quaternion(0, 0, 0, 1))
     {
         std::cout << "Error in QuaternionTest::testQuaternionNormalize()" << std::endl;
     }
@@ -127,8 +127,8 @@ void QuaternionTest::testQuaternionToMatrix()
 {
     Quaternion q = Quaternion(1, 2, 3, 4);
     auto result = q.quatToMat();
-    // TODO: calculate the expected result
-    Matrix expected = Matrix(Vector(-28, 4, 6), Vector(4, -28, 2), Vector(6, 2, -28));
+    // Calculated manually
+    Matrix expected = Matrix(Vector(-49, 20,10), Vector(4, -39, 28), Vector(22, 20, -25));
 
     if (result != expected)
     {

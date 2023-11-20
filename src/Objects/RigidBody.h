@@ -24,8 +24,8 @@ public:
     Vector massCenter = Vector(0, 0, 0);
 
     RigidBody();
-    RigidBody(float _gravity, Vector _linearVelocity, Vector _angularVelocity,
-              Vector _linearAcceleration);
+    RigidBody(float gravity, Vector linearVelocity, Vector angularVelocity,
+              Vector linearAcceleration);
 
     void eulerIntegration(float delta_t);
     void addForce(Vector force);
