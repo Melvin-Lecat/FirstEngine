@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Box.h"
+#include "Cone.h"
 #include "ForceRegistry.h"
 #include "ofMain.h"
 #include "ofxGui.h"
@@ -36,13 +37,13 @@ public:
     float simSpeed= 2.0f;
     bool simPause = false;
 
-
     
 
     ForceRegistry forceRegistry;
     std::list<Shape> tabShape;
 
-    Box object = Box(20, 20, 20);
+    //Box object = Box(20, 20, 20);
+    Cone object = Cone(40, 80);
     ofEasyCam cam;
     bool showAxis = true;
 

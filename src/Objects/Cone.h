@@ -1,7 +1,7 @@
 #pragma once
-#include "RigidBody.h"
+#include "Shape.h"
 
-class Cone : public RigidBody
+class Cone : public Shape
 {
 private:
     float radius;
@@ -30,13 +30,6 @@ public:
 * @brief Draw the cone
 *
 */
-    void draw()
-    {
-        ofSetColor(color[0], color[1], color[2]);
-        shape.setPosition(position.v3());
-        shape.setOrientation(orientation.q());
-        shape.draw();
-        ofSetColor(255, 255, 255);
-    }
+    void draw();
     
 };
