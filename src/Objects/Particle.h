@@ -27,5 +27,4 @@ public:
     bool checkCollision(Particle* particle);
     void draw() override;
     void updateColor() ;
-    //TODO: setup function
 };

@@ -15,13 +15,13 @@ RigidBody::RigidBody()
     // todo verification récupération de tenseur venant bien de box
 }
 
-RigidBody::RigidBody(float _gravity, Vector _linearVelocity, Vector _angularVelocity,
-                     Vector _linearAcceleration)
+RigidBody::RigidBody(float gravity, Vector linearVelocity, Vector angularVelocity,
+                     Vector linearAcceleration)
 {
-    this->gravity = _gravity;
-    this->linearVelocity = _linearVelocity;
-    this->angularVelocity = _angularVelocity;
-    this->linearAcceleration = _linearAcceleration;
+    this->gravity = gravity;
+    this->linearVelocity = linearVelocity;
+    this->angularVelocity = angularVelocity;
+    this->linearAcceleration = linearAcceleration;
 }
 
 

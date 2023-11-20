@@ -75,20 +75,20 @@ void ofApp::TogglePause()
     simPause = !simPause;
 }
 
-void ofApp::AddMultiLineText(ofxPanel& _panel,std::vector<ofxLabel*> &_lines, const std::string& _text)
+void ofApp::AddMultiLineText(ofxPanel& panel,std::vector<ofxLabel*> &lines, const std::string& text)
 {
-    auto textLines = ofSplitString(_text, "\n");
-    _lines = std::vector<ofxLabel*>(textLines.size());
+    auto textLines = ofSplitString(text, "\n");
+    lines = std::vector<ofxLabel*>(textLines.size());
     for (int i=0; i<textLines.size(); i++)
     {
-        _lines[i] = new ofxLabel();
-        _lines[i]->setup(std::to_string(i),textLines[i]);
-        _panel.add(_lines[i]);
+        lines[i] = new ofxLabel();
+        lines[i]->setup(std::to_string(i),textLines[i]);
+        panel.add(lines[i]);
     }
 }
-void updateLines(std::vector<ofxLabel*>& lines,const std::string &_text)
+void updateLines(std::vector<ofxLabel*>& lines,const std::string &text)
 {
-    auto textSplit = ofSplitString(_text, "\n");
+    auto textSplit = ofSplitString(text, "\n");
     for (int i=0; i<lines.size(); i++)
     {
         lines[i]->setup("",textSplit[i]);
@@ -281,31 +281,6 @@ void ofApp::mouseDragged(int x, int y, int button)
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
-    static bool isFirst = true;
-    auto pos = cam.screenToWorld(ofVec3f(x, y, 0));
-    // Setting the initial velocity with the mouse position
-    // todo en 3D
-    switch (button)
-    {
-    case OF_MOUSE_BUTTON_LEFT:
-        break;
-    case OF_MOUSE_BUTTON_RIGHT:
-        if (isFirst)
-        {
-            firstP = Vector(pos.x, pos.y, pos.z);
-            drawLine = false;
-        }
-        else
-        {
-            secP = Vector(pos.x, pos.y, pos.z);
-            drawLine = true;
-        }
-
-        isFirst = !isFirst;
-        break;
-    default:
-        break;
-    }
 }
 
 //--------------------------------------------------------------

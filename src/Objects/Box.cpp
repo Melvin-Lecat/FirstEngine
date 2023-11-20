@@ -59,8 +59,8 @@ Box::Box(float width, float height, float length, Vector translation)
     RigidBody();
 }
 
-Box::Box(float width, float height, float length, float _gravity, Vector _linearVelocity, Vector _angularVelocity,
-         Vector _linearAcceleration, int color[3])
+Box::Box(float width, float height, float length, float gravity, Vector linearVelocity, Vector angularVelocity,
+         Vector linearAcceleration, int color[3])
 {
     this->width = width;
     this->height = height;
@@ -73,7 +73,7 @@ Box::Box(float width, float height, float length, float _gravity, Vector _linear
     this->tenseurJ.l2 = Vector(0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(height)),0);
     this->tenseurJ.l3 = Vector(0,0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(width)));
     this->inversedTenseurJ = tenseurJ.inverse();
-    RigidBody(_gravity, _linearVelocity, _angularVelocity, _linearAcceleration);
+    RigidBody(gravity, linearVelocity, angularVelocity, linearAcceleration);
 }
 
 void Box::addForce(Vector force, Vector pointApplication)

@@ -11,8 +11,8 @@ public:
     Cone();
     Cone(float radius, float height);
     Cone(float radius, float height, int color[3]);
-    Cone(float radius, float height, float _gravity, Vector _linearVelocity, Vector _angularVelocity,
-        Vector _linearAcceleration, int color[3]);
+    Cone(float radius, float height, float gravity, Vector linearVelocity, Vector angularVelocity,
+        Vector linearAcceleration, int color[3]);
     
     
 
