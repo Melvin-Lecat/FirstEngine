@@ -11,7 +11,12 @@ class ofApp : public ofBaseApp
 {
 public:
     void setup() override;
+    void setBoxType();
+    void setConeType();
+    void AddObject();
+    void Fullscreen();
     void TogglePause();
+    void LaunchObject();
     void AddMultiLineText(ofxPanel& panel, std::vector<ofxLabel*>& lines, const std::string& text);
     void checkBoundaries();
     void updateForces();
@@ -46,33 +51,62 @@ public:
     Cone object = Cone(40, 80);
     //Box object = Box(20, 20, 20);
     ofEasyCam cam;
-    bool showAxis = true;
 
     Vector firstP, secP;
     bool drawLine = false; 
 
     // GUI Objects
-    ofxPanel helpPanel, controlPanel, debugPanel;
-    std::vector <ofxLabel*> helpLines,debugLines1, debugLines2;
+    ofxPanel helpPanel, controlPanel, debugPanel, forcePanel, objectPanel;
+    std::vector <ofxLabel*> helpLines;
     std::vector <ofxLabel*> lines;
     // todo toggle ?
-    ofxButton gamePaused ;
-    ofxLabel position,velocity;
+
+    // Control panel elements
+    ofxToggle showHelp, showDebug, showAxis, showForceAdd, showObjectAdd; 
+
+    ofxButton fullscreenButton;
+    ofxButton gamePaused;
+    ofxButton clearAll;
+
+    // Help panel elements
+
+    std::string manualText = 
+           "Press 'p' to pause simulation\n"
+           "Press 'i' to clear all bullets\n"
+           "Press 'o' to fire the current bullet (default : standard)\n"
+           "Press the right arrow to update frame by frame while paused\n"
+           "Click in the window to change the initial velocity\n"
+           "Press 'a' to fire a standard bullet\n"
+           "Press 'z' to fire a laser like bullet\n"
+           "Press 'e' to fire a heavy bullet\n"
+           "Press 'r' to fire a very heavy bullet\n"
+           "Press 't' to fire a custom bullet";
     
-    std::string multilineText = 
-        "Press 'p' to pause simulation\n"
-        "Press 'i' to clear all bullets\n"
-        "Press 'o' to fire the current bullet (default : standard)\n"
-        "Press the right arrow to update frame by frame while paused\n"
-        "Click in the window to change the initial velocity\n"
-        "Press 'a' to fire a standard bullet\n"
-        "Press 'z' to fire a laser like bullet\n"
-        "Press 'e' to fire a heavy bullet\n"
-        "Press 'r' to fire a very heavy bullet\n"
-        "Press 't' to fire a custom bullet";
+    // Debug panel elements
+    ofxLabel position,velocity;
+     std::vector <ofxLabel*>  debugLines1, debugLines2;
+    // Force panel elements
+    ofxLabel positionForceLabel;
+    ofxFloatSlider xpInput, ypInput, zpInput;
+    ofxLabel velocityForceLabel;
+    ofxFloatSlider xvInput, yvInput, zvInput;
+    ofxButton launch;
+    // Object panel elements
+    ofxLabel cdmObjectLabel;
+    ofxFloatSlider xpInputObject, ypInputObject, zpInputObject;
+    ofxLabel objectTypeLabel;
+    ofxButton boxButton,coneButton, addButton; 
+   
     bool GameState = false;
 
 
+    enum ObjectType
+    {
+        BOX,
+        CONE
+    };
+
+    ObjectType objectType = BOX;
     // Tests methods
     void unitTests();
     void vectorTests();

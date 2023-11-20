@@ -1,5 +1,6 @@
 #include "ofApp.h"
 
+#include "Cone.h"
 #include "FrictionGenerator.h"
 #include "GravityGenerator.h"
 #include "MatrixTest.h"
@@ -9,7 +10,8 @@
 
 # define VP_STEP 50
 # define VP_SIZE 500
-
+#define MIN_FORCE -200.0f
+#define MAX_FORCE 200.0f
 
 bool bHelpText;
 
@@ -50,16 +52,29 @@ void ofApp::setup()
     // Setup the GUI
     helpPanel.setup("User Manual:");
     helpPanel.setSize(ofGetWidth() / 2, ofGetHeight());
-    AddMultiLineText(helpPanel, helpLines, multilineText);
+    AddMultiLineText(helpPanel, helpLines, manualText);
 
 
     controlPanel.setup("Control Buttons");
     controlPanel.setPosition(glm::vec3(0,ofGetHeight()/2,0));
     gamePaused.setup("PauseGame");
     gamePaused.addListener(this,&ofApp::TogglePause);
+    showHelp.setup("Enable Help window", false);
+    showDebug.setup("Enable debug window", false);
+    showAxis.setup("Show Grid/Axis", false);
+    showForceAdd.setup("Add force", false);
+    showObjectAdd.setup("Add object", false);
     controlPanel.add(&gamePaused);
+    controlPanel.add(&showHelp);
+    controlPanel.add(&showDebug);
+    controlPanel.add(&showAxis);
+    controlPanel.add(&showForceAdd);
+    controlPanel.add(&showObjectAdd);
+    fullscreenButton.setup("Fullscreen");
+    fullscreenButton.addListener(this, &ofApp::Fullscreen);
+    controlPanel.add(&fullscreenButton);
+    controlPanel.add(clearAll.setup("Clear all objects"));
 
-    
     debugPanel.setup("Object Details");
     debugPanel.setSize(ofGetWidth() / 4, ofGetHeight());
     debugPanel.setPosition(glm::vec3(ofGetWidth()/3,0,0));
@@ -69,10 +84,81 @@ void ofApp::setup()
     debugPanel.add(velocity.setup("Velocity",""));
     AddMultiLineText(debugPanel, debugLines2, object.linearVelocity.to_string());
 
+
+    forcePanel.setup("Add Force");
+    forcePanel.setSize(ofGetWidth() / 4, ofGetHeight());
+    forcePanel.setPosition(glm::vec3(0,0,0));
+    forcePanel.add(positionForceLabel.setup("Position Force", ""));
+    forcePanel.add(xpInput.setup("X", 0, -MAX_FORCE, MAX_FORCE));
+    forcePanel.add(ypInput.setup("Y", 0, -MAX_FORCE, MAX_FORCE));
+    forcePanel.add(zpInput.setup("Z", 0, -MAX_FORCE, MAX_FORCE));
+    forcePanel.add(velocityForceLabel.setup("Velocity Force", ""));
+    forcePanel.add(xvInput.setup("X", 0, -MAX_FORCE, MAX_FORCE));
+    forcePanel.add(yvInput.setup("Y", 0, -MAX_FORCE, MAX_FORCE));
+    forcePanel.add(zvInput.setup("Z", 0, -MAX_FORCE, MAX_FORCE));
+    launch.setup("Launch");
+    launch.addListener(this,&ofApp::LaunchObject);
+    forcePanel.add(&launch);
+
+    objectPanel.setup("Add Object");
+    objectPanel.setSize(ofGetWidth() / 4, ofGetHeight());
+    objectPanel.setPosition(glm::vec3(0,0,0));
+    objectPanel.add(cdmObjectLabel.setup("Mass center position", ""));
+    objectPanel.add(xpInputObject.setup("X", 0, -MAX_FORCE, MAX_FORCE));
+    objectPanel.add(ypInputObject.setup("Y", 0, -MAX_FORCE, MAX_FORCE));
+    objectPanel.add(zpInputObject.setup("Z", 0, -MAX_FORCE, MAX_FORCE));
+    objectPanel.add(objectTypeLabel.setup("Object Type", ""));
+    boxButton.setup("Box");
+    coneButton.setup("Cone");
+    addButton.setup("Add");
+    objectPanel.add(&boxButton);
+    objectPanel.add(&coneButton);
+    objectPanel.add(&addButton);
+    boxButton.addListener(this, &ofApp::setBoxType);
+    coneButton.addListener(this, &ofApp::setConeType);
+    addButton.addListener(this, &ofApp::AddObject);
+    
+    
 }
+void ofApp::setBoxType()
+{
+    objectType = BOX;
+}
+
+void ofApp::setConeType()
+{
+    objectType = CONE;   
+}
+
+void ofApp::AddObject()
+{
+    if (objectType == BOX)
+    {
+        Box obj = Box(20,20,20,Vector(xpInputObject, ypInputObject, zpInputObject));
+        tabShape.emplace_back(obj);
+    }
+    else
+    {
+        // Cone obj = Cone(20,20,Vector(xpInputObject, ypInputObject, zpInputObject));
+        //tabShape.emplace_back(obj);
+    }
+}
+
+
+void ofApp::Fullscreen()
+{
+    ofToggleFullscreen();
+}
+
 void ofApp::TogglePause()
 {
-    simPause = !simPause;
+    showForceAdd = !showForceAdd;
+}
+
+void ofApp::LaunchObject()
+{
+    simPause = false;
+    showForceAdd = false;
 }
 
 void ofApp::AddMultiLineText(ofxPanel& panel,std::vector<ofxLabel*> &lines, const std::string& text)
@@ -169,6 +255,8 @@ void ofApp::update()
 {
     delta_t = static_cast<float>(ofGetLastFrameTime()) * simSpeed;
     checkBoundaries();
+    
+    simPause = showForceAdd;
     if (simPause) return;
     // Set the delta time using the last frame time
     updateForces(); // Todo à modifier pour implémenter des gameobjects
@@ -182,6 +270,7 @@ void ofApp::update()
     force = Vector(20, 0, 30);
     if (!b) addForceObject(object, force, Vector(10, 10, 10));
     object.eulerIntegration(delta_t);
+
 }
 
 void ofApp::drawInteractionArea()
@@ -209,26 +298,37 @@ void ofApp::draw()
     ofEnableDepthTest();
 
     object.draw();
+    
+    if (!showAxis) ofDrawGrid(VP_STEP, VP_SIZE / VP_STEP, !showAxis, !showAxis, !showAxis, !showAxis);
+    else ofDrawAxis(1000000);   
 
-    //ofDrawAxis(1000000);  
-    ofDrawGrid(VP_STEP, VP_SIZE / VP_STEP, true, showAxis, showAxis, showAxis);
     ofDisableDepthTest();
-    if (object.linearVelocity.magnitude() > 2)
+    if(showDebug)
     {
-        ofSetColor(ofColor::greenYellow);
-        ofDrawArrow(object.position.v3(), (object.position + object.linearVelocity).v3(), 10);
-        ofSetColor(ofColor::white);
+        if (object.linearVelocity.magnitude() > 2)
+        {
+            ofSetColor(ofColor::greenYellow);
+            ofDrawArrow(object.position.v3(), (object.position + object.linearVelocity).v3(), 10);
+            ofSetColor(ofColor::white);
+        }
+        
     }
+    
 
     cam.end();
     drawInteractionArea();
     ofSetColor(255);
 
-    helpPanel.draw();
     controlPanel.draw();
-    debugPanel.draw();
-    updateLines(debugLines1,object.position.to_string());
-    updateLines(debugLines2,object.linearVelocity.to_string());
+    if (showHelp) helpPanel.draw();
+    if(showForceAdd) forcePanel.draw();
+    if(showObjectAdd) objectPanel.draw();
+    if (showDebug)
+    {
+        debugPanel.draw();
+        updateLines(debugLines1,object.position.to_string());
+        updateLines(debugLines2,object.linearVelocity.to_string());
+    }
 }
 
 
