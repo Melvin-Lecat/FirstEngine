@@ -1,8 +1,7 @@
 ﻿#pragma once
-#include "DataStructures/Vector.h"
 #include "GameObject.h"
-#include "DataStructures/Quaternion.h"
-#include "DataStructures/Matrix.h"
+#include "Quaternion.h"
+#include "Vector.h"
 
 /**
  * @brief A class that represents a rigid body and set the physics for a game object

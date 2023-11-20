@@ -1,7 +1,5 @@
 ﻿#pragma once
-#include "DataStructures/Vector.h"
-#include "Forces/2D/ParticleForceGenerator.h"
-#include "Objects/Particle.h"
+#include "ParticleForceGenerator.h"
 
 class FixedSpringGenerator : public ParticleForceGenerator
 {

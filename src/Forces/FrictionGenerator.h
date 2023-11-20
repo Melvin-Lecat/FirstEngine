@@ -1,7 +1,5 @@
 ﻿#pragma once
 #include "ForceGenerator.h"
-#include "DataStructures/Vector.h"
-#include "Objects/RigidBody.h"
 
 class FrictionGenerator: public ForceGenerator
 {

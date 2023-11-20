@@ -1,6 +1,7 @@
 #include "QuaternionTest.h"
 
-#include "DataStructures/Quaternion.h"
+#include "Quaternion.h"
+
 
 void QuaternionTest::testQuaternionAddition()
 {

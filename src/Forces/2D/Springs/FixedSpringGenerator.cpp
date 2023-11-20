@@ -1,7 +1,5 @@
 ﻿#include "FixedSpringGenerator.h"
 
-#include "DataStructures/Vector.h"
-#include "Objects/Particle.h"
 
 FixedSpringGenerator::FixedSpringGenerator(Vector point, float k, float length)
 {

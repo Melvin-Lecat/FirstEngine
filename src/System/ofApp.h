@@ -1,10 +1,10 @@
 #pragma once
 
+#include "Box.h"
+#include "ForceRegistry.h"
 #include "ofMain.h"
-#include "DataStructures/Vector.h"
-#include "Forces/ForceRegistry.h"
-#include "Objects/Box.h"
 #include "ofxGui.h"
+#include "Shape.h"
 
 class ofApp : public ofBaseApp
 {

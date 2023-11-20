@@ -1,7 +1,5 @@
 ﻿#include "CollisionManager2D.h"
 
-#include "DataStructures/Vector.h"
-
 /**
  * @brief Return the new velocity of the Particle 1 when in collision with the Particle 2
  *

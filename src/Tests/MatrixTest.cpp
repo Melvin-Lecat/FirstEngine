@@ -1,8 +1,8 @@
 #include "MatrixTest.h"
 
-#include "DataStructures/Matrix.h"
-#include "DataStructures/Matrix4x4.h"
-#include "DataStructures/Vector.h"
+#include "Matrix.h"
+#include "Matrix4x4.h"
+
 
 void MatrixTest::testMatrixAddition()
 {

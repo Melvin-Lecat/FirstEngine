@@ -1,10 +1,10 @@
 #include "ofApp.h"
 
-#include "Forces/FrictionGenerator.h"
-#include "Forces/GravityGenerator.h"
-#include "Tests/MatrixTest.h"
-#include "Tests/QuaternionTest.h"
-#include "Tests/VectorTest.h"
+#include "FrictionGenerator.h"
+#include "GravityGenerator.h"
+#include "MatrixTest.h"
+#include "QuaternionTest.h"
+#include "VectorTest.h"
 
 
 # define VP_STEP 50

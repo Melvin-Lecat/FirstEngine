@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "ForceGenerator.h"
-#include "Objects/RigidBody.h"
 
 class ForceRegistry
 {

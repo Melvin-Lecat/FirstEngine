@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include "DataStructures/Vector.h"
 #include "RigidBody.h"
 #include "Drawable.h"
+#include "Vector.h"
 
 class Particle : public RigidBody, public Drawable
 {

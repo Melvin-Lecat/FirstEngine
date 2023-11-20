@@ -1,6 +1,4 @@
 #pragma once
-#include "DataStructures/Vector.h"
-
 class QuaternionTest
 {
 public:

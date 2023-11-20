@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Objects/RigidBody.h"
+#include "RigidBody.h"
 
 class ForceGenerator
 {

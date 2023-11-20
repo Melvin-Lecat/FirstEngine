@@ -1,318 +1,330 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup>
-    <ClCompile Include="src\2D\Blob.cpp">
-      <Filter>src\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="src\2D\SetupParticule.cpp">
-      <Filter>src\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DataStructures\Matrix.cpp">
-      <Filter>src\DataStructures</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DataStructures\Matrix4x4.cpp">
-      <Filter>src\DataStructures</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DataStructures\Quaternion.cpp">
-      <Filter>src\DataStructures</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DataStructures\Vector.cpp">
-      <Filter>src\DataStructures</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Forces\2D\CollisionManager2D.cpp">
-      <Filter>src\Forces\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Forces\2D\ParticleForceGenerator.cpp">
-      <Filter>src\Forces\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Forces\2D\ParticleForceRegistry.cpp">
-      <Filter>src\Forces\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Forces\2D\ParticleFriction.cpp">
-      <Filter>src\Forces\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Forces\2D\ParticleGravity.cpp">
-      <Filter>src\Forces\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Forces\2D\Springs\FixedSpringGenerator.cpp">
-      <Filter>src\Forces\2D\Springs</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Forces\2D\Springs\ParticleElastic.cpp">
-      <Filter>src\Forces\2D\Springs</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Forces\2D\Springs\ParticleRod.cpp">
-      <Filter>src\Forces\2D\Springs</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Forces\2D\Springs\ParticleSpringGenerator.cpp">
-      <Filter>src\Forces\2D\Springs</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Forces\2D\Springs\ParticleSpringHook.cpp">
-      <Filter>src\Forces\2D\Springs</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Forces\ForceRegistry.cpp">
-      <Filter>src\Forces</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Forces\FrictionGenerator.cpp">
-      <Filter>src\Forces</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Forces\GravityGenerator.cpp">
-      <Filter>src\Forces</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Objects\Box.cpp">
-      <Filter>src\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Objects\CollisionManager2D.cpp">
-      <Filter>src\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Objects\Cone.cpp">
-      <Filter>src\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Objects\DebugObject.cpp">
-      <Filter>src\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Objects\Drawable.cpp">
-      <Filter>src\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Objects\GameObject.cpp">
-      <Filter>src\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Objects\Particle.cpp">
-      <Filter>src\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Objects\RigidBody.cpp">
-      <Filter>src\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\RodObject.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\System\main.cpp">
-      <Filter>src\System</Filter>
-    </ClCompile>
-    <ClCompile Include="src\System\ofApp.cpp">
-      <Filter>src\System</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Tests\MatrixTest.cpp">
-      <Filter>src\Tests</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Tests\QuaternionTest.cpp">
-      <Filter>src\Tests</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Tests\VectorTest.cpp">
-      <Filter>src\Tests</Filter>
-    </ClCompile>
-    <ClCompile Include="src\WireObject.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\addons\ofxGui\src\ofxBaseGui.cpp">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\addons\ofxGui\src\ofxButton.cpp">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\addons\ofxGui\src\ofxColorPicker.cpp">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\addons\ofxGui\src\ofxGuiGroup.cpp">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\addons\ofxGui\src\ofxInputField.cpp">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\addons\ofxGui\src\ofxLabel.cpp">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\addons\ofxGui\src\ofxPanel.cpp">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\addons\ofxGui\src\ofxSlider.cpp">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\addons\ofxGui\src\ofxSliderGroup.cpp">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="src">
-      <UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\2D">
-      <UniqueIdentifier>{7AA1E8CB--508-2-43-14-B-DE9-9E08F0373604}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\DataStructures">
-      <UniqueIdentifier>{C5232145--7DC-0-43-EF-9-260-876AEFB4D0C0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Forces">
-      <UniqueIdentifier>{0B8E5451--CC7-1-4C-AD-9-DC6-EE56964A1A7C}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Forces\2D">
-      <UniqueIdentifier>{65F5C7FE--B2D-3-4E-88-9-4BE-7B8D56926A38}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Forces\2D\Springs">
-      <UniqueIdentifier>{38830F62--AB9-A-4B-59-8-7B8-F18352F14D93}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Objects">
-      <UniqueIdentifier>{EAEB3582--DB3-6-48-29-B-0CE-6DE4056FCC4E}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\System">
-      <UniqueIdentifier>{D39E586C--C92-4-43-D9-B-39F-D932C5CC25E1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Tests">
-      <UniqueIdentifier>{278AE49A--4CF-2-40-DB-8-75E-ABD3D633070E}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons">
-      <UniqueIdentifier>{156D0E05--59C-2-4B-90-9-4E1-0B49626E6C24}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxGui">
-      <UniqueIdentifier>{5377891A--CD9-3-4C-C4-8-015-BEDA8C646828}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxGui\src">
-      <UniqueIdentifier>{2BD31BAA--649-7-43-F5-A-A56-FDBEC4FB5379}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\2D\Blob.h">
-      <Filter>src\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DataStructures\Matrix.h">
-      <Filter>src\DataStructures</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DataStructures\Matrix4x4.h">
-      <Filter>src\DataStructures</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DataStructures\Quaternion.h">
-      <Filter>src\DataStructures</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DataStructures\Vector.h">
-      <Filter>src\DataStructures</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Forces\2D\CollisionManager2D.h">
-      <Filter>src\Forces\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Forces\2D\ParticleForceGenerator.h">
-      <Filter>src\Forces\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Forces\2D\ParticleForceRegistry.h">
-      <Filter>src\Forces\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Forces\2D\ParticleFriction.h">
-      <Filter>src\Forces\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Forces\2D\ParticleGravity.h">
-      <Filter>src\Forces\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Forces\2D\Springs\FixedSpringGenerator.h">
-      <Filter>src\Forces\2D\Springs</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Forces\2D\Springs\ParticleElastic.h">
-      <Filter>src\Forces\2D\Springs</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Forces\2D\Springs\ParticleRod.h">
-      <Filter>src\Forces\2D\Springs</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Forces\2D\Springs\ParticleSpringGenerator.h">
-      <Filter>src\Forces\2D\Springs</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Forces\2D\Springs\ParticleSpringHook.h">
-      <Filter>src\Forces\2D\Springs</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Forces\ForceGenerator.h">
-      <Filter>src\Forces</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Forces\ForceRegistry.h">
-      <Filter>src\Forces</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Forces\FrictionGenerator.h">
-      <Filter>src\Forces</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Forces\GravityGenerator.h">
-      <Filter>src\Forces</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Objects\Box.h">
-      <Filter>src\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Objects\CollisionManager2D.h">
-      <Filter>src\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Objects\Cone.h">
-      <Filter>src\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Objects\DebugObject.h">
-      <Filter>src\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Objects\Drawable.h">
-      <Filter>src\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Objects\GameObject.h">
-      <Filter>src\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Objects\Particle.h">
-      <Filter>src\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Objects\RigidBody.h">
-      <Filter>src\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Objects\Shape.h">
-      <Filter>src\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\RodObject.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\System\ofApp.h">
-      <Filter>src\System</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Tests\MatrixTest.h">
-      <Filter>src\Tests</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Tests\QuaternionTest.h">
-      <Filter>src\Tests</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Tests\VectorTest.h">
-      <Filter>src\Tests</Filter>
-    </ClInclude>
-    <ClInclude Include="src\WireObject.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\addons\ofxGui\src\ofxBaseGui.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\addons\ofxGui\src\ofxButton.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\addons\ofxGui\src\ofxColorPicker.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\addons\ofxGui\src\ofxGui.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\addons\ofxGui\src\ofxGuiGroup.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\addons\ofxGui\src\ofxGuiUtils.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\addons\ofxGui\src\ofxInputField.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\addons\ofxGui\src\ofxLabel.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\addons\ofxGui\src\ofxPanel.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\addons\ofxGui\src\ofxSlider.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\addons\ofxGui\src\ofxSliderGroup.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\addons\ofxGui\src\ofxToggle.h">
-      <Filter>addons\ofxGui\src</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="icon.rc" />
-  </ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="src\ofApp.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\main.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\2D\Blob.cpp">
+			<Filter>src\2D</Filter>
+		</ClCompile>
+		<ClCompile Include="src\2D\SetupParticule.cpp">
+			<Filter>src\2D</Filter>
+		</ClCompile>
+		<ClCompile Include="src\DataStructures\Matrix.cpp">
+			<Filter>src\DataStructures</Filter>
+		</ClCompile>
+		<ClCompile Include="src\DataStructures\Matrix4x4.cpp">
+			<Filter>src\DataStructures</Filter>
+		</ClCompile>
+		<ClCompile Include="src\DataStructures\Quaternion.cpp">
+			<Filter>src\DataStructures</Filter>
+		</ClCompile>
+		<ClCompile Include="src\DataStructures\Vector.cpp">
+			<Filter>src\DataStructures</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Forces\2D\CollisionManager2D.cpp">
+			<Filter>src\Forces\2D</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Forces\2D\ParticleForceGenerator.cpp">
+			<Filter>src\Forces\2D</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Forces\2D\ParticleForceRegistry.cpp">
+			<Filter>src\Forces\2D</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Forces\2D\ParticleFriction.cpp">
+			<Filter>src\Forces\2D</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Forces\2D\ParticleGravity.cpp">
+			<Filter>src\Forces\2D</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Forces\2D\Springs\FixedSpringGenerator.cpp">
+			<Filter>src\Forces\2D\Springs</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Forces\2D\Springs\ParticleElastic.cpp">
+			<Filter>src\Forces\2D\Springs</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Forces\2D\Springs\ParticleRod.cpp">
+			<Filter>src\Forces\2D\Springs</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Forces\2D\Springs\ParticleSpringGenerator.cpp">
+			<Filter>src\Forces\2D\Springs</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Forces\2D\Springs\ParticleSpringHook.cpp">
+			<Filter>src\Forces\2D\Springs</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Forces\ForceRegistry.cpp">
+			<Filter>src\Forces</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Forces\FrictionGenerator.cpp">
+			<Filter>src\Forces</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Forces\GravityGenerator.cpp">
+			<Filter>src\Forces</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Objects\2D\RodObject.cpp">
+			<Filter>src\Objects\2D</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Objects\2D\WireObject.cpp">
+			<Filter>src\Objects\2D</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Objects\Box.cpp">
+			<Filter>src\Objects</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Objects\CollisionManager2D.cpp">
+			<Filter>src\Objects</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Objects\Cone.cpp">
+			<Filter>src\Objects</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Objects\DebugObject.cpp">
+			<Filter>src\Objects</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Objects\Drawable.cpp">
+			<Filter>src\Objects</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Objects\GameObject.cpp">
+			<Filter>src\Objects</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Objects\Particle.cpp">
+			<Filter>src\Objects</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Objects\RigidBody.cpp">
+			<Filter>src\Objects</Filter>
+		</ClCompile>
+		<ClCompile Include="src\System\main.cpp">
+			<Filter>src\System</Filter>
+		</ClCompile>
+		<ClCompile Include="src\System\ofApp.cpp">
+			<Filter>src\System</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Tests\MatrixTest.cpp">
+			<Filter>src\Tests</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Tests\QuaternionTest.cpp">
+			<Filter>src\Tests</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Tests\VectorTest.cpp">
+			<Filter>src\Tests</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxBaseGui.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxButton.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxColorPicker.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxGuiGroup.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxInputField.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxLabel.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxPanel.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxSlider.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxSliderGroup.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="src">
+			<UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\2D">
+			<UniqueIdentifier>{AAE94879--33B-8-40-A6-A-C08-3A53D3147623}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\DataStructures">
+			<UniqueIdentifier>{ADB48F43--791-2-4C-93-9-DFE-BF3E5D7C887D}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\Forces">
+			<UniqueIdentifier>{CA247C8F--A03-E-43-A8-B-DCA-6380BD8452F3}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\Forces\2D">
+			<UniqueIdentifier>{FAE93F20--CE3-9-4F-8C-8-083-A6AE0113B5DF}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\Forces\2D\Springs">
+			<UniqueIdentifier>{272F5926--CD2-3-4D-94-B-6AF-1CBD14F5A0F5}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\Objects">
+			<UniqueIdentifier>{2A0CB6F4--47F-5-4D-F1-8-7E5-249FAC7EC789}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\Objects\2D">
+			<UniqueIdentifier>{254D2F8B--CF0-1-4A-17-8-141-1EB954D9F704}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\System">
+			<UniqueIdentifier>{71A77CDA--B81-3-49-40-B-7DB-05990E495FE8}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\Tests">
+			<UniqueIdentifier>{C541ABB4--3C5-5-4F-35-A-C00-2A751F994788}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons">
+			<UniqueIdentifier>{CDBC259F--69F-3-49-E6-9-50C-82119BAD5A51}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxGui">
+			<UniqueIdentifier>{3AC52DAE--291-9-42-F6-A-73D-8239ED9F8859}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxGui\src">
+			<UniqueIdentifier>{1F36D8DB--EF1-1-4F-F1-8-C4C-4A42AB666531}</UniqueIdentifier>
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="src\ofApp.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\2D\Blob.h">
+			<Filter>src\2D</Filter>
+		</ClInclude>
+		<ClInclude Include="src\DataStructures\Matrix.h">
+			<Filter>src\DataStructures</Filter>
+		</ClInclude>
+		<ClInclude Include="src\DataStructures\Matrix4x4.h">
+			<Filter>src\DataStructures</Filter>
+		</ClInclude>
+		<ClInclude Include="src\DataStructures\Quaternion.h">
+			<Filter>src\DataStructures</Filter>
+		</ClInclude>
+		<ClInclude Include="src\DataStructures\Vector.h">
+			<Filter>src\DataStructures</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Forces\2D\CollisionManager2D.h">
+			<Filter>src\Forces\2D</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Forces\2D\ParticleForceGenerator.h">
+			<Filter>src\Forces\2D</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Forces\2D\ParticleForceRegistry.h">
+			<Filter>src\Forces\2D</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Forces\2D\ParticleFriction.h">
+			<Filter>src\Forces\2D</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Forces\2D\ParticleGravity.h">
+			<Filter>src\Forces\2D</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Forces\2D\Springs\FixedSpringGenerator.h">
+			<Filter>src\Forces\2D\Springs</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Forces\2D\Springs\ParticleElastic.h">
+			<Filter>src\Forces\2D\Springs</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Forces\2D\Springs\ParticleRod.h">
+			<Filter>src\Forces\2D\Springs</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Forces\2D\Springs\ParticleSpringGenerator.h">
+			<Filter>src\Forces\2D\Springs</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Forces\2D\Springs\ParticleSpringHook.h">
+			<Filter>src\Forces\2D\Springs</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Forces\ForceGenerator.h">
+			<Filter>src\Forces</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Forces\ForceRegistry.h">
+			<Filter>src\Forces</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Forces\FrictionGenerator.h">
+			<Filter>src\Forces</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Forces\GravityGenerator.h">
+			<Filter>src\Forces</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Objects\2D\RodObject.h">
+			<Filter>src\Objects\2D</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Objects\2D\WireObject.h">
+			<Filter>src\Objects\2D</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Objects\Box.h">
+			<Filter>src\Objects</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Objects\CollisionManager2D.h">
+			<Filter>src\Objects</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Objects\Cone.h">
+			<Filter>src\Objects</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Objects\DebugObject.h">
+			<Filter>src\Objects</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Objects\Drawable.h">
+			<Filter>src\Objects</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Objects\GameObject.h">
+			<Filter>src\Objects</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Objects\Particle.h">
+			<Filter>src\Objects</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Objects\RigidBody.h">
+			<Filter>src\Objects</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Objects\Shape.h">
+			<Filter>src\Objects</Filter>
+		</ClInclude>
+		<ClInclude Include="src\System\ofApp.h">
+			<Filter>src\System</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Tests\MatrixTest.h">
+			<Filter>src\Tests</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Tests\QuaternionTest.h">
+			<Filter>src\Tests</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Tests\VectorTest.h">
+			<Filter>src\Tests</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxBaseGui.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxButton.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxColorPicker.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxGui.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxGuiGroup.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxGuiUtils.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxInputField.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxLabel.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxPanel.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxSlider.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxSliderGroup.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\addons\ofxGui\src\ofxToggle.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ResourceCompile Include="icon.rc" />
+	</ItemGroup>
 </Project>
