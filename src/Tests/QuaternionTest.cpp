@@ -77,10 +77,10 @@ void QuaternionTest::testQuaternionDifference()
 
 void QuaternionTest::testQuaternionNormalize()
 {
-    Quaternion q1 = Quaternion(1, 0, 0, 0);
+    Quaternion q1 = Quaternion(0, 0, 0, 5);
     auto result = q1.normalize();
 
-    if (result != Quaternion(1, 0, 0, 0))
+    if (result != Quaternion(0, 0, 0, 1))
     {
         std::cout << "Error in QuaternionTest::testQuaternionNormalize()" << std::endl;
     }
