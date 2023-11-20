@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include "DataStructures/Vector.h"
 #include "RigidBody.h"
 #include "Drawable.h"
+#include "Vector.h"
 
 class Particle : public RigidBody, public Drawable
 {
@@ -26,6 +26,5 @@ public:
     Particle* duplicate();
     bool checkCollision(Particle* particle);
     void draw() override;
-    void updateColor() override;
-    //TODO: setup function
+    void updateColor() ;
 };

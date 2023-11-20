@@ -1,6 +1,5 @@
 #pragma once
-#include "DataStructures/Vector.h"
-#include "DataStructures/Matrix.h"
+#include "Vector.h"
 
 /**
  * @brief An abstract class that represents a game object and set global properties

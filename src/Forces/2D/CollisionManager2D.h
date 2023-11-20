@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "../Objects/Particle.h"
+#include "../../Objects/Particle.h"
 
 class CollisionManager2D
 {

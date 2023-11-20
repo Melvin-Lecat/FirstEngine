@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "DataStructures/Vector.h"
+#include "Vector.h"
 
 class DebugObject
 {

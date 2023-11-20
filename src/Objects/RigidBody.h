@@ -1,8 +1,7 @@
 ﻿#pragma once
-#include "DataStructures/Vector.h"
 #include "GameObject.h"
-#include "DataStructures/Quaternion.h"
-#include "DataStructures/Matrix.h"
+#include "Quaternion.h"
+#include "Vector.h"
 
 /**
  * @brief A class that represents a rigid body and set the physics for a game object
@@ -22,10 +21,11 @@ public:
     Matrix tenseurJ = Matrix::zero();
     Matrix inversedTenseurJ = Matrix::zero();
     Vector torque = Vector(0,0,0);
+    Vector massCenter = Vector(0, 0, 0);
 
     RigidBody();
-    RigidBody(float _gravity, Vector _linearVelocity, Vector _angularVelocity,
-              Vector _linearAcceleration);
+    RigidBody(float gravity, Vector linearVelocity, Vector angularVelocity,
+              Vector linearAcceleration);
 
     void eulerIntegration(float delta_t);
     void addForce(Vector force);

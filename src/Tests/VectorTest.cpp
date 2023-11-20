@@ -1,5 +1,6 @@
 #include "VectorTest.h"
-#include "DataStructures/Vector.h"
+
+#include "Vector.h"
 
 void VectorTest::testScalarProduct()
 {

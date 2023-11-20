@@ -63,6 +63,16 @@ Matrix Matrix::operator *=(float k)
     return Matrix(this->l1 * k, this->l2 * k, this->l3 * k);
 }
 
+bool Matrix::operator ==(Matrix m)
+{
+    return this->l1 == m.l1 && this->l2 == m.l2 && this->l3 == m.l3;
+}
+
+bool Matrix::operator !=(Matrix m)
+{
+    return this->l1 != m.l1 || this->l2 != m.l2 || this->l3 != m.l3;
+}
+
 std::string Matrix::to_string()
 {
     std::stringstream ss;
@@ -79,6 +89,11 @@ std::string Matrix::to_string()
 
 Matrix Matrix::zero() { return Matrix(Vector(0, 0, 0), Vector(0, 0, 0), Vector(0, 0, 0)); }
 
+/**
+ * @brief Compute the inverse of the matrix
+ * 
+ * @return The inverse of the matrix if it exists or throw an error if it doesn't
+ */
 Matrix Matrix::inverse()
 {
     float det = l1.x * (l2.y * l3.z - l2.z * l3.y) - l1.y * (l2.x * l3.z - l2.z * l3.x) + l1.z * (l2.x * l3.y - l2.y * l3.x);

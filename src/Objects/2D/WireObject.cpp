@@ -17,8 +17,8 @@ void WireObject::CheckCollision()
     {
         auto direction = (p1->position - p2->position).normalized();
         auto amp = (e + 1) / (p1->getInversedMass() + p2->getInversedMass());
-        p1->velocity += direction.opposite() * K *amp ;
-        p2->velocity += direction * K * amp;
+        p1->linearVelocity += direction.opposite() * K *amp ;
+        p2->linearVelocity += direction * K * amp;
     }
 }
 

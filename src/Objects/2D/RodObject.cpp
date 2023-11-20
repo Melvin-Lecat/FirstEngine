@@ -18,15 +18,15 @@ void RodObject::CheckCollision()
     {
         auto direction = (p1->position - p2->position).normalized();
         auto amp = (e + 1) / (p1->getInversedMass() + p2->getInversedMass());
-        p1->velocity += direction * amp * (length - distance);
-        p2->velocity += direction.opposite() * amp* (length - distance);
+        p1->linearVelocity += direction * amp * (length - distance);
+        p2->linearVelocity += direction.opposite() * amp* (length - distance);
         
         /*Vector n = (p1->position - p2->position).normalized();
 
-        auto p1Proj = p1->velocity.projection(n);
-        p1->velocity += p1Proj;
-        auto p2Proj = p2->velocity.projection(n);
-        p2->velocity -= p2Proj;*/
+        auto p1Proj = p1->linearVelocity.projection(n);
+        p1->linearVelocity += p1Proj;
+        auto p2Proj = p2->linearVelocity.projection(n);
+        p2->linearVelocity -= p2Proj;*/
     }
     
 }
