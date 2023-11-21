@@ -10,14 +10,20 @@
 class ofApp : public ofBaseApp
 {
 public:
+    void setupForcePanel();
+    void setupDebugPanel();
+    void setupObjectPanel();
+    void setupControlPanel();
+    void setupHelpPanel();
     void setup() override;
     void setBoxType();
     void setConeType();
-    void AddObject();
-    void Fullscreen();
-    void TogglePause();
-    void LaunchObject();
-    void AddMultiLineText(ofxPanel& panel, std::vector<ofxLabel*>& lines, const std::string& text);
+    void addObject();
+    void clearAllObjects();
+    void fullscreen();
+    void togglePause();
+    void launchObject();
+    void addMultiLineText(ofxPanel& panel, std::vector<ofxLabel*>& lines, const std::string& text);
     void checkBoundaries();
     void updateForces();
     void addForceObject(Shape &obj, Vector forceIntensity, Vector pointApplication);
@@ -46,14 +52,12 @@ public:
     
 
     ForceRegistry forceRegistry;
-    std::list<Shape> tabShape;
+    std::list<Shape*> tabShape;
 
-    Cone object = Cone(40, 80);
+    //Cone object = Cone(40, 80);
     //Box object = Box(20, 20, 20);
     ofEasyCam cam;
 
-    Vector firstP, secP;
-    bool drawLine = false; 
 
     // GUI Objects
     ofxPanel helpPanel, controlPanel, debugPanel, forcePanel, objectPanel;
@@ -69,7 +73,6 @@ public:
     ofxButton clearAll;
 
     // Help panel elements
-
     std::string manualText = 
            "Press 'p' to pause simulation\n"
            "Press 'i' to clear all bullets\n"
@@ -85,17 +88,21 @@ public:
     // Debug panel elements
     ofxLabel position,velocity;
      std::vector <ofxLabel*>  debugLines1, debugLines2;
+    
     // Force panel elements
     ofxLabel positionForceLabel;
     ofxFloatSlider xpInput, ypInput, zpInput;
     ofxLabel velocityForceLabel;
     ofxFloatSlider xvInput, yvInput, zvInput;
     ofxButton launch;
+    
     // Object panel elements
     ofxLabel cdmObjectLabel;
     ofxFloatSlider xpInputObject, ypInputObject, zpInputObject;
     ofxLabel objectTypeLabel;
-    ofxButton boxButton,coneButton, addButton; 
+    ofxButton boxButton,coneButton, addButton;
+    ofxLabel initialForceLabel;
+    ofxFloatSlider xfInput, yfInput, zfInput;
    
     bool GameState = false;
 
@@ -107,6 +114,8 @@ public:
     };
 
     ObjectType objectType = BOX;
+
+    
     // Tests methods
     void unitTests();
     void vectorTests();
