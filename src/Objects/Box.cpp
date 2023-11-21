@@ -2,13 +2,13 @@
 
 Box::Box()
 {
-    this->width = 1;// b
+    this->width = 1; // b
     this->height = 1; // c
-    this->depth = 1;// a
+    this->depth = 1; // a
     this->shape = ofBoxPrimitive(width, height, depth);
-    this->tenseurJ.l1 = Vector((getMass()/12)*(glm::pow2(width)+glm::pow2(height)),0,0);
-    this->tenseurJ.l2 = Vector(0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(height)),0);
-    this->tenseurJ.l3 = Vector(0,0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(width)));
+    this->tenseurJ.l1 = Vector((getMass() / 12) * (glm::pow2(width) + glm::pow2(height)), 0, 0);
+    this->tenseurJ.l2 = Vector(0, (getMass() / 12) * (glm::pow2(depth) + glm::pow2(height)), 0);
+    this->tenseurJ.l3 = Vector(0, 0, (getMass() / 12) * (glm::pow2(depth) + glm::pow2(width)));
     this->inversedTenseurJ = tenseurJ.inverse();
     RigidBody();
 }
@@ -19,11 +19,11 @@ Box::Box(float width, float height, float length)
     this->height = height;
     this->depth = length;
     this->shape = ofBoxPrimitive(width, height, length);
-    this->tenseurJ.l1 = Vector((getMass()/12)*(glm::pow2(width)+glm::pow2(height)),0,0);
-    this->tenseurJ.l2 = Vector(0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(height)),0);
-    this->tenseurJ.l3 = Vector(0,0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(width)));
+    this->tenseurJ.l1 = Vector((getMass() / 12) * (glm::pow2(width) + glm::pow2(height)), 0, 0);
+    this->tenseurJ.l2 = Vector(0, (getMass() / 12) * (glm::pow2(depth) + glm::pow2(height)), 0);
+    this->tenseurJ.l3 = Vector(0, 0, (getMass() / 12) * (glm::pow2(depth) + glm::pow2(width)));
     this->inversedTenseurJ = tenseurJ.inverse();
-    massCenter = Vector(0,0,0);
+    massCenter = Vector(0, 0, 0);
     RigidBody();
 }
 
@@ -36,12 +36,13 @@ Box::Box(float width, float height, float length, int color[3])
     this->color[1] = color[1];
     this->color[2] = color[2];
     this->shape = ofBoxPrimitive(width, height, length);
-    this->tenseurJ.l1 = Vector((getMass()/12)*(glm::pow2(width)+glm::pow2(height)),0,0);
-    this->tenseurJ.l2 = Vector(0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(height)),0);
-    this->tenseurJ.l3 = Vector(0,0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(width)));
+    this->tenseurJ.l1 = Vector((getMass() / 12) * (glm::pow2(width) + glm::pow2(height)), 0, 0);
+    this->tenseurJ.l2 = Vector(0, (getMass() / 12) * (glm::pow2(depth) + glm::pow2(height)), 0);
+    this->tenseurJ.l3 = Vector(0, 0, (getMass() / 12) * (glm::pow2(depth) + glm::pow2(width)));
     this->inversedTenseurJ = tenseurJ.inverse();
     RigidBody();
 }
+
 Box::Box(float width, float height, float length, Vector translation)
 {
     this->width = width;
@@ -51,9 +52,9 @@ Box::Box(float width, float height, float length, Vector translation)
     this->color[1] = color[1];
     this->color[2] = color[2];
     this->shape = ofBoxPrimitive(width, height, length);
-    this->tenseurJ.l1 = Vector((getMass()/12)*(glm::pow2(width)+glm::pow2(height)),0,0);
-    this->tenseurJ.l2 = Vector(0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(height)),0);
-    this->tenseurJ.l3 = Vector(0,0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(width)));
+    this->tenseurJ.l1 = Vector((getMass() / 12) * (glm::pow2(width) + glm::pow2(height)), 0, 0);
+    this->tenseurJ.l2 = Vector(0, (getMass() / 12) * (glm::pow2(depth) + glm::pow2(height)), 0);
+    this->tenseurJ.l3 = Vector(0, 0, (getMass() / 12) * (glm::pow2(depth) + glm::pow2(width)));
     this->moveCenterMass(translation);
     this->inversedTenseurJ = tenseurJ.inverse();
     RigidBody();
@@ -69,27 +70,28 @@ Box::Box(float width, float height, float length, float gravity, Vector linearVe
     this->color[1] = color[1];
     this->color[2] = color[2];
     this->shape = ofBoxPrimitive(width, height, length);
-    this->tenseurJ.l1 = Vector((getMass()/12)*(glm::pow2(width)+glm::pow2(height)),0,0);
-    this->tenseurJ.l2 = Vector(0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(height)),0);
-    this->tenseurJ.l3 = Vector(0,0,(getMass()/12)*(glm::pow2(depth)+glm::pow2(width)));
+    this->tenseurJ.l1 = Vector((getMass() / 12) * (glm::pow2(width) + glm::pow2(height)), 0, 0);
+    this->tenseurJ.l2 = Vector(0, (getMass() / 12) * (glm::pow2(depth) + glm::pow2(height)), 0);
+    this->tenseurJ.l3 = Vector(0, 0, (getMass() / 12) * (glm::pow2(depth) + glm::pow2(width)));
     this->inversedTenseurJ = tenseurJ.inverse();
     RigidBody(gravity, linearVelocity, angularVelocity, linearAcceleration);
 }
 
 void Box::addForce(Vector force, Vector pointApplication)
 {
-   /*auto xAxis= shape.getXAxis();
-    auto yAxis = shape.getYAxis();
-    auto zAxis = shape.getZAxis();
-    auto xVal = pointApplication.projection(Vector(xAxis.x, xAxis.y, xAxis.z)).x;
-    auto yVal = pointApplication.projection(Vector(yAxis.x, yAxis.y, yAxis.z)).y;
-    auto zVal = pointApplication.projection(Vector(zAxis.x, zAxis.y, zAxis.z)).z;
-    glm::clamp(xVal, -depth/2, depth/2); // x = depth , y = width , z = height
-    glm::clamp(yVal, -width/2, width/2);
-    glm::clamp(zVal, -height/2, height/2);
-    auto correctedPoint = Vector(xVal, yVal, zVal);*/
+    /*auto xAxis= shape.getXAxis();
+     auto yAxis = shape.getYAxis();
+     auto zAxis = shape.getZAxis();
+     auto xVal = pointApplication.projection(Vector(xAxis.x, xAxis.y, xAxis.z)).x;
+     auto yVal = pointApplication.projection(Vector(yAxis.x, yAxis.y, yAxis.z)).y;
+     auto zVal = pointApplication.projection(Vector(zAxis.x, zAxis.y, zAxis.z)).z;
+     glm::clamp(xVal, -depth/2, depth/2); // x = depth , y = width , z = height
+     glm::clamp(yVal, -width/2, width/2);
+     glm::clamp(zVal, -height/2, height/2);
+     auto correctedPoint = Vector(xVal, yVal, zVal);*/
     RigidBody::addForce(force, pointApplication);
 }
+
 void Box::addForce(Vector force)
 {
     RigidBody::addForce(force);
@@ -98,7 +100,7 @@ void Box::addForce(Vector force)
 void Box::draw()
 {
     // Draw the center of mass of the box
-    Vector realCenter = orientation.applyRotation(massCenter,orientation);
+    Vector realCenter = orientation.applyRotation(massCenter, orientation);
     ofSetColor(ofColor::yellow, 255);
     ofDrawSphere((position + realCenter).v3(), 5);
 
@@ -108,5 +110,4 @@ void Box::draw()
     shape.setOrientation(orientation.q());
     shape.draw();
     ofSetColor(255, 255, 255);
-    
 }

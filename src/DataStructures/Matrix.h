@@ -25,7 +25,6 @@ public:
     Matrix operator *=(float k);
     // Multiplication by vector
     Vector operator *(Vector v);
-    Vector operator *=(Vector v);
 
     bool operator ==(Matrix m);
     bool operator !=(Matrix m);

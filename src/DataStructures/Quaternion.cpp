@@ -142,7 +142,7 @@ float Quaternion::scalarProduct(Quaternion q)
 Vector Quaternion::applyRotation(Vector v, Quaternion q)
 {
     auto p = Quaternion(v.w, v.x, v.y, v.z);
-    Quaternion final = (q * p) *  conjugate(q);
+    Quaternion final = (q * p) * conjugate(q);
     return Vector(final.x, final.y, final.z, final.w);
 }
 

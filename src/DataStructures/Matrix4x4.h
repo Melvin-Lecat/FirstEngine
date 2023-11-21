@@ -20,13 +20,12 @@ public:
     // Multiplication by scalar
     Matrix4x4 operator *(float k);
     Matrix4x4 operator *=(float k);
-    float det();
 
     bool operator ==(Matrix4x4 m);
     bool operator !=(Matrix4x4 m);
-
     std::string to_string();
-    Matrix4x4 transpose();
-
+    
     static Matrix4x4 zero();
+    float determinant();
+    Matrix4x4 transpose();
 };

@@ -12,7 +12,6 @@ RigidBody::RigidBody()
     this->angularAcceleration = Vector(0, 0, 0);
     this->orientation_0 = Quaternion(1, 0, 0, 0);
     this->orientation = Quaternion(1, 0, 0, 0);
-    // todo verification récupération de tenseur venant bien de box
 }
 
 RigidBody::RigidBody(float gravity, Vector linearVelocity, Vector angularVelocity,
@@ -57,7 +56,6 @@ void RigidBody::eulerIntegration(float delta_t)
  * 
  * @param force 
  */
-
 void RigidBody::addForce(Vector force)
 {
     this->accumForce += force;
@@ -94,6 +92,44 @@ float RigidBody::calculateDistance(GameObject* other)
     return this->position.distance(other->position);
 }
 
+/**
+ * @brief Calculate the angular acceleration of the object using torque and the inverse of the tenseurJ
+ * 
+ */
+void RigidBody::calculateAngularAcceleration()
+{
+    setAngularAcceleration(Vector(
+        torque.x * inversedTenseurJ.l1.x + torque.y * inversedTenseurJ.l2.x + torque.z * inversedTenseurJ.l3.x,
+        torque.x * inversedTenseurJ.l1.y + torque.y * inversedTenseurJ.l2.y + torque.z * inversedTenseurJ.l3.y,
+        torque.x * inversedTenseurJ.l1.z + torque.y * inversedTenseurJ.l2.z + torque.z * inversedTenseurJ.l3.z));
+}
+
+/**
+ * @brief Update the inverse of the tenseurJ
+ * 
+ */
+void RigidBody::updateInversedJ()
+{
+    inversedTenseurJ = (orientation.quatToMat() * inversedTenseurJ) * orientation.quatToMat().inverse();
+}
+
+/**
+ * @brief Move the center of mass of the object using a translation
+ * 
+ * @param translation 
+ */
+void RigidBody::moveCenterMass(Vector translation)
+{
+    tenseurJ = tenseurJ + (Matrix(
+        Vector(glm::pow2(translation.y) + glm::pow2(translation.z), -translation.x * translation.y,
+               -translation.x * translation.z),
+        Vector(-translation.x * translation.y, glm::pow2(translation.x) + glm::pow2(translation.z),
+               -translation.y * translation.z),
+        Vector(-translation.x * translation.z, -translation.y * translation.z,
+               glm::pow2(translation.x) + glm::pow2(translation.y))) * getMass());
+
+    massCenter = translation;
+}
 
 void RigidBody::setGravity(float gravity)
 {
@@ -128,31 +164,4 @@ void RigidBody::setLinearAcceleration(Vector linearAcceleration)
 void RigidBody::setAngularAcceleration(Vector angularAcceleration)
 {
     this->angularAcceleration = angularAcceleration;
-}
-
-void RigidBody::calculateAngularAcceleration()
-{
-    setAngularAcceleration(Vector(
-        torque.x * inversedTenseurJ.l1.x + torque.y * inversedTenseurJ.l2.x + torque.z * inversedTenseurJ.l3.x,
-        torque.x * inversedTenseurJ.l1.y + torque.y * inversedTenseurJ.l2.y + torque.z * inversedTenseurJ.l3.y,
-        torque.x * inversedTenseurJ.l1.z + torque.y * inversedTenseurJ.l2.z + torque.z * inversedTenseurJ.l3.z));
-}
-
-void RigidBody::updateInversedJ()
-{
-    inversedTenseurJ = (orientation.quatToMat() * inversedTenseurJ) * orientation.quatToMat().inverse();
-}
-
-void RigidBody::moveCenterMass(Vector translation)
-{
-
-    tenseurJ = tenseurJ + (Matrix(
-        Vector(glm::pow2(translation.y) + glm::pow2(translation.z), -translation.x * translation.y,
-               -translation.x * translation.z),
-        Vector(-translation.x * translation.y, glm::pow2(translation.x) + glm::pow2(translation.z),
-               -translation.y * translation.z),
-        Vector(-translation.x * translation.z, -translation.y * translation.z,
-               glm::pow2(translation.x) + glm::pow2(translation.y))) * getMass());
-
-    massCenter =  translation;
 }
