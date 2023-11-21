@@ -1,27 +1,6 @@
 #include "ofApp.h"
 
-#include "Cone.h"
-#include "FrictionGenerator.h"
-#include "GravityGenerator.h"
-#include "MatrixTest.h"
-#include "QuaternionTest.h"
-#include "VectorTest.h"
 
-
-# define VP_STEP 50
-# define VP_SIZE 500
-# define MAX_FORCE 1000.0f
-
-// Width is the X axis
-# define BOX_WIDTH 20
-// Heigth is the Y axis
-# define BOX_HEIGHT 10
-// Lenght is the Z axis
-# define BOX_LENGHT 100
-
-// Radius is the X and Z axis
-# define CONE_RADIUS 200
-# define CONE_HEIGHT 50
 
 float maxX = max(BOX_WIDTH, CONE_RADIUS);
 float maxY = max(BOX_HEIGHT, CONE_HEIGHT);
@@ -106,17 +85,17 @@ void ofApp::setupControlPanel()
     showDebug.setup("Enable debug window", false);
     showAxis.setup("Show Grid/Axis", false);
     showForceAdd.setup("Add force", false);
-    showObjectAdd.setup("Add object", false);
     controlPanel.add(&gamePaused);
     controlPanel.add(&showHelp);
     controlPanel.add(&showDebug);
     controlPanel.add(&showAxis);
     controlPanel.add(&showForceAdd);
-    controlPanel.add(&showObjectAdd);
     fullscreenButton.setup("Fullscreen");
     fullscreenButton.addListener(this, &ofApp::fullscreen);
     controlPanel.add(&fullscreenButton);
     controlPanel.add(clearAll.setup("Clear all objects"));
+    controlPanel.add(gravityToggle.setup("Enable gravity", true));
+    controlPanel.add(frictionToggle.setup("Enable friction", false));
     clearAll.addListener(this, &ofApp::clearAllObjects);
 }
 
@@ -173,7 +152,7 @@ void ofApp::addObject()
         tabShape.emplace_back(new Cone(CONE_RADIUS,CONE_HEIGHT, Vector(xpInputObject, ypInputObject, zpInputObject)));
         break;
     }
-    tabShape.back()->addForce(Vector(xfInput, yfInput, zfInput));
+    tabShape.back()->addForce(Vector(xfInput, yfInput, zfInput), Vector(0,0,0));
 }
 
 void ofApp::clearAllObjects()
@@ -255,16 +234,16 @@ void ofApp::checkBoundaries()
     }
 }
 
+GravityGenerator genGravity(Vector(0, -9.81, 0));
+FrictionGenerator genFriction(0.1);
 void ofApp::updateForces()
 {
     {
-        GravityGenerator genGravity(Vector(0, -9.81, 0));
-        FrictionGenerator genFriction(0.1);
         // Appliquer les forces
         for (auto& object : tabShape)
         {
-            //forceRegistry.add(object, &genGravity);
-            //forceRegistry.add(object, &genFriction);
+            if(gravityToggle) forceRegistry.add(object, &genGravity);
+            if(frictionToggle) forceRegistry.add(object, &genFriction);
         }
     }
     forceRegistry.updateForces(delta_t);
@@ -332,17 +311,13 @@ void ofApp::draw()
     controlPanel.draw();
     if (showHelp) helpPanel.draw();
     if (showForceAdd) forcePanel.draw();
-    if (showObjectAdd) objectPanel.draw();
-    if (showDebug)
+    objectPanel.draw();
+    if (showDebug   && tabShape.size() > 0)
     {
         debugPanel.draw();
         auto object = tabShape.back();
         updateLines(debugLines1, object->position.to_string());
         updateLines(debugLines2, object->linearVelocity.to_string());
-    }
-    if (showDebug)
-    {
-        auto object = tabShape.back();
         if (object->linearVelocity.magnitude() > 2)
         {
             ofSetColor(ofColor::greenYellow);
@@ -361,10 +336,6 @@ void ofApp::keyPressed(int key)
     case ' ':
         cam.getOrtho() ? cam.disableOrtho() : cam.enableOrtho();
         break;
-    case 'a':
-    case 'A':
-        showAxis = !showAxis;
-        break;
     case 'C':
     case 'c':
         cam.getMouseInputEnabled() ? cam.disableMouseInput() : cam.enableMouseInput();
@@ -373,17 +344,9 @@ void ofApp::keyPressed(int key)
     case 'f':
         ofToggleFullscreen();
         break;
-    case 'H':
-    case 'h':
-        bHelpText ^= true;
-        break;
-    case 'I':
-    case 'i':
-        cam.getInertiaEnabled() ? cam.disableInertia() : cam.enableInertia();
-        break;
-    case 'Y':
-    case 'y':
-        cam.setRelativeYAxis(!cam.getRelativeYAxis());
+    case 'p':
+    case 'P':
+        showForceAdd = !showForceAdd;
         break;
     default:
         break;

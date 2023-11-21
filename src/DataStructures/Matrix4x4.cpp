@@ -156,8 +156,6 @@ bool Matrix4x4::operator !=(Matrix4x4 m)
     return this->l1 != m.l1 || this->l2 != m.l2 || this->l3 != m.l3 || this->l4 != m.l4;
 }
 
-Matrix4x4 Matrix4x4::zero() { return Matrix4x4(Vector(0, 0, 0), Vector(0, 0, 0), Vector(0, 0, 0), Vector(0, 0, 0)); }
-
 std::string Matrix4x4::to_string()
 {
     std::stringstream ss;
@@ -169,4 +167,32 @@ std::string Matrix4x4::to_string()
     ss << "| " << std::setw(s) << l4.x << " " << std::setw(s) << l4.y << " " << std::setw(s) << l4.z << std::setw(s) << l4.w << " " << " |" << std::endl;
 
     return ss.str();
+}
+
+Matrix4x4 Matrix4x4::zero() { return Matrix4x4(Vector(0, 0, 0), Vector(0, 0, 0), Vector(0, 0, 0), Vector(0, 0, 0)); }
+
+/**
+ * @brief Calculate the determinant of the 4x4 matrix
+ * @return The determinant of the 4x4 matrix
+ */
+float Matrix4x4::determinant()
+{
+    return (l1.x * l2.y * l3.z * l4.w + l2.x * l3.y * l1.z * l4.w + l3.x * l1.y * l2.z * l4.w - l3.x * l2.y * l1.z * l4.
+            w - l2.x * l1.y * l3.z * l4.w - l1.x * l3.y * l2.z * l4.w)
+        - (l4.x * l1.y * l2.z * l3.w + l4.x * l2.y * l3.z * l1.w + l4.x * l3.y * l1.z * l2.w - l4.x * l3.y * l2.z * l1.w
+            - l4.x * l2.y * l1.z * l3.w - l4.x * l1.y * l3.z * l2.w)
+        + (l1.x * l4.y * l2.z * l3.w + l2.x * l4.y * l3.z * l1.w + l3.x * l4.y * l1.z * l2.w - l3.x * l4.y * l2.z * l1.w
+            - l2.x * l4.y * l1.z * l3.w - l1.x * l4.y * l3.z * l2.w)
+        - (l1.x * l2.y * l4.z * l3.w + l2.x * l3.y * l4.z * l1.w + l3.x * l1.y * l4.z * l2.w - l3.x * l2.y * l4.z * l1.w
+            - l2.x * l1.y * l4.z * l3.w - l1.x * l3.y * l4.z * l2.w);
+}
+
+/**
+ * @brief Calculate the transpose of the 4x4 matrix
+ * @return The transpose of the 4x4 matrix
+ */
+Matrix4x4 Matrix4x4::transpose()
+{
+    return Matrix4x4(Vector(l1.x, l2.x, l3.x, l4.x), Vector(l1.y, l2.y, l3.y, l4.y), Vector(l1.z, l2.z, l3.z, l4.z),
+                     Vector(l1.w, l2.w, l3.w, l4.w));
 }

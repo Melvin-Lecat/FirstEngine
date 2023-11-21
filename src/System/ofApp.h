@@ -1,11 +1,32 @@
 #pragma once
 
 #include "Box.h"
-#include "Cone.h"
 #include "ForceRegistry.h"
 #include "ofMain.h"
 #include "ofxGui.h"
 #include "Shape.h"
+#include "Cone.h"
+#include "FrictionGenerator.h"
+#include "GravityGenerator.h"
+#include "MatrixTest.h"
+#include "QuaternionTest.h"
+#include "VectorTest.h"
+
+
+# define VP_STEP 50
+# define VP_SIZE 500
+# define MAX_FORCE 1000.0f
+
+// Width is the X axis
+# define BOX_WIDTH 40
+// Heigth is the Y axis
+# define BOX_HEIGHT 20
+// Lenght is the Z axis
+# define BOX_LENGHT 50
+
+// Radius is the X and Z axis
+# define CONE_RADIUS 40
+# define CONE_HEIGHT 50
 
 class ofApp : public ofBaseApp
 {
@@ -66,25 +87,25 @@ public:
     // todo toggle ?
 
     // Control panel elements
-    ofxToggle showHelp, showDebug, showAxis, showForceAdd, showObjectAdd; 
+    ofxToggle showHelp, showDebug, showAxis, showForceAdd, gravityToggle, frictionToggle; 
 
     ofxButton fullscreenButton;
     ofxButton gamePaused;
     ofxButton clearAll;
 
     // Help panel elements
-    std::string manualText = 
-           "Press 'p' to pause simulation\n"
-           "Press 'i' to clear all bullets\n"
-           "Press 'o' to fire the current bullet (default : standard)\n"
-           "Press the right arrow to update frame by frame while paused\n"
-           "Click in the window to change the initial velocity\n"
-           "Press 'a' to fire a standard bullet\n"
-           "Press 'z' to fire a laser like bullet\n"
-           "Press 'e' to fire a heavy bullet\n"
-           "Press 'r' to fire a very heavy bullet\n"
-           "Press 't' to fire a custom bullet";
-    
+    std::string manualText =
+        
+        "While adding an object, \n the initial force is applied on [0,0,0]\n"
+        "Enabling the debug panel, will show informations on the last added obect to the viewport. \n"
+        "The same goes for the force panel \n"
+        "Keyboard shortcut are enabled to control the application \n"
+        "Pressing 'spacebar' will enable orthographic camera \n"
+        "Pressing 'f' will enable fullscreen \n"
+        "Pressing 'c' will disable mouse interaction with the simulation \n"
+        "Pressing 'p' will pause the simulation \n"
+        "Pressing 'esc' will exit the application \n"; 
+
     // Debug panel elements
     ofxLabel position,velocity;
      std::vector <ofxLabel*>  debugLines1, debugLines2;

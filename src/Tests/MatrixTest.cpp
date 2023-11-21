@@ -121,6 +121,7 @@ void MatrixTest::testMatrixDeterminant()
     Matrix m = Matrix(Vector(1, 2, 3), Vector(4, 5, 6), Vector(7, 8, 9));
     auto result = m.determinant();
 
+    // 
     if (result != 0)
     {
         std::cout << "Error in MatrixTest::testMatrixDeterminant()" << std::endl;

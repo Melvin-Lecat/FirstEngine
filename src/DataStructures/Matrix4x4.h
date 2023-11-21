@@ -26,7 +26,6 @@ public:
 
     bool operator ==(Matrix4x4 m);
     bool operator !=(Matrix4x4 m);
-
     std::string to_string();
 
     static Matrix4x4 zero();
