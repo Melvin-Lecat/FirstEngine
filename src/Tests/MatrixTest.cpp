@@ -43,6 +43,18 @@ void MatrixTest::testMatrixMultiplication()
     }
 }
 
+void MatrixTest::testMatrixMultiplicationByVector()
+{
+    Matrix m = Matrix(Vector(1, 2, 3), Vector(4, 5, 6), Vector(7, 8, 9));
+    auto result = m * Vector(1,2,3);
+
+    // (1x1 + 2x2 + 3x3) = 14, (4x1 + 5x2 + 6x3) = 32, (7x1 + 8x2 + 9x3) = 50
+    if (result != Vector(14,32,50))
+    {
+        std::cout << "Error in MatrixTest::testMatrixMultiplicationByVector()" << std::endl;
+    }
+}
+
 void MatrixTest::testMatrixMultiplicationByScalar()
 {
     Matrix m = Matrix(Vector(1, 2, 3), Vector(4, 5, 6), Vector(7, 8, 9));
@@ -90,6 +102,28 @@ void MatrixTest::testMatrixInverse()
     catch (const std::runtime_error& e)
     {
         // If we get there, the test is successful
+    }
+}
+
+void MatrixTest::testMatrixTranspose()
+{
+    Matrix m = Matrix(Vector(1, 2, 3), Vector(4, 5, 6), Vector(7, 8, 9));
+    auto result = m.transpose();
+
+    if (result != Matrix(Vector(1, 4, 7), Vector(2, 5, 8), Vector(3, 6, 9)))
+    {
+        std::cout << "Error in MatrixTest::testMatrixTranspose()" << std::endl;
+    }
+}
+
+void MatrixTest::testMatrixDeterminant()
+{
+    Matrix m = Matrix(Vector(1, 2, 3), Vector(4, 5, 6), Vector(7, 8, 9));
+    auto result = m.determinant();
+
+    if (result != 0)
+    {
+        std::cout << "Error in MatrixTest::testMatrixDeterminant()" << std::endl;
     }
 }
 
