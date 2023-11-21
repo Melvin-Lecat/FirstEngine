@@ -83,8 +83,6 @@ std::string Matrix::to_string()
     ss << "| " << std::setw(s) << l1.z << " " << std::setw(s) << l2.z << " " << std::setw(s) << l3.z << " |" << std::endl;
 
     return ss.str();
-    //return "ok";
-    //return "l1:" + std::to_string(this->l1) + "   l2: " + std::to_string(this->l2) + "   l3: " + std::to_string(this->l3);
 }
 
 Matrix Matrix::zero() { return Matrix(Vector(0, 0, 0), Vector(0, 0, 0), Vector(0, 0, 0)); }

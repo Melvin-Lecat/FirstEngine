@@ -132,9 +132,9 @@ void ofApp::setup()
     setupHelpPanel();
     setupDebugPanel();
     setupForcePanel();
-    setupObjectPanel();
-    
+    setupObjectPanel();    
 }
+
 void ofApp::setBoxType()
 {
     objectType = BOX;
