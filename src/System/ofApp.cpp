@@ -153,6 +153,13 @@ void ofApp::Fullscreen()
 void ofApp::TogglePause()
 {
     showForceAdd = !showForceAdd;
+    showForceAdd = !showForceAdd;
+}
+
+void ofApp::LaunchObject()
+{
+    simPause = false;
+    showForceAdd = false;
 }
 
 void ofApp::LaunchObject()
