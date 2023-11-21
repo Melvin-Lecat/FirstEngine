@@ -88,12 +88,57 @@ Matrix4x4 Matrix4x4::operator *=(float k)
     return Matrix4x4(this->l1 *= k, this->l2 *= k, this->l3 *= k, this->l4 *= k);
 }
 
-float Matrix4x4::det()
+Vector Matrix4x4::operator *(Vector v)
+{
+    return Vector(v * this->l1, v * this->l2, v * this->l3, v * this->l4);
+}
+
+Vector Matrix4x4::operator *=(Vector v)
+{
+    return Vector(v.x * this->l1.x + v.y * this->l1.y + v.z * this->l1.z + v.w * this->l1.w, v.x * this->l2.x + v.y * this->l2.y + v.z * this->l2.z + v.w * this->l2.w, v.x * this->l3.x + v.y * this->l3.y + v.z * this->l3.z + v.w * this->l3.w, v.w);
+}
+
+float Matrix4x4::determinant()
 {
     return (l1.x * l2.y * l3.z * l4.w + l2.x * l3.y * l1.z * l4.w + l3.x * l1.y * l2.z * l4.w - l3.x * l2.y * l1.z * l4.w - l2.x * l1.y * l3.z * l4.w - l1.x * l3.y * l2.z * l4.w)
          - (l4.x * l1.y * l2.z * l3.w + l4.x * l2.y * l3.z * l1.w + l4.x * l3.y * l1.z * l2.w - l4.x * l3.y * l2.z * l1.w - l4.x * l2.y * l1.z * l3.w - l4.x * l1.y * l3.z * l2.w)
          + (l1.x * l4.y * l2.z * l3.w + l2.x * l4.y * l3.z * l1.w + l3.x * l4.y * l1.z * l2.w - l3.x * l4.y * l2.z * l1.w - l2.x * l4.y * l1.z * l3.w - l1.x * l4.y * l3.z * l2.w)
          - (l1.x * l2.y * l4.z * l3.w + l2.x * l3.y * l4.z * l1.w + l3.x * l1.y * l4.z * l2.w - l3.x * l2.y * l4.z * l1.w - l2.x * l1.y * l4.z * l3.w - l1.x * l3.y * l4.z * l2.w);
+}
+
+/**
+ * @brief Compute the inverse of the matrix
+ *
+ * @return The inverse of the matrix if it exists or throw an error if it doesn't
+ */
+Matrix4x4 Matrix4x4::inverse()
+{
+    float det = determinant();
+
+    if (det == 0)
+    {
+        throw std::runtime_error("Matrix is not invertible (determinant is zero).");
+    }
+
+    Vector v1(   l2.y * (l3.z * l4.w - l3.w * l4.z) - l2.z * (l3.y * l4.w - l3.w * l4.y) + l2.w * (l3.y * l4.z - l3.z * l4.y),
+              - (l1.y * (l3.z * l4.w - l3.w * l4.z) - l1.z * (l3.y * l4.w - l3.w * l4.y) + l1.w * (l3.y * l4.z - l3.z * l4.y)),
+                 l1.y * (l2.z * l4.w - l2.w * l4.z) - l1.z * (l2.y * l4.w - l2.w * l4.y) + l1.w * (l2.y * l4.z - l2.z * l4.y));
+    Vector v2(- (l2.x * (l3.z * l4.w - l3.w * l4.z) - l2.z * (l3.x * l4.w - l3.w * l4.x) + l2.w * (l3.x * l4.z - l3.z * l4.x)),
+                 l1.x * (l3.z * l4.w - l3.w * l4.z) - l1.z * (l3.x * l4.w - l3.w * l4.x) + l1.w * (l3.x * l4.z - l3.z * l4.x),
+              - (l1.x * (l2.z * l4.w - l2.w * l4.z) - l1.z * (l2.x * l4.w - l2.w * l4.x) + l1.w * (l2.x * l4.z - l2.z * l4.x)));
+    Vector v3(   l2.x * (l3.y * l4.w - l3.w * l4.y) - l2.y * (l3.x * l4.w - l3.w * l4.x) + l2.w * (l3.x * l4.y - l3.y * l4.x),
+              - (l1.x * (l3.y * l4.w - l3.w * l4.y) - l1.y * (l3.x * l4.w - l3.w * l4.x) + l1.w * (l3.x * l4.y - l3.y * l4.x)),
+                 l1.x * (l2.y * l4.w - l2.w * l4.y) - l1.y * (l2.x * l4.w - l2.w * l4.x) + l1.w * (l2.x * l4.y - l2.y * l4.x));
+    Vector v4(- (l2.x * (l3.y * l4.z - l3.z * l4.y) - l2.y * (l3.x * l4.z - l3.z * l4.x) + l2.z * (l3.x * l4.y - l3.y * l4.x)),
+                 l1.x * (l3.y * l4.z - l3.z * l4.y) - l1.y * (l3.x * l4.z - l3.z * l4.x) + l1.z * (l3.x * l4.y - l3.y * l4.x),
+              - (l1.x * (l2.y * l4.z - l2.z * l4.y) - l1.y * (l2.x * l4.z - l2.z * l4.x) + l1.z * (l2.x * l4.y - l2.y * l4.x)));
+
+    Matrix4x4 adjoint(v1, v2, v3, v4);
+
+    float invDet = 1.0f / det;
+    Matrix4x4 inverseMatrix = adjoint * invDet;
+
+    return inverseMatrix;
 }
 
 Matrix4x4 Matrix4x4::transpose()
@@ -118,10 +163,10 @@ std::string Matrix4x4::to_string()
     std::stringstream ss;
     int s = 5;
 
-    ss << "| " << std::setw(s) << l1.x << " " << std::setw(s) << l2.x << " " << std::setw(s) << l3.x << std::setw(s) << l4.x << " " << " |" << std::endl;
-    ss << "| " << std::setw(s) << l1.y << " " << std::setw(s) << l2.y << " " << std::setw(s) << l3.y << std::setw(s) << l4.y << " " << " |" << std::endl;
-    ss << "| " << std::setw(s) << l1.z << " " << std::setw(s) << l2.z << " " << std::setw(s) << l3.z << std::setw(s) << l4.z << " " << " |" << std::endl;
-    ss << "| " << std::setw(s) << l1.w << " " << std::setw(s) << l2.w << " " << std::setw(s) << l3.w << std::setw(s) << l4.w << " " << " |" << std::endl;
+    ss << "| " << std::setw(s) << l1.x << " " << std::setw(s) << l1.y << " " << std::setw(s) << l1.z << std::setw(s) << l1.w << " " << " |" << std::endl;
+    ss << "| " << std::setw(s) << l2.x << " " << std::setw(s) << l2.y << " " << std::setw(s) << l2.z << std::setw(s) << l2.w << " " << " |" << std::endl;
+    ss << "| " << std::setw(s) << l3.x << " " << std::setw(s) << l3.y << " " << std::setw(s) << l3.z << std::setw(s) << l3.w << " " << " |" << std::endl;
+    ss << "| " << std::setw(s) << l4.x << " " << std::setw(s) << l4.y << " " << std::setw(s) << l4.z << std::setw(s) << l4.w << " " << " |" << std::endl;
 
     return ss.str();
 }
