@@ -449,8 +449,11 @@ void ofApp::matrixTests()
     matrixTest.testMatrixAddition();
     matrixTest.testMatrixSubtraction();
     matrixTest.testMatrixMultiplication();
+    matrixTest.testMatrixMultiplicationByVector();
     matrixTest.testMatrixMultiplicationByScalar();
     matrixTest.testMatrixInverse();
+    matrixTest.testMatrixTranspose();
+    matrixTest.testMatrixDeterminant();
 
     matrixTest.testMatrix4x4Addition();
     matrixTest.testMatrix4x4Subtraction();
