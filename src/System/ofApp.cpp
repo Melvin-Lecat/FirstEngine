@@ -33,20 +33,20 @@ void ofApp::setupForcePanel()
 {
     forcePanel.setup("Add Force");
     forcePanel.setSize(ofGetWidth() / 4, ofGetHeight());
-    forcePanel.setPosition(glm::vec3(0,0,0));
-    
+    forcePanel.setPosition(glm::vec3(0, 0, 0));
+
     forcePanel.add(positionForceLabel.setup("Force Position", ""));
     forcePanel.add(xpInput.setup("X", 0, -maxX, maxX));
     forcePanel.add(ypInput.setup("Y", 0, -maxY, maxY));
     forcePanel.add(zpInput.setup("Z", 0, -maxZ, maxZ));
-    
+
     forcePanel.add(intensityForceLabel.setup("Force Intensity", ""));
     forcePanel.add(xvInput.setup("IX", 0, -MAX_FORCE, MAX_FORCE));
     forcePanel.add(yvInput.setup("IY", 0, -MAX_FORCE, MAX_FORCE));
     forcePanel.add(zvInput.setup("IZ", 0, -MAX_FORCE, MAX_FORCE));
-    
+
     launch.setup("Launch");
-    launch.addListener(this,&ofApp::launchObject);
+    launch.addListener(this, &ofApp::launchObject);
     forcePanel.add(&launch);
 }
 
@@ -54,11 +54,11 @@ void ofApp::setupDebugPanel()
 {
     debugPanel.setup("Object Details");
     debugPanel.setSize(ofGetWidth() / 4, ofGetHeight());
-    debugPanel.setPosition(glm::vec3(ofGetWidth()/3,0,0));
-    Shape object; 
-    debugPanel.add(position.setup("Position",""));
+    debugPanel.setPosition(glm::vec3(ofGetWidth() / 3, 0, 0));
+    Shape object;
+    debugPanel.add(position.setup("Position", ""));
     addMultiLineText(debugPanel, debugLines1, object.position.to_string());
-    debugPanel.add(velocity.setup("Velocity",""));
+    debugPanel.add(velocity.setup("Velocity", ""));
     addMultiLineText(debugPanel, debugLines2, object.linearVelocity.to_string());
 }
 
@@ -67,7 +67,7 @@ void ofApp::setupObjectPanel()
     // Panel setup 
     objectPanel.setup("Add Object");
     objectPanel.setSize(ofGetWidth() / 4, ofGetHeight());
-    objectPanel.setPosition(glm::vec3(0,0,0));
+    objectPanel.setPosition(glm::vec3(0, 0, 0));
 
     //Object type
     objectPanel.add(objectTypeLabel.setup("Object Type", ""));
@@ -85,7 +85,7 @@ void ofApp::setupObjectPanel()
     objectPanel.add(zpInputObject.setup("ZP", 0, -maxZ, maxZ));
 
     //Object initial Force
-    objectPanel.add(initialForceLabel.setup("Initial Force Applied",""));
+    objectPanel.add(initialForceLabel.setup("Initial Force Applied", ""));
     objectPanel.add(xfInput.setup("XF", 0, -MAX_FORCE, MAX_FORCE));
     objectPanel.add(yfInput.setup("YF", 0, -MAX_FORCE, MAX_FORCE));
     objectPanel.add(zfInput.setup("ZF", 0, -MAX_FORCE, MAX_FORCE));
@@ -99,9 +99,9 @@ void ofApp::setupObjectPanel()
 void ofApp::setupControlPanel()
 {
     controlPanel.setup("Control Buttons");
-    controlPanel.setPosition(glm::vec3(0,ofGetHeight()/2,0));
+    controlPanel.setPosition(glm::vec3(0, ofGetHeight() / 2, 0));
     gamePaused.setup("PauseGame");
-    gamePaused.addListener(this,&ofApp::togglePause);
+    gamePaused.addListener(this, &ofApp::togglePause);
     showHelp.setup("Enable Help window", false);
     showDebug.setup("Enable debug window", false);
     showAxis.setup("Show Grid/Axis", false);
@@ -119,6 +119,7 @@ void ofApp::setupControlPanel()
     controlPanel.add(clearAll.setup("Clear all objects"));
     clearAll.addListener(this, &ofApp::clearAllObjects);
 }
+
 void ofApp::setupHelpPanel()
 {
     helpPanel.setup("User Manual:");
@@ -148,8 +149,8 @@ void ofApp::setup()
     setupDebugPanel();
     setupForcePanel();
     setupObjectPanel();
-    
 }
+
 void ofApp::setBoxType()
 {
     objectType = BOX;
@@ -157,21 +158,22 @@ void ofApp::setBoxType()
 
 void ofApp::setConeType()
 {
-    objectType = CONE;   
+    objectType = CONE;
 }
 
 void ofApp::addObject()
 {
     switch (objectType)
     {
-        case BOX:
-            tabShape.emplace_back(new Box(BOX_WIDTH,BOX_HEIGHT,BOX_LENGHT,Vector(xpInputObject, ypInputObject, zpInputObject)));
-            break;
-        case CONE:
-            tabShape.emplace_back(new Cone(CONE_RADIUS,CONE_HEIGHT,Vector(xpInputObject, ypInputObject, zpInputObject)));
-            break;
+    case BOX:
+        tabShape.emplace_back(new Box(BOX_WIDTH,BOX_HEIGHT,BOX_LENGHT,
+                                      Vector(xpInputObject, ypInputObject, zpInputObject)));
+        break;
+    case CONE:
+        tabShape.emplace_back(new Cone(CONE_RADIUS,CONE_HEIGHT, Vector(xpInputObject, ypInputObject, zpInputObject)));
+        break;
     }
-    tabShape.back()-> addForce(Vector(xfInput, yfInput, zfInput));
+    tabShape.back()->addForce(Vector(xfInput, yfInput, zfInput));
 }
 
 void ofApp::clearAllObjects()
@@ -196,30 +198,36 @@ void ofApp::togglePause()
 
 void ofApp::launchObject()
 {
-    addForceObject(*(tabShape.back()),Vector(xvInput,yvInput,zvInput),Vector(xpInput,ypInput,zpInput));
-    simPause = false;
-    showForceAdd = false;
+    if (tabShape.empty()) std::cout << "No object to add force to !" << std::endl;
+    else
+    {
+        addForceObject(*(tabShape.back()), Vector(xvInput, yvInput, zvInput), Vector(xpInput, ypInput, zpInput));
+        simPause = false;
+        showForceAdd = false;
+    }
 }
 
-void ofApp::addMultiLineText(ofxPanel& panel,std::vector<ofxLabel*> &lines, const std::string& text)
+void ofApp::addMultiLineText(ofxPanel& panel, std::vector<ofxLabel*>& lines, const std::string& text)
 {
     auto textLines = ofSplitString(text, "\n");
     lines = std::vector<ofxLabel*>(textLines.size());
-    for (int i=0; i<textLines.size(); i++)
+    for (int i = 0; i < textLines.size(); i++)
     {
         lines[i] = new ofxLabel();
-        lines[i]->setup(std::to_string(i),textLines[i]);
+        lines[i]->setup(std::to_string(i), textLines[i]);
         panel.add(lines[i]);
     }
 }
-void updateLines(std::vector<ofxLabel*>& lines,const std::string &text)
+
+void updateLines(std::vector<ofxLabel*>& lines, const std::string& text)
 {
     auto textSplit = ofSplitString(text, "\n");
-    for (int i=0; i<lines.size(); i++)
+    for (int i = 0; i < lines.size(); i++)
     {
-        lines[i]->setup("",textSplit[i]);
+        lines[i]->setup("", textSplit[i]);
     }
 }
+
 void ofApp::checkBoundaries()
 {
     for (auto box : tabShape)
@@ -266,7 +274,6 @@ Vector force;
 
 void ofApp::addForceObject(Shape& obj, Vector forceIntensity, Vector pointApplication)
 {
-    
     obj.addForce(forceIntensity, pointApplication);
 }
 
@@ -275,12 +282,12 @@ void ofApp::update()
 {
     delta_t = static_cast<float>(ofGetLastFrameTime()) * simSpeed;
     checkBoundaries();
-    
+
     simPause = showForceAdd;
     if (simPause) return;
     // Set the delta time using the last frame time
     updateForces();
-    for(auto object : tabShape)
+    for (auto object : tabShape)
     {
         object->eulerIntegration(delta_t);
     }
@@ -314,9 +321,9 @@ void ofApp::draw()
     {
         object->draw();
     }
-    
+
     if (!showAxis) ofDrawGrid(VP_STEP, VP_SIZE / VP_STEP, !showAxis, !showAxis, !showAxis, !showAxis);
-    else ofDrawAxis(1000000);   
+    else ofDrawAxis(1000000);
     ofDisableDepthTest();
     cam.end();
     drawInteractionArea();
@@ -324,18 +331,17 @@ void ofApp::draw()
 
     controlPanel.draw();
     if (showHelp) helpPanel.draw();
-    if(showForceAdd) forcePanel.draw();
-    if(showObjectAdd) objectPanel.draw();
+    if (showForceAdd) forcePanel.draw();
+    if (showObjectAdd) objectPanel.draw();
     if (showDebug)
     {
         debugPanel.draw();
         auto object = tabShape.back();
-        updateLines(debugLines1,object->position.to_string());
-        updateLines(debugLines2,object->linearVelocity.to_string());
+        updateLines(debugLines1, object->position.to_string());
+        updateLines(debugLines2, object->linearVelocity.to_string());
     }
-    if(showDebug)
+    if (showDebug)
     {
-        
         auto object = tabShape.back();
         if (object->linearVelocity.magnitude() > 2)
         {
@@ -343,7 +349,6 @@ void ofApp::draw()
             ofDrawArrow(object->position.v3(), (object->position + object->linearVelocity).v3(), 10);
             ofSetColor(ofColor::white);
         }
-        
     }
 }
 
