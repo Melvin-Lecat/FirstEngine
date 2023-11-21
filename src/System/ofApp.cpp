@@ -10,7 +10,22 @@
 
 # define VP_STEP 50
 # define VP_SIZE 500
-#define MAX_FORCE 1000.0f
+# define MAX_FORCE 1000.0f
+
+// Width is the X axis
+# define BOX_WIDTH 20
+// Heigth is the Y axis
+# define BOX_HEIGHT 10
+// Lenght is the Z axis
+# define BOX_LENGHT 100
+
+// Radius is the X and Z axis
+# define CONE_RADIUS 200
+# define CONE_HEIGHT 50
+
+float maxX = max(BOX_WIDTH, CONE_RADIUS);
+float maxY = max(BOX_HEIGHT, CONE_HEIGHT);
+float maxZ = max(BOX_LENGHT, CONE_RADIUS);
 
 bool bHelpText;
 
@@ -20,15 +35,15 @@ void ofApp::setupForcePanel()
     forcePanel.setSize(ofGetWidth() / 4, ofGetHeight());
     forcePanel.setPosition(glm::vec3(0,0,0));
     
-    forcePanel.add(positionForceLabel.setup("Position Force", ""));
-    forcePanel.add(xpInput.setup("X", 0, -MAX_FORCE, MAX_FORCE));
-    forcePanel.add(ypInput.setup("Y", 0, -MAX_FORCE, MAX_FORCE));
-    forcePanel.add(zpInput.setup("Z", 0, -MAX_FORCE, MAX_FORCE));
+    forcePanel.add(positionForceLabel.setup("Force Position", ""));
+    forcePanel.add(xpInput.setup("X", 0, -maxX, maxX));
+    forcePanel.add(ypInput.setup("Y", 0, -maxY, maxY));
+    forcePanel.add(zpInput.setup("Z", 0, -maxZ, maxZ));
     
-    forcePanel.add(velocityForceLabel.setup("Velocity Force", ""));
-    forcePanel.add(xvInput.setup("VX", 0, -MAX_FORCE, MAX_FORCE));
-    forcePanel.add(yvInput.setup("VY", 0, -MAX_FORCE, MAX_FORCE));
-    forcePanel.add(zvInput.setup("VZ", 0, -MAX_FORCE, MAX_FORCE));
+    forcePanel.add(intensityForceLabel.setup("Force Intensity", ""));
+    forcePanel.add(xvInput.setup("IX", 0, -MAX_FORCE, MAX_FORCE));
+    forcePanel.add(yvInput.setup("IY", 0, -MAX_FORCE, MAX_FORCE));
+    forcePanel.add(zvInput.setup("IZ", 0, -MAX_FORCE, MAX_FORCE));
     
     launch.setup("Launch");
     launch.addListener(this,&ofApp::launchObject);
@@ -65,9 +80,9 @@ void ofApp::setupObjectPanel()
 
     //Object center position
     objectPanel.add(cdmObjectLabel.setup("Mass center position", ""));
-    objectPanel.add(xpInputObject.setup("XP", 0, -MAX_FORCE, MAX_FORCE));
-    objectPanel.add(ypInputObject.setup("YP", 0, -MAX_FORCE, MAX_FORCE));
-    objectPanel.add(zpInputObject.setup("ZP", 0, -MAX_FORCE, MAX_FORCE));
+    objectPanel.add(xpInputObject.setup("XP", 0, -maxX, maxX));
+    objectPanel.add(ypInputObject.setup("YP", 0, -maxY, maxY));
+    objectPanel.add(zpInputObject.setup("ZP", 0, -maxZ, maxZ));
 
     //Object initial Force
     objectPanel.add(initialForceLabel.setup("Initial Force Applied",""));
@@ -150,10 +165,10 @@ void ofApp::addObject()
     switch (objectType)
     {
         case BOX:
-            tabShape.emplace_back(new Box(20,20,20,Vector(xpInputObject, ypInputObject, zpInputObject)));
+            tabShape.emplace_back(new Box(BOX_WIDTH,BOX_HEIGHT,BOX_LENGHT,Vector(xpInputObject, ypInputObject, zpInputObject)));
             break;
         case CONE:
-            tabShape.emplace_back(new Cone(20,20,Vector(xpInputObject, ypInputObject, zpInputObject)));
+            tabShape.emplace_back(new Cone(CONE_RADIUS,CONE_HEIGHT,Vector(xpInputObject, ypInputObject, zpInputObject)));
             break;
     }
     tabShape.back()-> addForce(Vector(xfInput, yfInput, zfInput));

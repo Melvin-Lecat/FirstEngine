@@ -92,7 +92,7 @@ public:
     // Force panel elements
     ofxLabel positionForceLabel;
     ofxFloatSlider xpInput, ypInput, zpInput;
-    ofxLabel velocityForceLabel;
+    ofxLabel intensityForceLabel;
     ofxFloatSlider xvInput, yvInput, zvInput;
     ofxButton launch;
     
