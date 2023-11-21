@@ -46,7 +46,7 @@ void ofApp::setupObjectPanel()
     // Panel setup 
     objectPanel.setup("Add Object");
     objectPanel.setSize(ofGetWidth() / 4, ofGetHeight());
-    objectPanel.setPosition(glm::vec3(0, 0, 0));
+    objectPanel.setPosition(glm::vec3(ofGetWidth()*0.75, 0, 0));
 
     //Object type
     objectPanel.add(objectTypeLabel.setup("Object Type", ""));
@@ -152,7 +152,8 @@ void ofApp::addObject()
         tabShape.emplace_back(new Cone(CONE_RADIUS,CONE_HEIGHT, Vector(xpInputObject, ypInputObject, zpInputObject)));
         break;
     }
-    tabShape.back()->addForce(Vector(xfInput, yfInput, zfInput), Vector(0,0,0));
+    // We divide the force by delta_t to increase the applied force as it is meant to be an impulse
+    tabShape.back()->addForce(Vector(xfInput, yfInput, zfInput)*(1/delta_t), Vector(0,0,0));
 }
 
 void ofApp::clearAllObjects()
@@ -215,21 +216,21 @@ void ofApp::checkBoundaries()
         if (glm::abs(box->position.x) > VP_SIZE)
         {
             box->position.x = glm::sign(box->position.x) > 0 ? VP_SIZE : -VP_SIZE;
-            box->linearVelocity *= -1;
+            box->linearVelocity.x *= -1;
         }
 
         // Check Y borders
         if (abs(box->position.y) > VP_SIZE)
         {
             box->position.y = glm::sign(box->position.y) > 0 ? VP_SIZE : -VP_SIZE;
-            box->linearVelocity *= -1;
+            box->linearVelocity.y *= -1;
         }
 
         // Check Z borders
         if (abs(box->position.z) > VP_SIZE)
         {
             box->position.z = glm::sign(box->position.z) > 0 ? VP_SIZE : -VP_SIZE;
-            box->linearVelocity *= -1;
+            box->linearVelocity.z *= -1;
         }
     }
 }
@@ -299,6 +300,12 @@ void ofApp::draw()
     for (auto& object : tabShape)
     {
         object->draw();
+        if (showDebug && object->linearVelocity.magnitude() > 2)
+        {
+            ofSetColor(ofColor::greenYellow);
+            ofDrawArrow(object->position.v3(), (object->position + object->linearVelocity).v3(), 10);
+            ofSetColor(ofColor::white);
+        }
     }
 
     if (!showAxis) ofDrawGrid(VP_STEP, VP_SIZE / VP_STEP, !showAxis, !showAxis, !showAxis, !showAxis);
@@ -318,12 +325,6 @@ void ofApp::draw()
         auto object = tabShape.back();
         updateLines(debugLines1, object->position.to_string());
         updateLines(debugLines2, object->linearVelocity.to_string());
-        if (object->linearVelocity.magnitude() > 2)
-        {
-            ofSetColor(ofColor::greenYellow);
-            ofDrawArrow(object->position.v3(), (object->position + object->linearVelocity).v3(), 10);
-            ofSetColor(ofColor::white);
-        }
     }
 }
 

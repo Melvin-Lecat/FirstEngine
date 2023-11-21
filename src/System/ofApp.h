@@ -15,7 +15,7 @@
 
 # define VP_STEP 50
 # define VP_SIZE 500
-# define MAX_FORCE 1000.0f
+# define MAX_FORCE 200.0f
 
 // Width is the X axis
 # define BOX_WIDTH 40
