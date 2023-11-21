@@ -35,7 +35,7 @@ public:
     }
 
 
-    /**
+/**
 * @brief Draw the rectangle
 *
 */
