@@ -63,6 +63,16 @@ Matrix Matrix::operator *=(float k)
     return Matrix(this->l1 * k, this->l2 * k, this->l3 * k);
 }
 
+Vector Matrix::operator *(Vector v)
+{
+    return Vector(v.x*this->l1.x + v.y*this->l1.y + v.z*this->l1.z + v.w*this->l1.w, v.x*this->l2.x + v.y*this->l2.y + v.z*this->l2.z + v.w*this->l2.w, v.x*this->l3.x + v.y*this->l3.y + v.z*this->l3.z + v.w*this->l3.w, v.w);
+}
+
+Vector Matrix::operator *=(Vector v)
+{
+    return Vector(v.x*this->l1.x + v.y*this->l1.y + v.z*this->l1.z + v.w*this->l1.w, v.x*this->l2.x + v.y*this->l2.y + v.z*this->l2.z + v.w*this->l2.w, v.x*this->l3.x + v.y*this->l3.y + v.z*this->l3.z + v.w*this->l3.w, v.w);
+}
+
 bool Matrix::operator ==(Matrix m)
 {
     return this->l1 == m.l1 && this->l2 == m.l2 && this->l3 == m.l3;
@@ -113,4 +123,14 @@ Matrix Matrix::inverse()
     Matrix inverseMatrix = adjoint * invDet;
 
     return inverseMatrix;
+}
+
+Matrix Matrix::transpose()
+{
+    return Matrix(Vector(this->l1.x, this->l2.x, this->l3.x), Vector(this->l1.y, this->l2.y, this->l3.y), Vector(this->l1.z, this->l2.z, this->l3.z));
+}
+
+float Matrix::determinant()
+{
+    return (this->l1.x * this->l2.y * this->l3.z + this->l2.x * this->l3.y * this->l1.z + this->l3.x * this->l1.y * this->l2.z - this->l3.x * this->l2.y * this->l1.z - this->l2.x * this->l1.y * this->l3.z - this->l1.x * this->l3.y * this->l2.z);
 }

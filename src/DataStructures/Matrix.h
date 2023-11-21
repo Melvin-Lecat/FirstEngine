@@ -2,6 +2,7 @@
 #include <ofMain.h>
 
 #include "Vector.h"
+#include "Matrix4x4.h"
 
 class Matrix
 {
@@ -22,6 +23,9 @@ public:
     // Multiplication by scalar
     Matrix operator *(float k);
     Matrix operator *=(float k);
+    // Multiplication by vector
+    Vector operator *(Vector v);
+    Vector operator *=(Vector v);
 
     bool operator ==(Matrix m);
     bool operator !=(Matrix m);
@@ -29,4 +33,7 @@ public:
 
     static Matrix zero();
     Matrix inverse();
+    Matrix transpose();
+    float determinant();
+    
 };
