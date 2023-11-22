@@ -121,7 +121,7 @@ void MatrixTest::testMatrixDeterminant()
     Matrix m = Matrix(Vector(1, 2, 3), Vector(4, 5, 6), Vector(7, 8, 9));
     auto result = m.determinant();
 
-    // 
+    // |m| = 0
     if (result != 0)
     {
         std::cout << "Error in MatrixTest::testMatrixDeterminant()" << std::endl;
@@ -177,5 +177,82 @@ void MatrixTest::testMatrix4x4MultiplicationByScalar()
     if (result != Matrix4x4(Vector(2, 4, 6, 8), Vector(10, 12, 14, 16), Vector(18, 20, 22, 24), Vector(26, 28, 30, 32)))
     {
         std::cout << "Error in MatrixTest::testMatrix4x4MultiplicationByScalar()" << std::endl;
+    }
+}
+
+void MatrixTest::testMatrix4x4MultiplicationByVector()
+{
+    Matrix4x4 m = Matrix4x4(Vector(1, 2, 3, 4), Vector(5, 6, 7, 8), Vector(9, 10, 11, 12));
+    auto result = m * Vector(1, 2, 3, 4);
+
+    // (1x1 + 2x2 + 3x3 + 4x4) = 30, (5x1 + 6x2 + 7x3 + 8x4) = 70, (9x1 + 10x2 + 11x3 + 12x4) = 110, (0x1 + 0x2 + 0x3 + 1x4) = 4
+    if (result != Vector(30, 70, 110, 4))
+    {
+        std::cout << "Error in MatrixTest::testMatrix4x4MultiplicationByVector()" << std::endl;
+    }
+}
+
+void MatrixTest::testMatrix4x4Inverse()
+{
+    Vector v0;
+
+    Matrix4x4 m1(Vector(1, 0, 0, 0), Vector(0, 1, 0, 0), Vector(0, 0, 1, 0));
+    Matrix4x4 m2(Vector(1, 2, 1, 1), Vector(-4, 0, 2, 3), Vector(5, 4, -2, 4), Vector(0, 5, 4, 1));
+    Matrix4x4 m3(v0, v0, v0, v0);
+    auto result1 = m1.inverse();
+    auto result2 = m2.inverse();
+
+    auto test1_1 = result1 * m1 - m1;
+    auto test1_2 = m1 * result1 - m1;
+    auto test2_1 = result2 * m2 - m1;
+    auto test2_2 = m2 * result2 - m1;
+
+    float epsilon = 0.0001f;
+
+    if ((test1_1.l1.magnitude() > epsilon) || (test1_1.l2.magnitude() > epsilon) ||
+        (test1_1.l3.magnitude() > epsilon) || (test1_1.l4.magnitude() > epsilon) ||
+        (test1_2.l1.magnitude() > epsilon) || (test1_2.l2.magnitude() > epsilon) ||
+        (test1_2.l3.magnitude() > epsilon) || (test1_2.l4.magnitude() > epsilon) ||
+        (test2_1.l1.magnitude() > epsilon) || (test2_1.l2.magnitude() > epsilon) ||
+        (test2_1.l3.magnitude() > epsilon) || (test2_1.l4.magnitude() > epsilon) ||
+        (test2_2.l1.magnitude() > epsilon) || (test2_2.l2.magnitude() > epsilon) ||
+        (test2_2.l3.magnitude() > epsilon) || (test2_2.l4.magnitude() > epsilon))
+    {
+        std::cout << "Error in MatrixTest::testMatrix4x4Inverse()" << std::endl;
+    }
+    try
+    {
+        m3.inverse();
+        // If this is printed, the test is failed
+        std::cout << "Error in MatrixTest::testMatrix4x4Inverse()" << std::endl;
+    }
+    catch (const std::runtime_error& e)
+    {
+        // If we get there, the test is successful
+    }
+}
+
+void MatrixTest::testMatrix4x4Transpose()
+{
+    Matrix4x4 m = Matrix4x4(Vector(1, 2, 3, 4), Vector(5, 6, 7, 8), Vector(9, 10, 11, 12));
+    auto result = m.transpose();
+
+    if (result != Matrix4x4(Vector(1, 5, 9, 0), Vector(2, 6, 10, 0), Vector(3, 7, 11, 0), Vector(4, 8, 12, 1)))
+    {
+        std::cout << "Error in MatrixTest::testMatrix4x4Transpose()" << std::endl;
+    }
+}
+
+void MatrixTest::testMatrix4x4Determinant()
+{
+    Matrix4x4 m1 = Matrix4x4(Vector(1, 2, 3, 4), Vector(5, 6, 7, 8), Vector(9, 10, 11, 12));
+    auto result1 = m1.determinant();
+    Matrix4x4 m2 = Matrix4x4(Vector(3, -1, 5, 3), Vector(-6, -2, 0, 1), Vector(1, 9, 9, 5), Vector(-8, 4, 6, 3));
+    auto result2 = m2.determinant();
+
+    // |m1| = 0; |m2| = 624
+    if (result1 != 0 || result2 != 624)
+    {
+        std::cout << "Error in MatrixTest::testMatrix4x4Determinant()" << std::endl;
     }
 }

@@ -90,20 +90,12 @@ Matrix4x4 Matrix4x4::operator *=(float k)
 
 Vector Matrix4x4::operator *(Vector v)
 {
-    return Vector(v * this->l1, v * this->l2, v * this->l3, v * this->l4);
+    return Vector(v.x * this->l1.x + v.y * this->l1.y + v.z * this->l1.z + v.w * this->l1.w, v.x * this->l2.x + v.y * this->l2.y + v.z * this->l2.z + v.w * this->l2.w, v.x * this->l3.x + v.y * this->l3.y + v.z * this->l3.z + v.w * this->l3.w, v.x * this->l4.x + v.y * this->l4.y + v.z * this->l4.z + v.w * this->l4.w);
 }
 
 Vector Matrix4x4::operator *=(Vector v)
 {
-    return Vector(v.x * this->l1.x + v.y * this->l1.y + v.z * this->l1.z + v.w * this->l1.w, v.x * this->l2.x + v.y * this->l2.y + v.z * this->l2.z + v.w * this->l2.w, v.x * this->l3.x + v.y * this->l3.y + v.z * this->l3.z + v.w * this->l3.w, v.w);
-}
-
-float Matrix4x4::determinant()
-{
-    return (l1.x * l2.y * l3.z * l4.w + l2.x * l3.y * l1.z * l4.w + l3.x * l1.y * l2.z * l4.w - l3.x * l2.y * l1.z * l4.w - l2.x * l1.y * l3.z * l4.w - l1.x * l3.y * l2.z * l4.w)
-         - (l4.x * l1.y * l2.z * l3.w + l4.x * l2.y * l3.z * l1.w + l4.x * l3.y * l1.z * l2.w - l4.x * l3.y * l2.z * l1.w - l4.x * l2.y * l1.z * l3.w - l4.x * l1.y * l3.z * l2.w)
-         + (l1.x * l4.y * l2.z * l3.w + l2.x * l4.y * l3.z * l1.w + l3.x * l4.y * l1.z * l2.w - l3.x * l4.y * l2.z * l1.w - l2.x * l4.y * l1.z * l3.w - l1.x * l4.y * l3.z * l2.w)
-         - (l1.x * l2.y * l4.z * l3.w + l2.x * l3.y * l4.z * l1.w + l3.x * l1.y * l4.z * l2.w - l3.x * l2.y * l4.z * l1.w - l2.x * l1.y * l4.z * l3.w - l1.x * l3.y * l4.z * l2.w);
+    return Vector(v.x * this->l1.x + v.y * this->l1.y + v.z * this->l1.z + v.w * this->l1.w, v.x * this->l2.x + v.y * this->l2.y + v.z * this->l2.z + v.w * this->l2.w, v.x * this->l3.x + v.y * this->l3.y + v.z * this->l3.z + v.w * this->l3.w, v.x * this->l4.x + v.y * this->l4.y + v.z * this->l4.z + v.w * this->l4.w);
 }
 
 /**
@@ -122,16 +114,20 @@ Matrix4x4 Matrix4x4::inverse()
 
     Vector v1(   l2.y * (l3.z * l4.w - l3.w * l4.z) - l2.z * (l3.y * l4.w - l3.w * l4.y) + l2.w * (l3.y * l4.z - l3.z * l4.y),
               - (l1.y * (l3.z * l4.w - l3.w * l4.z) - l1.z * (l3.y * l4.w - l3.w * l4.y) + l1.w * (l3.y * l4.z - l3.z * l4.y)),
-                 l1.y * (l2.z * l4.w - l2.w * l4.z) - l1.z * (l2.y * l4.w - l2.w * l4.y) + l1.w * (l2.y * l4.z - l2.z * l4.y));
+                 l1.y * (l2.z * l4.w - l2.w * l4.z) - l1.z * (l2.y * l4.w - l2.w * l4.y) + l1.w * (l2.y * l4.z - l2.z * l4.y),
+              - (l1.y * (l2.z * l3.w - l2.w * l3.z) - l1.z * (l2.y * l3.w - l2.w * l3.y) + l1.w * (l2.y * l3.z - l2.z * l3.y)));
     Vector v2(- (l2.x * (l3.z * l4.w - l3.w * l4.z) - l2.z * (l3.x * l4.w - l3.w * l4.x) + l2.w * (l3.x * l4.z - l3.z * l4.x)),
                  l1.x * (l3.z * l4.w - l3.w * l4.z) - l1.z * (l3.x * l4.w - l3.w * l4.x) + l1.w * (l3.x * l4.z - l3.z * l4.x),
-              - (l1.x * (l2.z * l4.w - l2.w * l4.z) - l1.z * (l2.x * l4.w - l2.w * l4.x) + l1.w * (l2.x * l4.z - l2.z * l4.x)));
+              - (l1.x * (l2.z * l4.w - l2.w * l4.z) - l1.z * (l2.x * l4.w - l2.w * l4.x) + l1.w * (l2.x * l4.z - l2.z * l4.x)),
+                 l1.x * (l2.z * l3.w - l2.w * l3.z) - l1.z * (l2.x * l3.w - l2.w * l3.x) + l1.w * (l2.x * l3.z - l2.z * l3.x));
     Vector v3(   l2.x * (l3.y * l4.w - l3.w * l4.y) - l2.y * (l3.x * l4.w - l3.w * l4.x) + l2.w * (l3.x * l4.y - l3.y * l4.x),
               - (l1.x * (l3.y * l4.w - l3.w * l4.y) - l1.y * (l3.x * l4.w - l3.w * l4.x) + l1.w * (l3.x * l4.y - l3.y * l4.x)),
-                 l1.x * (l2.y * l4.w - l2.w * l4.y) - l1.y * (l2.x * l4.w - l2.w * l4.x) + l1.w * (l2.x * l4.y - l2.y * l4.x));
+                 l1.x * (l2.y * l4.w - l2.w * l4.y) - l1.y * (l2.x * l4.w - l2.w * l4.x) + l1.w * (l2.x * l4.y - l2.y * l4.x),
+              - (l1.x * (l2.y * l3.w - l2.w * l3.y) - l1.y * (l2.x * l3.w - l2.w * l3.x) + l1.w * (l2.x * l3.y - l2.y * l3.x)));
     Vector v4(- (l2.x * (l3.y * l4.z - l3.z * l4.y) - l2.y * (l3.x * l4.z - l3.z * l4.x) + l2.z * (l3.x * l4.y - l3.y * l4.x)),
                  l1.x * (l3.y * l4.z - l3.z * l4.y) - l1.y * (l3.x * l4.z - l3.z * l4.x) + l1.z * (l3.x * l4.y - l3.y * l4.x),
-              - (l1.x * (l2.y * l4.z - l2.z * l4.y) - l1.y * (l2.x * l4.z - l2.z * l4.x) + l1.z * (l2.x * l4.y - l2.y * l4.x)));
+              - (l1.x * (l2.y * l4.z - l2.z * l4.y) - l1.y * (l2.x * l4.z - l2.z * l4.x) + l1.z * (l2.x * l4.y - l2.y * l4.x)),
+                 l1.x * (l2.y * l3.z - l2.z * l3.y) - l1.y * (l2.x * l3.z - l2.z * l3.x) + l1.z * (l2.x * l3.y - l2.y * l3.x));
 
     Matrix4x4 adjoint(v1, v2, v3, v4);
 
@@ -139,11 +135,6 @@ Matrix4x4 Matrix4x4::inverse()
     Matrix4x4 inverseMatrix = adjoint * invDet;
 
     return inverseMatrix;
-}
-
-Matrix4x4 Matrix4x4::transpose()
-{
-    return Matrix4x4(Vector(l1.x, l2.x, l3.x, l4.x), Vector(l1.y, l2.y, l3.y, l4.y), Vector(l1.z, l2.z, l3.z, l4.z), Vector(l1.w, l2.w, l3.w, l4.w));
 }
 
 bool Matrix4x4::operator ==(Matrix4x4 m)

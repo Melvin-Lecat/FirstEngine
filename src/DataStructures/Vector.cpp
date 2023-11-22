@@ -32,19 +32,19 @@ Vector::Vector(float x, float y, float z, float w)
     this->w = w;
 }
 
-bool Vector::operator ==(Vector v) { return this->x == v.x && this->y == v.y && this->z == v.z; }
-bool Vector::operator !=(Vector v) { return this->x != v.x || this->y != v.y || this->z != v.z; }
-Vector Vector::operator +(Vector v) { return Vector(this->x + v.x, this->y + v.y, this->z + v.z); }
-Vector Vector::operator +=(Vector v) { return Vector(this->x += v.x, this->y += v.y, this->z += v.z); }
-Vector Vector::operator -(Vector v) { return Vector(this->x - v.x, this->y - v.y, this->z - v.z); }
-Vector Vector::operator -=(Vector v) { return Vector(this->x -= v.x, this->y -= v.y, this->z -= v.z); }
-float Vector::operator *(Vector v) { return this->x * v.x + this->y * v.y + this->z * v.z; }
-Vector Vector::operator *(float k) { return Vector(this->x * k, this->y * k, this->z * k); }
-Vector Vector::operator *=(float k) { return Vector(this->x *= k, this->y *= k, this->z *= k); }
+bool Vector::operator ==(Vector v) { return this->x == v.x && this->y == v.y && this->z == v.z && this->w == v.w; }
+bool Vector::operator !=(Vector v) { return this->x != v.x || this->y != v.y || this->z != v.z || this->w != v.w; }
+Vector Vector::operator +(Vector v) { return Vector(this->x + v.x, this->y + v.y, this->z + v.z, this->w + v.w); }
+Vector Vector::operator +=(Vector v) { return Vector(this->x += v.x, this->y += v.y, this->z += v.z, this->w += v.w); }
+Vector Vector::operator -(Vector v) { return Vector(this->x - v.x, this->y - v.y, this->z - v.z, this->w - v.w); }
+Vector Vector::operator -=(Vector v) { return Vector(this->x -= v.x, this->y -= v.y, this->z -= v.z, this->w -= v.w); }
+float Vector::operator *(Vector v) { return this->x * v.x + this->y * v.y + this->z * v.z + this->w * v.w; }
+Vector Vector::operator *(float k) { return Vector(this->x * k, this->y * k, this->z * k, this->w * k); }
+Vector Vector::operator *=(float k) { return Vector(this->x *= k, this->y *= k, this->z *= k, this->w * k); }
 
 std::string Vector::to_string()
 {
-    return "x:" + std::to_string(this->x) + "\n y: " + std::to_string(this->y) + "\n z: " + std::to_string(this->z);
+    return "x:" + std::to_string(this->x) + "\n y: " + std::to_string(this->y) + "\n z: " + std::to_string(this->z) + "\n w: " + std::to_string(this->w);
 }
 
 Vector Vector::zero() { return Vector(0, 0, 0); }

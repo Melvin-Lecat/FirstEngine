@@ -442,6 +442,10 @@ void ofApp::matrixTests()
     matrixTest.testMatrix4x4Subtraction();
     matrixTest.testMatrix4x4Multiplication();
     matrixTest.testMatrix4x4MultiplicationByScalar();
+    matrixTest.testMatrix4x4MultiplicationByVector();
+    matrixTest.testMatrix4x4Inverse();
+    matrixTest.testMatrix4x4Transpose();
+    matrixTest.testMatrix4x4Determinant();
 }
 
 void ofApp::quaternionTests()

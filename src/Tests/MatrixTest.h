@@ -19,4 +19,8 @@ public:
     static void testMatrix4x4Subtraction();
     static void testMatrix4x4Multiplication();
     static void testMatrix4x4MultiplicationByScalar();
+    static void testMatrix4x4MultiplicationByVector();
+    static void testMatrix4x4Inverse();
+    static void testMatrix4x4Transpose();
+    static void testMatrix4x4Determinant();
 };
