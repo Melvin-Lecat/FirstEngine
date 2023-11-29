@@ -7,6 +7,7 @@ private:
     float width;
     float height;
     float depth;
+    float colliderRadius = max(width, height, depth);
     
 public:
     Box();
