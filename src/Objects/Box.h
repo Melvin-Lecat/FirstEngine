@@ -7,6 +7,7 @@ private:
     float width;
     float height;
     float depth;
+    float colliderRadius = Vector(0,0,0).distance(Vector(width/2, height/2, depth/2));
     
 public:
     Box();
