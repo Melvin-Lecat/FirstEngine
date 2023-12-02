@@ -3,8 +3,8 @@
 
 
 float maxX = max(BOX_WIDTH, CONE_RADIUS);
-float maxY = max(BOX_HEIGHT, CONE_HEIGHT);
-float maxZ = max(BOX_LENGHT, CONE_RADIUS);
+float maxY = max(BOX_HEIGTH, CONE_HEIGHT);
+float maxZ = max(BOX_LENGTH, CONE_RADIUS);
 
 bool bHelpText;
 
@@ -94,7 +94,7 @@ void ofApp::setupControlPanel()
     fullscreenButton.addListener(this, &ofApp::fullscreen);
     controlPanel.add(&fullscreenButton);
     controlPanel.add(clearAll.setup("Clear all objects"));
-    controlPanel.add(gravityToggle.setup("Enable gravity", true));
+    controlPanel.add(gravityToggle.setup("Enable gravity", false));
     controlPanel.add(frictionToggle.setup("Enable friction", false));
     clearAll.addListener(this, &ofApp::clearAllObjects);
 }
@@ -106,7 +106,6 @@ void ofApp::setupHelpPanel()
     addMultiLineText(helpPanel, helpLines, manualText);
 }
 
-//--------------------------------------------------------------
 void ofApp::setup()
 {
     // Run the unit tests
@@ -128,7 +127,24 @@ void ofApp::setup()
     setupDebugPanel();
     setupForcePanel();
     setupObjectPanel();
+
+    auto box1 = new Box(BOX_WIDTH, BOX_HEIGTH, BOX_LENGTH, Vector(0, 0, 0));
+    auto box2 = new Box(BOX_WIDTH, BOX_HEIGTH, BOX_LENGTH, Vector(0, 0, 0));
+    auto box3 = new Box(BOX_WIDTH, BOX_HEIGTH, BOX_LENGTH, Vector(0, 0, 0));
+    auto box4 = new Box(BOX_WIDTH, BOX_HEIGTH, BOX_LENGTH, Vector(0, 0, 0));
+
+    box1->position = Vector(100, 100, -100);
+    box2->position = Vector(100, 100, 100);
+    box3->position = Vector(-100, -100, 100);
+    box4->position = Vector(-150, -100, 100);
+    tabShape.emplace_back(box1);
+    tabShape.emplace_back(box2);
+    tabShape.emplace_back(box3);
+    tabShape.emplace_back(box4);
+    
 }
+
+//--------------------------------------------------------------
 
 void ofApp::setBoxType()
 {
@@ -142,11 +158,14 @@ void ofApp::setConeType()
 
 void ofApp::addObject()
 {
+    Shape* s;
     switch (objectType)
     {
     case BOX:
-        tabShape.emplace_back(new Box(BOX_WIDTH,BOX_HEIGHT,BOX_LENGHT,
-                                      Vector(xpInputObject, ypInputObject, zpInputObject)));
+        s = new Box(BOX_WIDTH,BOX_HEIGTH,BOX_LENGTH,
+                                      Vector(xpInputObject, ypInputObject, zpInputObject));
+        tabShape.emplace_back(s);
+        octree.insert(s);
         break;
     case CONE:
         tabShape.emplace_back(new Cone(CONE_RADIUS,CONE_HEIGHT, Vector(xpInputObject, ypInputObject, zpInputObject)));
@@ -260,6 +279,18 @@ void ofApp::addForceObject(Shape& obj, Vector forceIntensity, Vector pointApplic
 //--------------------------------------------------------------
 void ofApp::update()
 {
+    cout << "========================================================" << endl;
+    octree.clear();
+    for (auto object : tabShape)
+    {
+        octree.insert(object);
+    }
+    auto colls = octree.getCollisions();
+    cout << "Collisions : " << colls.size() << endl;
+    for (auto& col : colls)
+    {
+        cout << col.first << " <-> " << col.second << endl;
+    }
     delta_t = static_cast<float>(ofGetLastFrameTime()) * simSpeed;
     checkBoundaries();
 
@@ -293,7 +324,7 @@ void ofApp::drawInteractionArea()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-    ofBackground(20);
+    ofBackground(ofColor::gray);
     cam.begin();
     ofEnableDepthTest();
 
@@ -308,8 +339,10 @@ void ofApp::draw()
         }
     }
 
-    if (!showAxis) ofDrawGrid(VP_STEP, VP_SIZE / VP_STEP, !showAxis, !showAxis, !showAxis, !showAxis);
-    else ofDrawAxis(1000000);
+    octree.draw();
+    
+    //if (!showAxis) ofDrawGrid(VP_STEP, VP_SIZE / VP_STEP, !showAxis, !showAxis, !showAxis, !showAxis);
+    //else ofDrawAxis(1000000);
     ofDisableDepthTest();
     cam.end();
     drawInteractionArea();

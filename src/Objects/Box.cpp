@@ -104,10 +104,14 @@ void Box::draw()
     ofSetColor(ofColor::yellow, 255);
     ofDrawSphere((position + realCenter).v3(), 5);
 
+
     // Draw the box
     ofSetColor(color[0], color[1], color[2], 150);
     shape.setPosition(position.v3());
     shape.setOrientation(orientation.q());
     shape.draw();
-    ofSetColor(255, 255, 255);
+
+    ofSetColor(ofColor::red, 20);
+    ofDrawSphere(position.v3(),70);
+    ofSetColor(255, 255, 255,255);
 }

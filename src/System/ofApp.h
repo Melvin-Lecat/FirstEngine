@@ -9,20 +9,21 @@
 #include "FrictionGenerator.h"
 #include "GravityGenerator.h"
 #include "MatrixTest.h"
+#include "Octree.h"
 #include "QuaternionTest.h"
 #include "VectorTest.h"
 
 
 # define VP_STEP 50
-# define VP_SIZE 500
+# define VP_SIZE 250
 # define MAX_FORCE 200.0f
 
 // Width is the X axis
 # define BOX_WIDTH 40
 // Heigth is the Y axis
-# define BOX_HEIGHT 20
+# define BOX_HEIGTH 20
 // Lenght is the Z axis
-# define BOX_LENGHT 50
+# define BOX_LENGTH 50
 
 // Radius is the X and Z axis
 # define CONE_RADIUS 40
@@ -136,6 +137,7 @@ public:
 
     ObjectType objectType = BOX;
 
+    Octree octree = Octree(Vector(0,0,0), VP_SIZE,VP_SIZE,VP_SIZE,0);
     
     // Tests methods
     void unitTests();
