@@ -11,7 +11,7 @@ std::vector<std::pair<RigidBody*, RigidBody*>> CollisionManager::getNarrowCollis
         auto first = static_cast<Box*>(collision.first);
         auto second = static_cast<Box*>(collision.second);
 
-        if (intersect(*first, *second))
+        if (intersect(*first, *second) || intersect(*second, *first))
         {
             narrowCollisions.emplace_back(std::pair(first,second));
         }
@@ -19,6 +19,128 @@ std::vector<std::pair<RigidBody*, RigidBody*>> CollisionManager::getNarrowCollis
     return narrowCollisions;
 }
 
+ std::vector<Vector> CollisionManager::getCorners(Box& box)
+{
+    Vector xAxis = Vector(box.shape.getXAxis().x, box.shape.getXAxis().y, box.shape.getXAxis().z).normalized();
+    Vector yAxis = Vector(box.shape.getYAxis().x, box.shape.getYAxis().y, box.shape.getYAxis().z).normalized();
+    Vector zAxis = Vector(box.shape.getZAxis().x, box.shape.getZAxis().y, box.shape.getZAxis().z).normalized();
+    //  Retrieve the 8 corners of the box
+    Vector Corner1 = box.position + xAxis * (box.getWidth() / 2) + yAxis * (box.getHeight() / 2) + zAxis * (box.
+        getDepth() / 2);
+    Vector Corner2 = box.position - xAxis * (box.getWidth() / 2) + yAxis * (box.getHeight() / 2) + zAxis * (box.
+        getDepth() / 2);
+    Vector Corner3 = box.position + xAxis * (box.getWidth() / 2) - yAxis * (box.getHeight() / 2) + zAxis * (box.
+        getDepth() / 2);
+    Vector Corner4 = box.position - xAxis * (box.getWidth() / 2) - yAxis * (box.getHeight() / 2) + zAxis * (box.
+        getDepth() / 2);
+    Vector Corner5 = box.position + xAxis * (box.getWidth() / 2) + yAxis * (box.getHeight() / 2) - zAxis * (box.
+        getDepth() / 2);
+    Vector Corner6 = box.position - xAxis * (box.getWidth() / 2) + yAxis * (box.getHeight() / 2) - zAxis * (box.
+        getDepth() / 2);
+    Vector Corner7 = box.position + xAxis * (box.getWidth() / 2) - yAxis * (box.getHeight() / 2) - zAxis * (box.
+        getDepth() / 2);
+    Vector Corner8 = box.position - xAxis * (box.getWidth() / 2) - yAxis * (box.getHeight() / 2) - zAxis * (box.
+        getDepth() / 2);
+
+    auto cornerList = std::vector<Vector>();
+    cornerList.push_back(Corner1);
+    cornerList.push_back(Corner2);
+    cornerList.push_back(Corner3);
+    cornerList.push_back(Corner4);
+    cornerList.push_back(Corner5);
+    cornerList.push_back(Corner6);
+    cornerList.push_back(Corner7);
+    cornerList.push_back(Corner8);
+    return cornerList;
+}
+
+ std::vector<Vector> CollisionManager::getFaces(Box& box)
+{
+    // Retrieve the 6 faces of second
+    Vector face1 = box.position + Vector(box.shape.getXAxis().x, box.shape.getXAxis().y, box.shape.getXAxis().z).normalized()*(box.getWidth()/2);  
+    Vector face2 = box.position + Vector(box.shape.getYAxis().x, box.shape.getYAxis().y, box.shape.getYAxis().z).normalized()*(box.getHeight()/2);
+    Vector face3 = box.position + Vector(box.shape.getZAxis().x, box.shape.getZAxis().y, box.shape.getZAxis().z).normalized()*(box.getDepth()/2);
+    Vector face4 = box.position - Vector(box.shape.getXAxis().x, box.shape.getXAxis().y, box.shape.getXAxis().z).normalized()*(box.getWidth()/2) ;
+    Vector face5 = box.position - Vector(box.shape.getYAxis().x, box.shape.getYAxis().y, box.shape.getYAxis().z).normalized()*(box.getHeight()/2);
+    Vector face6 = box.position - Vector(box.shape.getZAxis().x, box.shape.getZAxis().y, box.shape.getZAxis().z).normalized()*(box.getDepth()/2);
+
+    auto faceList = std::vector<Vector>();
+    faceList.push_back(face1);
+    faceList.push_back(face2);
+    faceList.push_back(face3);
+    faceList.push_back(face4);
+    faceList.push_back(face5);
+    faceList.push_back(face6);
+    return faceList;
+}
+
+void CollisionManager::resolveCollision(Vector applicationPoint, Vector n, float interpenetration,  Box& first, Box& second)
+{
+    // Resolve the position
+    float K = first.getMass() / ( first.getMass() + second.getMass());
+    first.position = first.position + n * K * interpenetration;
+    
+    // Apply the force
+    float intensity = ((first.linearVelocity.squaredMagnitude() > first.angularVelocity.squaredMagnitude() )? first.linearVelocity : first.angularVelocity).magnitude();
+    Vector force = n * interpenetration * intensity;
+    first.addForce(force, applicationPoint);
+}
+
+// Check if first intersects with second. Return true if it does
+bool CollisionManager::intersect(Box& first, Box& second)
+{
+    auto corners = getCorners(first);
+
+    auto faces = getFaces(second);
+
+    Vector cornerPoint;
+    bool intersected = true; 
+    for (auto corner : corners)
+    {
+        intersected = true;
+        for (auto face : faces)
+        {
+            auto relativeCorner = corner - face;
+            
+            // cout << "Corner: " << relativeCorner * face <<  endl;
+            if(relativeCorner * face > 0)
+            {
+                intersected = false;
+                break;
+            }
+            
+        }
+        if(intersected)
+        {
+            cornerPoint = corner;
+            break;
+        }
+        //cout << "=====================================================" << endl;
+    }
+
+
+    if (intersected){
+        float min = FLT_MAX;
+        Vector n = faces[0]; 
+        for(auto face : faces )
+        {
+            auto relativeDistance = (cornerPoint - face).projection(face- second.position).magnitude();
+         
+            if(relativeDistance < min)
+            {
+                n = face.normalized();
+                min = relativeDistance;
+            }
+        }
+        cout << "min"<< min << endl;
+
+        resolveCollision(cornerPoint,n, min,first, second);
+        resolveCollision(cornerPoint,n, -min,second, first);
+    }
+    
+    return intersected;
+}
+/*
 bool CollisionManager::intersect(Box& first, Box& second)
 {
     Vector firstxAxis = Vector(first.shape.getXAxis().x, first.shape.getXAxis().y, first.shape.getXAxis().z).normalized();
@@ -80,4 +202,4 @@ float CollisionManager::getRadius(Vector n, Box box)
     radius = max(radius, D4.projection(n).magnitude());
     return radius;
 
-}
+}*/

@@ -27,6 +27,8 @@ public:
     // Multiplication by scalar
     Vector operator *(float k);
     Vector operator *=(float k);
+    
+    Vector projection(Vector v);
 
     std::string to_string();
 
@@ -41,5 +43,4 @@ public:
     float distance(Vector other);
     Vector normalized();
     Vector vectorialProduct(Vector w);
-    Vector projection(Vector v);
 };

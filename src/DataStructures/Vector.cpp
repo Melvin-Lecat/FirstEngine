@@ -42,6 +42,8 @@ float Vector::operator *(Vector v) { return this->x * v.x + this->y * v.y + this
 Vector Vector::operator *(float k) { return Vector(this->x * k, this->y * k, this->z * k); }
 Vector Vector::operator *=(float k) { return Vector(this->x *= k, this->y *= k, this->z *= k); }
 
+
+
 std::string Vector::to_string()
 {
     return "x:" + std::to_string(this->x) + "\n y: " + std::to_string(this->y) + "\n z: " + std::to_string(this->z);

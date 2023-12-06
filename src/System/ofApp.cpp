@@ -137,12 +137,12 @@ void ofApp::setup()
     box1->position = Vector(100, 100, -100);
     box2->position = Vector(100, 100, 100);
     box3->position = Vector(-10, -100, 100);
-    box4->position = Vector(10, -100, 100);
-    /*tabShape.emplace_back(box1);
+    box4->position = Vector(10, -110, 90);
+    tabShape.emplace_back(box1);
     tabShape.emplace_back(box2);
     tabShape.emplace_back(box3);
     tabShape.emplace_back(box4);
-    */
+    
 }
 
 //--------------------------------------------------------------
@@ -350,8 +350,8 @@ void ofApp::draw()
 
     octree.draw();
     
-    //if (!showAxis) ofDrawGrid(VP_STEP, VP_SIZE / VP_STEP, !showAxis, !showAxis, !showAxis, !showAxis);
-    ofDrawAxis(VP_SIZE);
+    ofDrawGrid(10, VP_SIZE , !showAxis, !showAxis, !showAxis, !showAxis);
+    //ofDrawAxis(VP_SIZE);
     ofDisableDepthTest();
     cam.end();
     drawInteractionArea();
