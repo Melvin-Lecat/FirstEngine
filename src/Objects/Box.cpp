@@ -104,6 +104,11 @@ void Box::addForce(Vector force)
     RigidBody::addForce(force);
 }
 
+Box* Box::copy()
+{
+    return new Box(width, height, depth, gravity, linearVelocity, angularVelocity, linearAcceleration, color);
+}
+
 void Box::draw()
 {
     // Draw the center of mass of the box

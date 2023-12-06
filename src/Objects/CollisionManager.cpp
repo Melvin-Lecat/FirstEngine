@@ -78,11 +78,12 @@ void CollisionManager::resolveCollision(Vector applicationPoint, Vector n, float
 {
     // Resolve the position
     float K = first.getMass() / ( first.getMass() + second.getMass());
-    first.position = first.position + n * K * interpenetration;
+    auto f= n * K * interpenetration;
+    first.position += n * K * interpenetration;
     
     // Apply the force
-    float intensity = ((first.linearVelocity.squaredMagnitude() > first.angularVelocity.squaredMagnitude() )? first.linearVelocity : first.angularVelocity).magnitude();
-    Vector force = n * interpenetration * intensity;
+    float intensity = ((first.linearVelocity.magnitude() > first.angularVelocity.magnitude() )? first.linearVelocity : first.angularVelocity).magnitude();
+    Vector force = n * (intensity/ofGetLastFrameTime());
     first.addForce(force, applicationPoint);
 }
 
@@ -124,7 +125,7 @@ bool CollisionManager::intersect(Box& first, Box& second)
         Vector n = faces[0]; 
         for(auto face : faces )
         {
-            auto relativeDistance = (cornerPoint - face).projection(face- second.position).magnitude();
+            auto relativeDistance = (cornerPoint).projection(face).distance(face);
          
             if(relativeDistance < min)
             {
@@ -132,10 +133,10 @@ bool CollisionManager::intersect(Box& first, Box& second)
                 min = relativeDistance;
             }
         }
-        cout << "min"<< min << endl;
 
-        resolveCollision(cornerPoint,n, min,first, second);
-        resolveCollision(cornerPoint,n, -min,second, first);
+        auto Copy = first.copy();
+        resolveCollision(cornerPoint,n.opposite(), min,first, second);
+        resolveCollision(cornerPoint,n, min,second, *Copy);
     }
     
     return intersected;

@@ -2,7 +2,7 @@
 #include "RigidBody.h"
 #include "Vector.h"
 
-#define MAX_OCTREE_DEPTH 3
+#define MAX_OCTREE_DEPTH 4
 #define MAX_OCTREE_SIZE 2
 
 enum  OctreePosition
@@ -19,6 +19,7 @@ enum  OctreePosition
 
 class Octree
 {
+    int debugValue = 0;
 private: 
     Vector position;
     float height, width, depth;
@@ -26,6 +27,7 @@ private:
     Octree* children[8];
     std::vector<RigidBody*> objects;
     bool isLeaf;
+
     
     
     
@@ -39,7 +41,7 @@ public:
     void setupChildren();  
     void clear();
     void update(RigidBody* object);
-    void draw();
+    void draw(bool printTree, std::string tab);
 
     std::vector<std::pair<RigidBody*,RigidBody*>> getCollisions();
 
