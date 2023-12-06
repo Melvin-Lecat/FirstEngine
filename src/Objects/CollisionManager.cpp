@@ -133,7 +133,6 @@ bool CollisionManager::intersect(Box& first, Box& second)
                 min = relativeDistance;
             }
         }
-        cout << "min"<< min << endl;
 
         auto Copy = first.copy();
         resolveCollision(cornerPoint,n.opposite(), min,first, second);
