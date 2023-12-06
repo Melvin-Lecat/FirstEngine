@@ -82,13 +82,13 @@ public:
 
 
     // GUI Objects
-    ofxPanel helpPanel, controlPanel, debugPanel, forcePanel, objectPanel;
+    ofxPanel helpPanel, controlPanel, debugPanel, forcePanel, objectPanel, collisionPanel;
     std::vector <ofxLabel*> helpLines;
     std::vector <ofxLabel*> lines;
     // todo toggle ?
 
     // Control panel elements
-    ofxToggle showHelp, showDebug, showAxis, showForceAdd, gravityToggle, frictionToggle; 
+    ofxToggle showHelp, showDebug, showAxis, showForceAdd, gravityToggle, frictionToggle, collisionToggle; 
 
     ofxButton fullscreenButton;
     ofxButton gamePaused;
@@ -109,7 +109,11 @@ public:
 
     // Debug panel elements
     ofxLabel position,velocity;
-     std::vector <ofxLabel*>  debugLines1, debugLines2;
+    std::vector <ofxLabel*>  debugLines1, debugLines2;
+
+    // Collision panel elements
+    ofxLabel broadCollisions;
+    ofxLabel narrowCollisions;
     
     // Force panel elements
     ofxLabel positionForceLabel;

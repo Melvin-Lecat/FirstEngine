@@ -35,9 +35,12 @@ public:
     }
 
 
+    Box* copy();
 /**
 * @brief Draw the rectangle
 *
 */
-    void draw(); 
+    void draw();
+
+    
 };

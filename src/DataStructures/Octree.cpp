@@ -37,7 +37,7 @@ void Octree::subdivide()
 {
     setupChildren(); // Setup Children if not already done
 
-    if (children[0] ==nullptr){
+    if (children[0] !=nullptr){
         for (auto object : objects)
         {
             for (int i = 0; i < 8; i++) children[i]->insert(object);
@@ -50,6 +50,7 @@ void Octree::subdivide()
 
 void Octree::setupChildren()
 {
+    debugValue ++;
     if(children[0] != nullptr) return; 
 
     auto halfHeight = height/2;
@@ -70,6 +71,7 @@ void Octree::setupChildren()
 
 void Octree::clear()
 {
+    debugValue = 0;
     if(children[0] != nullptr){
         for (auto child: children)
         {
@@ -81,24 +83,28 @@ void Octree::clear()
     }
     for(int i = 0; i < objects.size(); i++) objects[i] = nullptr;
     objects.clear();
+    
 }
 
 void Octree::update(RigidBody* object)
 {
 }
 
-void Octree::draw()
+void Octree::draw(bool printTree, std::string tab = "")
 {
+    if (printTree) cout << tab << "Depth " << currentDepth << " Size "<< objects.size() << " check " << debugValue << endl;
     ofNoFill();
-    ofSetColor(int(abs(position.x)) % 255, int(abs(position.y)) % 255, int(abs(position.z)) % 255);
+    //ofSetColor(int(abs(position.x)) % 255, int(abs(position.y)) % 255, int(abs(position.z)) % 255);
+    ofSetColor(ofColor::red);
     ofDrawBox(position.v3(), width*2, height*2, depth*2);
     if(!isLeaf){
         for (auto child: children)
         {
-            if (child) child->draw();
+            if (child) child->draw(printTree,tab+"\t");
         }
     }
     ofFill();
+
 }
 
  std::vector<std::pair<RigidBody*,RigidBody*>> Octree::getCollisions()
@@ -132,7 +138,7 @@ void Octree::draw()
 
 bool Octree::intersects(RigidBody* object)
 {
-    if(abs(object->position.x - position.x) <= width && abs(object->position.y - position.y) <= height && abs(object->position.z - position.z) <= depth) return true;
+    if((object->position.x - position.x) <= width && (object->position.y - position.y) <= height && (object->position.z - position.z) <= depth) return true;
     /*
     distance_x = Abs(sphere.x - boite.x) - boite.l / 2
     distance_y = Abs(sphere.y - boite.y) - boite.L / 2

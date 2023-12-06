@@ -97,6 +97,7 @@ void ofApp::setupControlPanel()
     controlPanel.add(clearAll.setup("Clear all objects"));
     controlPanel.add(gravityToggle.setup("Enable gravity", false));
     controlPanel.add(frictionToggle.setup("Enable friction", false));
+    controlPanel.add(collisionToggle.setup("Enable collisions", true));
     clearAll.addListener(this, &ofApp::clearAllObjects);
 }
 
@@ -129,6 +130,12 @@ void ofApp::setup()
     setupForcePanel();
     setupObjectPanel();
 
+    collisionPanel.setup("");
+    collisionPanel.setSize(ofGetWidth() / 4, ofGetHeight());
+    collisionPanel.setPosition(glm::vec3(ofGetWidth() / 3, 0, 0));
+    collisionPanel.add(broadCollisions.setup("Broad Collisions", ""));
+    collisionPanel.add(narrowCollisions.setup("Narrow Collision", ""));
+    
     auto box1 = new Box(BOX_WIDTH, BOX_HEIGTH, BOX_LENGTH, Vector(0, 0, 0));
     auto box2 = new Box(BOX_WIDTH, BOX_HEIGTH, BOX_LENGTH, Vector(0, 0, 0));
     auto box3 = new Box(BOX_WIDTH, BOX_HEIGTH, BOX_LENGTH, Vector(0, 0, 0));
@@ -138,10 +145,10 @@ void ofApp::setup()
     box2->position = Vector(100, 100, 100);
     box3->position = Vector(-10, -100, 100);
     box4->position = Vector(10, -110, 90);
-    tabShape.emplace_back(box1);
+    /*tabShape.emplace_back(box1);
     tabShape.emplace_back(box2);
     tabShape.emplace_back(box3);
-    tabShape.emplace_back(box4);
+    tabShape.emplace_back(box4);*/
     
 }
 
@@ -280,27 +287,35 @@ void ofApp::addForceObject(Shape& obj, Vector forceIntensity, Vector pointApplic
 //--------------------------------------------------------------
 void ofApp::update()
 {
-    cout << "=========================== Broad Collisions ==============================" << endl;
-    octree.clear();
-    for (auto object : tabShape)
-    {
-        octree.insert(object);
-    }
-    auto colls = octree.getCollisions();
-    cout << "Collisions : " << colls.size() << endl;
-    /*for (auto& col : colls)
-    {
-        cout << col.first << " <-> " << col.second << endl;
-    }*/
-    auto narrowColls = CollisionManager::getNarrowCollision(colls);
+    if(collisionToggle){
+        static int bColls, nColls = 0;
+        octree.clear();
 
-    cout << "=========================== Narrow Collisions ==============================" << endl;
-    cout << "Collisions : " << narrowColls.size() << endl;
-    for (auto& col : narrowColls)
-    {
-        cout << col.first << " <-> " << col.second << endl;
-    }    
-    delta_t = static_cast<float>(ofGetLastFrameTime()) * simSpeed;
+        for (auto object : tabShape)
+        {
+            octree.insert(object);
+        }
+        auto colls = octree.getCollisions();
+        auto narrowColls = CollisionManager::getNarrowCollision(colls);
+
+        /*cout << "=========================== Broad Collisions ==============================" << endl;
+        cout << "Collisions : " <<  colls.size() << endl;
+        for (auto& col : colls)
+        {
+            cout << col.first << " <-> " << col.second << endl;
+        }
+        cout << "=========================== Narrow Collisions ==============================" << endl;
+        cout << "Collisions : " << narrowColls.size()  << endl;
+        for (auto& col : narrowColls)
+        {
+            cout << col.first << " <-> " << col.second << endl;
+        } 
+        */
+        bColls += colls.size();
+        nColls += narrowColls.size();
+        broadCollisions.setup("Broad Collisions", std::to_string(bColls));
+        narrowCollisions.setup("Narrow Collision", std::to_string(nColls));
+    }
     checkBoundaries();
 
     simPause = showForceAdd;
@@ -311,6 +326,8 @@ void ofApp::update()
     {
         object->eulerIntegration(delta_t);
     }
+    
+    delta_t = static_cast<float>(ofGetLastFrameTime()) * simSpeed;
 }
 
 void ofApp::drawInteractionArea()
@@ -348,9 +365,9 @@ void ofApp::draw()
         }
     }
 
-    octree.draw();
+    octree.draw(false,"");
     
-    ofDrawGrid(10, VP_SIZE , !showAxis, !showAxis, !showAxis, !showAxis);
+    //ofDrawGrid(10, VP_SIZE , !showAxis, !showAxis, !showAxis, !showAxis);
     //ofDrawAxis(VP_SIZE);
     ofDisableDepthTest();
     cam.end();
@@ -360,6 +377,7 @@ void ofApp::draw()
     controlPanel.draw();
     if (showHelp) helpPanel.draw();
     if (showForceAdd) forcePanel.draw();
+    if(collisionToggle) collisionPanel.draw();
     objectPanel.draw();
     if (showDebug   && tabShape.size() > 0)
     {
