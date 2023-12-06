@@ -138,7 +138,7 @@ public:
     ObjectType objectType = BOX;
 
     Octree octree = Octree(Vector(0,0,0), VP_SIZE,VP_SIZE,VP_SIZE,0);
-    
+
     // Tests methods
     void unitTests();
     void vectorTests();

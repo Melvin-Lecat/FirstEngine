@@ -22,6 +22,7 @@ public:
     Matrix inversedTenseurJ = Matrix::zero();
     Vector torque = Vector(0,0,0);
     Vector massCenter = Vector(0, 0, 0);
+    float colliderRadius;
 
     RigidBody();
     RigidBody(float gravity, Vector linearVelocity, Vector angularVelocity,

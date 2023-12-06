@@ -108,8 +108,10 @@ void Octree::draw()
     {
         if(objects.size() == 2)
         {
-            collisions.push_back(std::pair(objects[0],objects[1]));
-            return collisions;   
+            if(objects[0]->colliderRadius + objects[1]->colliderRadius > objects[0]->position.distance(objects[1]->position)){
+                collisions.push_back(std::pair(objects[0],objects[1]));
+                return collisions;
+            } 
         }
     }
     else
@@ -119,7 +121,8 @@ void Octree::draw()
             auto childCollisions = child->getCollisions();
             for (auto collision: childCollisions)
             {
-                collisions.emplace_back(collision);                
+                if(!ofContains(collisions, collision))
+                    collisions.emplace_back(collision);                
             }
             
         }   
@@ -155,6 +158,6 @@ bool Octree::intersects(RigidBody* object)
     distance_z = max(distance_z, 0.0f);
 
     auto distance_spherique = sqrt(distance_x * distance_x + distance_y * distance_y + distance_z * distance_z);
-    return distance_spherique <= 70;
+    return distance_spherique <= object->colliderRadius;
     
 }

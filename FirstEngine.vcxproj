@@ -202,6 +202,7 @@
     <ClCompile Include="src\Objects\2D\RodObject.cpp" />
     <ClCompile Include="src\Objects\2D\WireObject.cpp" />
     <ClCompile Include="src\Objects\Box.cpp" />
+    <ClCompile Include="src\Objects\CollisionManager.cpp" />
     <ClCompile Include="src\Objects\Cone.cpp" />
     <ClCompile Include="src\Objects\DebugObject.cpp" />
     <ClCompile Include="src\Objects\Drawable.cpp" />
@@ -249,6 +250,7 @@
     <ClInclude Include="src\Objects\2D\RodObject.h" />
     <ClInclude Include="src\Objects\2D\WireObject.h" />
     <ClInclude Include="src\Objects\Box.h" />
+    <ClInclude Include="src\Objects\CollisionManager.h" />
     <ClInclude Include="src\Objects\Cone.h" />
     <ClInclude Include="src\Objects\DebugObject.h" />
     <ClInclude Include="src\Objects\Drawable.h" />

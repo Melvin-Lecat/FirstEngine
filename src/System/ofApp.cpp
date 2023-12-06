@@ -1,5 +1,6 @@
 #include "ofApp.h"
 
+#include "CollisionManager.h"
 
 
 float maxX = max(BOX_WIDTH, CONE_RADIUS);
@@ -135,13 +136,13 @@ void ofApp::setup()
 
     box1->position = Vector(100, 100, -100);
     box2->position = Vector(100, 100, 100);
-    box3->position = Vector(-100, -100, 100);
-    box4->position = Vector(-150, -100, 100);
-    tabShape.emplace_back(box1);
+    box3->position = Vector(-10, -100, 100);
+    box4->position = Vector(10, -100, 100);
+    /*tabShape.emplace_back(box1);
     tabShape.emplace_back(box2);
     tabShape.emplace_back(box3);
     tabShape.emplace_back(box4);
-    
+    */
 }
 
 //--------------------------------------------------------------
@@ -279,7 +280,7 @@ void ofApp::addForceObject(Shape& obj, Vector forceIntensity, Vector pointApplic
 //--------------------------------------------------------------
 void ofApp::update()
 {
-    cout << "========================================================" << endl;
+    cout << "=========================== Broad Collisions ==============================" << endl;
     octree.clear();
     for (auto object : tabShape)
     {
@@ -287,10 +288,18 @@ void ofApp::update()
     }
     auto colls = octree.getCollisions();
     cout << "Collisions : " << colls.size() << endl;
-    for (auto& col : colls)
+    /*for (auto& col : colls)
     {
         cout << col.first << " <-> " << col.second << endl;
-    }
+    }*/
+    auto narrowColls = CollisionManager::getNarrowCollision(colls);
+
+    cout << "=========================== Narrow Collisions ==============================" << endl;
+    cout << "Collisions : " << narrowColls.size() << endl;
+    for (auto& col : narrowColls)
+    {
+        cout << col.first << " <-> " << col.second << endl;
+    }    
     delta_t = static_cast<float>(ofGetLastFrameTime()) * simSpeed;
     checkBoundaries();
 
@@ -342,7 +351,7 @@ void ofApp::draw()
     octree.draw();
     
     //if (!showAxis) ofDrawGrid(VP_STEP, VP_SIZE / VP_STEP, !showAxis, !showAxis, !showAxis, !showAxis);
-    //else ofDrawAxis(1000000);
+    ofDrawAxis(VP_SIZE);
     ofDisableDepthTest();
     cam.end();
     drawInteractionArea();

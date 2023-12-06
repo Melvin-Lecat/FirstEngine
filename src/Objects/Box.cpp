@@ -10,6 +10,7 @@ Box::Box()
     this->tenseurJ.l2 = Vector(0, (getMass() / 12) * (glm::pow2(depth) + glm::pow2(height)), 0);
     this->tenseurJ.l3 = Vector(0, 0, (getMass() / 12) * (glm::pow2(depth) + glm::pow2(width)));
     this->inversedTenseurJ = tenseurJ.inverse();
+    colliderRadius = Vector(0,0,0).distance(Vector(width/2, height/2, depth/2));
     RigidBody();
 }
 
@@ -24,6 +25,7 @@ Box::Box(float width, float height, float length)
     this->tenseurJ.l3 = Vector(0, 0, (getMass() / 12) * (glm::pow2(depth) + glm::pow2(width)));
     this->inversedTenseurJ = tenseurJ.inverse();
     massCenter = Vector(0, 0, 0);
+    colliderRadius = Vector(0,0,0).distance(Vector(width/2, height/2, depth/2));
     RigidBody();
 }
 
@@ -40,6 +42,8 @@ Box::Box(float width, float height, float length, int color[3])
     this->tenseurJ.l2 = Vector(0, (getMass() / 12) * (glm::pow2(depth) + glm::pow2(height)), 0);
     this->tenseurJ.l3 = Vector(0, 0, (getMass() / 12) * (glm::pow2(depth) + glm::pow2(width)));
     this->inversedTenseurJ = tenseurJ.inverse();
+    
+    colliderRadius = Vector(0,0,0).distance(Vector(width/2, height/2, depth/2));
     RigidBody();
 }
 
@@ -57,6 +61,8 @@ Box::Box(float width, float height, float length, Vector translation)
     this->tenseurJ.l3 = Vector(0, 0, (getMass() / 12) * (glm::pow2(depth) + glm::pow2(width)));
     this->moveCenterMass(translation);
     this->inversedTenseurJ = tenseurJ.inverse();
+    
+    colliderRadius = Vector(0,0,0).distance(Vector(width/2, height/2, depth/2));
     RigidBody();
 }
 
@@ -74,6 +80,7 @@ Box::Box(float width, float height, float length, float gravity, Vector linearVe
     this->tenseurJ.l2 = Vector(0, (getMass() / 12) * (glm::pow2(depth) + glm::pow2(height)), 0);
     this->tenseurJ.l3 = Vector(0, 0, (getMass() / 12) * (glm::pow2(depth) + glm::pow2(width)));
     this->inversedTenseurJ = tenseurJ.inverse();
+    colliderRadius = Vector(0,0,0).distance(Vector(width/2, height/2, depth/2));
     RigidBody(gravity, linearVelocity, angularVelocity, linearAcceleration);
 }
 
@@ -104,7 +111,6 @@ void Box::draw()
     ofSetColor(ofColor::yellow, 255);
     ofDrawSphere((position + realCenter).v3(), 5);
 
-
     // Draw the box
     ofSetColor(color[0], color[1], color[2], 150);
     shape.setPosition(position.v3());
@@ -112,6 +118,6 @@ void Box::draw()
     shape.draw();
 
     ofSetColor(ofColor::red, 20);
-    ofDrawSphere(position.v3(),70);
+    ofDrawSphere(position.v3(),colliderRadius);
     ofSetColor(255, 255, 255,255);
 }
