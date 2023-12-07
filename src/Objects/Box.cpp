@@ -86,16 +86,6 @@ Box::Box(float width, float height, float length, float gravity, Vector linearVe
 
 void Box::addForce(Vector force, Vector pointApplication)
 {
-    /*auto xAxis= shape.getXAxis();
-     auto yAxis = shape.getYAxis();
-     auto zAxis = shape.getZAxis();
-     auto xVal = pointApplication.projection(Vector(xAxis.x, xAxis.y, xAxis.z)).x;
-     auto yVal = pointApplication.projection(Vector(yAxis.x, yAxis.y, yAxis.z)).y;
-     auto zVal = pointApplication.projection(Vector(zAxis.x, zAxis.y, zAxis.z)).z;
-     glm::clamp(xVal, -depth/2, depth/2); // x = depth , y = width , z = height
-     glm::clamp(yVal, -width/2, width/2);
-     glm::clamp(zVal, -height/2, height/2);
-     auto correctedPoint = Vector(xVal, yVal, zVal);*/
     RigidBody::addForce(force, pointApplication);
 }
 

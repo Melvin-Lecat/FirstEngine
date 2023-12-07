@@ -13,6 +13,10 @@ Octree::~Octree()
     //cout << "Destroying Octree" << endl;
 }
 
+/**
+ * @brief: Inserts an object into the tree
+ * @param object: The object to insert
+ */
 void Octree::insert(RigidBody* object)
 {
     if(!intersects(object)) {
@@ -32,6 +36,9 @@ void Octree::insert(RigidBody* object)
     }
 }
 
+/**
+ * @brief: Handles the tree's subdivision when the object vector is full (objects.size() > MAX_OCTREE_SIZE)
+ */
 
 void Octree::subdivide()
 {
@@ -48,6 +55,9 @@ void Octree::subdivide()
     }
 }
 
+/**
+ * @brief : Initializes the children nodes if not already done.  
+ */
 void Octree::setupChildren()
 {
     debugValue ++;
@@ -69,6 +79,9 @@ void Octree::setupChildren()
 
 }
 
+/**
+ * @brief: Deletes and frees the children nodes and object vector
+ */
 void Octree::clear()
 {
     debugValue = 0;
@@ -86,10 +99,11 @@ void Octree::clear()
     
 }
 
-void Octree::update(RigidBody* object)
-{
-}
-
+/**
+ * @brief 
+ * @param printTree: Boolean value to enable/disable the tree printing in CLI 
+ * @param tab: If printTree is true, this is the string that will be printed at the beggining of each line (It should always be "") 
+ */
 void Octree::draw(bool printTree, std::string tab = "")
 {
     if (printTree) cout << tab << "Depth " << currentDepth << " Size "<< objects.size() << " check " << debugValue << endl;
@@ -107,7 +121,11 @@ void Octree::draw(bool printTree, std::string tab = "")
 
 }
 
- std::vector<std::pair<RigidBody*,RigidBody*>> Octree::getCollisions()
+/**
+ * @brief: Handler function to check for broad collisions 
+ * @return: Contains all objects that collide
+ */
+std::vector<std::pair<RigidBody*,RigidBody*>> Octree::getCollisions()
 {
     std::vector<std::pair<RigidBody*,RigidBody*>> collisions;
     if(children[0] == nullptr)
@@ -136,25 +154,18 @@ void Octree::draw(bool printTree, std::string tab = "")
     return collisions;
 }
 
+/**
+ * @brief: Handler function to check if a Rigidbody overlaps with the subdivision
+ * @param object: The object to check with
+ * @return: Returns true if the object overlaps with the subdivision
+ */
 bool Octree::intersects(RigidBody* object)
 {
+    // Checks if the object is inside the subdivision
     if((object->position.x - position.x) <= width && (object->position.y - position.y) <= height && (object->position.z - position.z) <= depth) return true;
-    /*
-    distance_x = Abs(sphere.x - boite.x) - boite.l / 2
-    distance_y = Abs(sphere.y - boite.y) - boite.L / 2
-    distance_z = Abs(sphere.z - boite.z) - boite.h / 2
 
-    distance_x = Max(distance_x, 0)
-    distance_y = Max(distance_y, 0)
-    distance_z = Max(distance_z, 0)
 
-    distance_spherique = sqrt(distance_x^2 + distance_y^2 + distance_z^2)
-
-    Si distance_spherique <= sphere.r :
-        Retourner Vrai
-    Sinon :
-        Retourner Faux
-    */
+    // Else it checks if the object bounding sphere overlaps with the subdivision
     auto distance_x = abs(object->position.x - position.x) - width;
     auto distance_y = abs(object->position.y - position.y) - height;
     auto distance_z = abs(object->position.z - position.z) - depth;

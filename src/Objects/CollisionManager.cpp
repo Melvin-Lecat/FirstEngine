@@ -2,6 +2,11 @@
 
 #include "Box.h"
 
+/**
+ * \brief: Handler for the narrow phase collision detection. It checks in all the pairs of Rigidbodies wether their body shapes intersect and resolve the collisions.
+ * \param collisions : All the pairs of Rigidbodies to be checked. Should be paired with a broad collision check
+ * \return: The list of objects that collided in the narrow phase.
+ */
 std::vector<std::pair<RigidBody*, RigidBody*>> CollisionManager::getNarrowCollision(
     std::vector<std::pair<RigidBody*, RigidBody*>> collisions)
 {
@@ -11,7 +16,9 @@ std::vector<std::pair<RigidBody*, RigidBody*>> CollisionManager::getNarrowCollis
         auto first = static_cast<Box*>(collision.first);
         auto second = static_cast<Box*>(collision.second);
 
-        if (intersect(*first, *second) || intersect(*second, *first))
+        auto firstCollisionResolve= intersect(*first, *second);
+        auto secondCollisionResolve = intersect(*second, *first);
+        if (firstCollisionResolve || secondCollisionResolve)
         {
             narrowCollisions.emplace_back(std::pair(first,second));
         }
@@ -19,7 +26,12 @@ std::vector<std::pair<RigidBody*, RigidBody*>> CollisionManager::getNarrowCollis
     return narrowCollisions;
 }
 
- std::vector<Vector> CollisionManager::getCorners(Box& box)
+/**
+ * \brief: Retrieve the 8 corners of the box
+ * \param box: The applied on box
+ * \return: A vector containing the absolute positions of the 8 corners of the box
+ */
+std::vector<Vector> CollisionManager::getCorners(Box& box)
 {
     Vector xAxis = Vector(box.shape.getXAxis().x, box.shape.getXAxis().y, box.shape.getXAxis().z).normalized();
     Vector yAxis = Vector(box.shape.getYAxis().x, box.shape.getYAxis().y, box.shape.getYAxis().z).normalized();
@@ -54,7 +66,12 @@ std::vector<std::pair<RigidBody*, RigidBody*>> CollisionManager::getNarrowCollis
     return cornerList;
 }
 
- std::vector<Vector> CollisionManager::getFaces(Box& box)
+/**
+ * \brief: Retrieve the 6 faces of the box 
+ * \param box: The applied on box
+ * \return : A vector containing the absolute positions of the 6 faces of the box
+ */
+std::vector<Vector> CollisionManager::getFaces(Box& box)
 {
     // Retrieve the 6 faces of second
     Vector face1 = box.position + Vector(box.shape.getXAxis().x, box.shape.getXAxis().y, box.shape.getXAxis().z).normalized()*(box.getWidth()/2);  
@@ -74,6 +91,14 @@ std::vector<std::pair<RigidBody*, RigidBody*>> CollisionManager::getNarrowCollis
     return faceList;
 }
 
+/**
+ * \brief : Resolve the collision between two boxes
+ * \param applicationPoint : Point of collision
+ * \param n : Normal of the collision (usually the face of a box)
+ * \param interpenetration : The penetration distance between the two boxes. Applied to move the objects
+ * \param first : The first box
+ * \param second: The second box
+ */
 void CollisionManager::resolveCollision(Vector applicationPoint, Vector n, float interpenetration,  Box& first, Box& second)
 {
     // Resolve the position
@@ -87,7 +112,12 @@ void CollisionManager::resolveCollision(Vector applicationPoint, Vector n, float
     first.addForce(force, applicationPoint);
 }
 
-// Check if first intersects with second. Return true if it does
+/**
+ * \brief : Check if two boxes intersect and resolve the collision
+ * \param first : The first box
+ * \param second: The second box
+ * \return : True if the boxes intersect
+ */
 bool CollisionManager::intersect(Box& first, Box& second)
 {
     auto corners = getCorners(first);
@@ -102,8 +132,6 @@ bool CollisionManager::intersect(Box& first, Box& second)
         for (auto face : faces)
         {
             auto relativeCorner = corner - face;
-            
-            // cout << "Corner: " << relativeCorner * face <<  endl;
             if(relativeCorner * face > 0)
             {
                 intersected = false;
@@ -116,7 +144,6 @@ bool CollisionManager::intersect(Box& first, Box& second)
             cornerPoint = corner;
             break;
         }
-        //cout << "=====================================================" << endl;
     }
 
 
@@ -141,7 +168,10 @@ bool CollisionManager::intersect(Box& first, Box& second)
     
     return intersected;
 }
+
+// Archived fucntions to check narrow collisions in a general purpose
 /*
+
 bool CollisionManager::intersect(Box& first, Box& second)
 {
     Vector firstxAxis = Vector(first.shape.getXAxis().x, first.shape.getXAxis().y, first.shape.getXAxis().z).normalized();
@@ -172,6 +202,7 @@ bool CollisionManager::intersect(Box& first, Box& second)
     }
     return true;
 }
+
 
 float CollisionManager::getRadius(Vector n, Box box)
 {

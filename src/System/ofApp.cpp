@@ -9,6 +9,10 @@ float maxZ = max(BOX_LENGTH, CONE_RADIUS);
 
 bool bHelpText;
 
+/**
+ * @brief Setup the force panel
+ * 
+ */
 void ofApp::setupForcePanel()
 {
     forcePanel.setup("Add Force");
@@ -30,6 +34,10 @@ void ofApp::setupForcePanel()
     forcePanel.add(&launch);
 }
 
+/**
+ * @brief Setup the debug panel
+ * 
+ */
 void ofApp::setupDebugPanel()
 {
     debugPanel.setup("Object Details");
@@ -42,6 +50,9 @@ void ofApp::setupDebugPanel()
     addMultiLineText(debugPanel, debugLines2, object.linearVelocity.to_string());
 }
 
+/**
+ * \brief Setup the object panel
+ */
 void ofApp::setupObjectPanel()
 {
     // Panel setup 
@@ -76,6 +87,10 @@ void ofApp::setupObjectPanel()
     objectPanel.add(&addButton);
 }
 
+/**
+ * @brief Setup the control panel
+ * 
+ */
 void ofApp::setupControlPanel()
 {
     controlPanel.setup("Control Buttons");
@@ -101,11 +116,26 @@ void ofApp::setupControlPanel()
     clearAll.addListener(this, &ofApp::clearAllObjects);
 }
 
+/**
+ * \brief Setup the help panel
+ */
 void ofApp::setupHelpPanel()
 {
     helpPanel.setup("User Manual:");
     helpPanel.setSize(ofGetWidth() / 2, ofGetHeight());
     addMultiLineText(helpPanel, helpLines, manualText);
+}
+
+/**
+ * \brief  Setup the collision panel
+ */
+void ofApp::setupCollisionPanel()
+{
+    collisionPanel.setup("Collision Details");
+    collisionPanel.setSize(ofGetWidth() / 4, ofGetHeight());
+    collisionPanel.setPosition(glm::vec3(ofGetWidth() / 3, 0, 0));
+    collisionPanel.add(broadCollisions.setup("Broad Collisions", ""));
+    collisionPanel.add(narrowCollisions.setup("Narrow Collision", ""));
 }
 
 void ofApp::setup()
@@ -129,41 +159,31 @@ void ofApp::setup()
     setupDebugPanel();
     setupForcePanel();
     setupObjectPanel();
-
-    collisionPanel.setup("");
-    collisionPanel.setSize(ofGetWidth() / 4, ofGetHeight());
-    collisionPanel.setPosition(glm::vec3(ofGetWidth() / 3, 0, 0));
-    collisionPanel.add(broadCollisions.setup("Broad Collisions", ""));
-    collisionPanel.add(narrowCollisions.setup("Narrow Collision", ""));
-    
-    auto box1 = new Box(BOX_WIDTH, BOX_HEIGTH, BOX_LENGTH, Vector(0, 0, 0));
-    auto box2 = new Box(BOX_WIDTH, BOX_HEIGTH, BOX_LENGTH, Vector(0, 0, 0));
-    auto box3 = new Box(BOX_WIDTH, BOX_HEIGTH, BOX_LENGTH, Vector(0, 0, 0));
-    auto box4 = new Box(BOX_WIDTH, BOX_HEIGTH, BOX_LENGTH, Vector(0, 0, 0));
-
-    box1->position = Vector(100, 100, -100);
-    box2->position = Vector(100, 100, 100);
-    box3->position = Vector(-10, -100, 100);
-    box4->position = Vector(10, -110, 90);
-    /*tabShape.emplace_back(box1);
-    tabShape.emplace_back(box2);
-    tabShape.emplace_back(box3);
-    tabShape.emplace_back(box4);*/
+    setupCollisionPanel();
     
 }
 
 //--------------------------------------------------------------
 
+/**
+ * \brief Box button handler
+ */
 void ofApp::setBoxType()
 {
     objectType = BOX;
 }
 
+/**
+ * \brief Cone button handler
+ */
 void ofApp::setConeType()
 {
     objectType = CONE;
 }
 
+/**
+ * \brief Add button handler. Adds a new object to the scene configured by the UI
+ */
 void ofApp::addObject()
 {
     Shape* s;
@@ -183,6 +203,9 @@ void ofApp::addObject()
     tabShape.back()->addForce(Vector(xfInput, yfInput, zfInput)*(1/delta_t), Vector(0,0,0));
 }
 
+/**
+ * \brief Clear all objects from the scene
+ */
 void ofApp::clearAllObjects()
 {
     for (Shape* obj : tabShape)
@@ -192,17 +215,26 @@ void ofApp::clearAllObjects()
     tabShape.clear();
 }
 
+/**
+ * \brief Fullscreen toggle handler
+ */
 void ofApp::fullscreen()
 {
     ofToggleFullscreen();
 }
 
+/**
+ * \brief Pause toggle handler
+ */
 void ofApp::togglePause()
 {
     showForceAdd = !showForceAdd;
     showForceAdd = !showForceAdd;
 }
 
+/**
+ * \brief Launch button handler
+ */
 void ofApp::launchObject()
 {
     if (tabShape.empty()) std::cout << "No object to add force to !" << std::endl;
@@ -214,6 +246,12 @@ void ofApp::launchObject()
     }
 }
 
+/**
+ * \brief  Add multiple lines of text to a panel
+ * \param panel The panel to add the lines to
+ * \param lines The vector of lines to initialize
+ * \param text The text to prompted
+ */
 void ofApp::addMultiLineText(ofxPanel& panel, std::vector<ofxLabel*>& lines, const std::string& text)
 {
     auto textLines = ofSplitString(text, "\n");
@@ -226,6 +264,11 @@ void ofApp::addMultiLineText(ofxPanel& panel, std::vector<ofxLabel*>& lines, con
     }
 }
 
+/**
+ * \brief Update the text of multiple lines of text
+ * \param lines The vector of lines to update
+ * \param text The text to prompted
+ */
 void updateLines(std::vector<ofxLabel*>& lines, const std::string& text)
 {
     auto textSplit = ofSplitString(text, "\n");
@@ -234,7 +277,11 @@ void updateLines(std::vector<ofxLabel*>& lines, const std::string& text)
         lines[i]->setup("", textSplit[i]);
     }
 }
+//--------------------------------------------------------------
 
+/**
+ * \brief Checks if the objects are out of bounds
+ */
 void ofApp::checkBoundaries()
 {
     for (auto box : tabShape)
@@ -264,6 +311,10 @@ void ofApp::checkBoundaries()
 
 GravityGenerator genGravity(Vector(0, -9.81, 0));
 FrictionGenerator genFriction(0.1);
+
+/**
+ * \brief Update the forces applied to the objects
+ */
 void ofApp::updateForces()
 {
     {
@@ -279,13 +330,21 @@ void ofApp::updateForces()
 
 Vector force;
 
+/**
+ * \brief Add a force to an object. Is used as a callback for the launch force button
+ * \param obj The object to add the force to
+ * \param forceIntensity The intensity of the force
+ * \param pointApplication The point of application of the force
+ */
 void ofApp::addForceObject(Shape& obj, Vector forceIntensity, Vector pointApplication)
 {
     obj.addForce(forceIntensity, pointApplication);
 }
 
-//--------------------------------------------------------------
-void ofApp::update()
+/**
+ * \brief Handle the collision detection and resolve
+ */
+void ofApp::collisionHandler()
 {
     if(collisionToggle){
         static int bColls, nColls = 0;
@@ -316,6 +375,12 @@ void ofApp::update()
         broadCollisions.setup("Broad Collisions", std::to_string(bColls));
         narrowCollisions.setup("Narrow Collision", std::to_string(nColls));
     }
+}
+
+//--------------------------------------------------------------
+void ofApp::update()
+{
+    collisionHandler();
     checkBoundaries();
 
     simPause = showForceAdd;
@@ -330,6 +395,9 @@ void ofApp::update()
     delta_t = static_cast<float>(ofGetLastFrameTime()) * simSpeed;
 }
 
+/**
+ * \brief Draw the interaction area
+ */
 void ofApp::drawInteractionArea()
 {
     ofRectangle vp = ofGetCurrentViewport();

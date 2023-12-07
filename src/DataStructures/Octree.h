@@ -36,11 +36,9 @@ public:
     ~Octree();
 
     void insert(RigidBody* object);
-    void remove(RigidBody* object);
     void subdivide();  
     void setupChildren();  
     void clear();
-    void update(RigidBody* object);
     void draw(bool printTree, std::string tab);
 
     std::vector<std::pair<RigidBody*,RigidBody*>> getCollisions();

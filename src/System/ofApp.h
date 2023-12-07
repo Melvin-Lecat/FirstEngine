@@ -37,6 +37,7 @@ public:
     void setupObjectPanel();
     void setupControlPanel();
     void setupHelpPanel();
+    void setupCollisionPanel();
     void setup() override;
     void setBoxType();
     void setConeType();
@@ -49,6 +50,7 @@ public:
     void checkBoundaries();
     void updateForces();
     void addForceObject(Shape &obj, Vector forceIntensity, Vector pointApplication);
+    void collisionHandler();
     void update() override;
     void drawInteractionArea();
     void draw() override;
