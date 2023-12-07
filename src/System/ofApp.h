@@ -21,7 +21,7 @@
 // Width is the X axis
 # define BOX_WIDTH 40
 // Heigth is the Y axis
-# define BOX_HEIGTH 20
+# define BOX_HEIGTH 30
 // Lenght is the Z axis
 # define BOX_LENGTH 50
 
@@ -70,8 +70,9 @@ public:
     
     float simSpeed= 2.0f;
     bool simPause = false;
-
     
+    int bColls, nColls = 0;
+
 
     ForceRegistry forceRegistry;
     std::list<Shape*> tabShape;

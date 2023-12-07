@@ -76,6 +76,7 @@ std::vector<std::pair<RigidBody*, RigidBody*>> CollisionManager::getNarrowCollis
 
 void CollisionManager::resolveCollision(Vector applicationPoint, Vector n, float interpenetration,  Box& first, Box& second)
 {
+
     // Resolve the position
     float K = first.getMass() / ( first.getMass() + second.getMass());
     auto f= n * K * interpenetration;
@@ -83,7 +84,7 @@ void CollisionManager::resolveCollision(Vector applicationPoint, Vector n, float
     
     // Apply the force
     float intensity = ((first.linearVelocity.magnitude() > first.angularVelocity.magnitude() )? first.linearVelocity : first.angularVelocity).magnitude();
-    Vector force = n * (intensity/ofGetLastFrameTime());
+    Vector force = n* (0.9*intensity/(ofGetLastFrameTime() == 0.0f ? 1.0f/60.0f: ofGetLastFrameTime()));
     first.addForce(force, applicationPoint);
 }
 
@@ -122,18 +123,25 @@ bool CollisionManager::intersect(Box& first, Box& second)
 
     if (intersected){
         float min = FLT_MAX;
-        Vector n = faces[0]; 
+        Vector n = faces[0];
+        cout << "==================" << endl;
+        cout << "Corner: " << cornerPoint.v3() << endl;
         for(auto face : faces )
         {
             auto relativeDistance = (cornerPoint).projection(face).distance(face);
-         
+            
+            //auto relativeDistance = (cornerPoint - face).projection(face).magnitude();
+            cout << "Relative distance: " << relativeDistance << endl;
+            
             if(relativeDistance < min)
             {
                 n = face.normalized();
                 min = relativeDistance;
             }
         }
+        cout << "Min: " << min << endl;
 
+        cout << "============================" << endl;
         auto Copy = first.copy();
         resolveCollision(cornerPoint,n.opposite(), min,first, second);
         resolveCollision(cornerPoint,n, min,second, *Copy);

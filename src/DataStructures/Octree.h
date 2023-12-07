@@ -2,7 +2,7 @@
 #include "RigidBody.h"
 #include "Vector.h"
 
-#define MAX_OCTREE_DEPTH 4
+#define MAX_OCTREE_DEPTH 3
 #define MAX_OCTREE_SIZE 2
 
 enum  OctreePosition

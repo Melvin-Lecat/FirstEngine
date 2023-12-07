@@ -118,6 +118,19 @@ void Octree::draw(bool printTree, std::string tab = "")
                 collisions.push_back(std::pair(objects[0],objects[1]));
                 return collisions;
             } 
+        }else if(objects.size() > 2)
+        {
+            for (int i = 0; i < static_cast<int>(objects.size())-1; i++)
+            {
+                for (int j = i+1; j < static_cast<int>(objects.size()); j++)
+                {
+                    if(objects[i]->colliderRadius + objects[j]->colliderRadius > objects[i]->position.distance(objects[j]->position)){
+                        collisions.push_back(std::pair(objects[i],objects[j]));
+                    } 
+                }
+            }
+            
+            return collisions;
         }
     }
     else
@@ -138,7 +151,7 @@ void Octree::draw(bool printTree, std::string tab = "")
 
 bool Octree::intersects(RigidBody* object)
 {
-    if((object->position.x - position.x) <= width && (object->position.y - position.y) <= height && (object->position.z - position.z) <= depth) return true;
+    if(abs(object->position.x - position.x) <= width && abs(object->position.y - position.y) <= height && abs(object->position.z - position.z) <= depth) return true;
     /*
     distance_x = Abs(sphere.x - boite.x) - boite.l / 2
     distance_y = Abs(sphere.y - boite.y) - boite.L / 2

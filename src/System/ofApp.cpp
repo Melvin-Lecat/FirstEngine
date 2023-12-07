@@ -143,12 +143,12 @@ void ofApp::setup()
 
     box1->position = Vector(100, 100, -100);
     box2->position = Vector(100, 100, 100);
-    box3->position = Vector(-10, -100, 100);
+    box3->position = Vector(0, -100, 100);
     box4->position = Vector(10, -110, 90);
-    /*tabShape.emplace_back(box1);
+    tabShape.emplace_back(box1);
     tabShape.emplace_back(box2);
     tabShape.emplace_back(box3);
-    tabShape.emplace_back(box4);*/
+    tabShape.emplace_back(box4);
     
 }
 
@@ -190,6 +190,7 @@ void ofApp::clearAllObjects()
         delete obj;
     }
     tabShape.clear();
+    nColls = bColls = 0;
 }
 
 void ofApp::fullscreen()
@@ -288,7 +289,6 @@ void ofApp::addForceObject(Shape& obj, Vector forceIntensity, Vector pointApplic
 void ofApp::update()
 {
     if(collisionToggle){
-        static int bColls, nColls = 0;
         octree.clear();
 
         for (auto object : tabShape)
