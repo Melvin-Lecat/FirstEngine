@@ -112,7 +112,9 @@ void Box::draw()
     shape.setOrientation(orientation.q());
     shape.draw();
 
+    ofNoFill();
     ofSetColor(ofColor::red, 20);
     ofDrawSphere(position.v3(),colliderRadius);
     ofSetColor(255, 255, 255,255);
+    ofFill();
 }

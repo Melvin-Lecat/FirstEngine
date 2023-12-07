@@ -101,6 +101,7 @@ std::vector<Vector> CollisionManager::getFaces(Box& box)
  */
 void CollisionManager::resolveCollision(Vector applicationPoint, Vector n, float interpenetration,  Box& first, Box& second)
 {
+
     // Resolve the position
     float K = first.getMass() / ( first.getMass() + second.getMass());
     auto f= n * K * interpenetration;
@@ -108,7 +109,7 @@ void CollisionManager::resolveCollision(Vector applicationPoint, Vector n, float
     
     // Apply the force
     float intensity = ((first.linearVelocity.magnitude() > first.angularVelocity.magnitude() )? first.linearVelocity : first.angularVelocity).magnitude();
-    Vector force = n * (intensity/ofGetLastFrameTime());
+    Vector force = n* (0.9*intensity/(ofGetLastFrameTime() == 0.0f ? 1.0f/60.0f: ofGetLastFrameTime()));
     first.addForce(force, applicationPoint);
 }
 
@@ -149,11 +150,11 @@ bool CollisionManager::intersect(Box& first, Box& second)
 
     if (intersected){
         float min = FLT_MAX;
-        Vector n = faces[0]; 
+        Vector n = faces[0];
         for(auto face : faces )
         {
             auto relativeDistance = (cornerPoint).projection(face).distance(face);
-         
+            
             if(relativeDistance < min)
             {
                 n = face.normalized();

@@ -213,6 +213,7 @@ void ofApp::clearAllObjects()
         delete obj;
     }
     tabShape.clear();
+    nColls = bColls = 0;
 }
 
 /**
@@ -347,7 +348,6 @@ void ofApp::addForceObject(Shape& obj, Vector forceIntensity, Vector pointApplic
 void ofApp::collisionHandler()
 {
     if(collisionToggle){
-        static int bColls, nColls = 0;
         octree.clear();
 
         for (auto object : tabShape)
