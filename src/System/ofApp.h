@@ -17,7 +17,7 @@
 # define VP_STEP 50
 # define VP_SIZE 250
 # define MAX_FORCE 200.0f
-
+# define MAX_VELOCITY 1000.0f
 // Width is the X axis
 # define BOX_WIDTH 40
 // Heigth is the Y axis
@@ -91,7 +91,7 @@ public:
     // todo toggle ?
 
     // Control panel elements
-    ofxToggle showHelp, showDebug, showAxis, showForceAdd, gravityToggle, frictionToggle, collisionToggle; 
+    ofxToggle showHelp, showDebug, showAxis, showForceAdd, gravityToggle, frictionToggle, collisionToggle, octreeToggle; 
 
     ofxButton fullscreenButton;
     ofxButton gamePaused;

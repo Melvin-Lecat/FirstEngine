@@ -114,6 +114,7 @@ void ofApp::setupControlPanel()
     controlPanel.add(frictionToggle.setup("Enable friction", false));
     controlPanel.add(collisionToggle.setup("Enable collisions", true));
     clearAll.addListener(this, &ofApp::clearAllObjects);
+    controlPanel.add(octreeToggle.setup("Enable Octree", true)); //contr
 }
 
 /**
@@ -307,6 +308,12 @@ void ofApp::checkBoundaries()
             box->position.z = glm::sign(box->position.z) > 0 ? VP_SIZE : -VP_SIZE;
             box->linearVelocity.z *= -1;
         }
+
+        // A velocity cap check to make sure that the object doesn't go too fast and cross the boundaries (glitching visuals)
+        if (box->linearVelocity.magnitude() > MAX_VELOCITY)
+        {
+            box->linearVelocity = box->linearVelocity.normalized() * MAX_VELOCITY;
+        }
     }
 }
 
@@ -356,20 +363,6 @@ void ofApp::collisionHandler()
         }
         auto colls = octree.getCollisions();
         auto narrowColls = CollisionManager::getNarrowCollision(colls);
-
-        /*cout << "=========================== Broad Collisions ==============================" << endl;
-        cout << "Collisions : " <<  colls.size() << endl;
-        for (auto& col : colls)
-        {
-            cout << col.first << " <-> " << col.second << endl;
-        }
-        cout << "=========================== Narrow Collisions ==============================" << endl;
-        cout << "Collisions : " << narrowColls.size()  << endl;
-        for (auto& col : narrowColls)
-        {
-            cout << col.first << " <-> " << col.second << endl;
-        } 
-        */
         bColls += colls.size();
         nColls += narrowColls.size();
         broadCollisions.setup("Broad Collisions", std::to_string(bColls));
@@ -433,8 +426,13 @@ void ofApp::draw()
         }
     }
 
-    octree.draw(false,"");
-    
+    if(octreeToggle) octree.draw(false,"");
+    else
+    {
+        ofNoFill();
+        ofDrawBox(0,0,0, VP_SIZE*2, VP_SIZE*2, VP_SIZE*2);
+        ofFill();
+    }
     //ofDrawGrid(10, VP_SIZE , !showAxis, !showAxis, !showAxis, !showAxis);
     //ofDrawAxis(VP_SIZE);
     ofDisableDepthTest();

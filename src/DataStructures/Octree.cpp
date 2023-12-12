@@ -132,12 +132,15 @@ std::vector<std::pair<RigidBody*,RigidBody*>> Octree::getCollisions()
     {
         if(objects.size() == 2)
         {
+            // Ideal case when there's only 2 objects on a leaf 
             if(objects[0]->colliderRadius + objects[1]->colliderRadius > objects[0]->position.distance(objects[1]->position)){
                 collisions.push_back(std::pair(objects[0],objects[1]));
                 return collisions;
             } 
         }else if(objects.size() > 2)
         {
+            // If there's more than 2 object on a leaf, we return all the pairs to check for collisions
+            // Not optimal but needed because of the limited depth of the tree
             for (int i = 0; i < static_cast<int>(objects.size())-1; i++)
             {
                 for (int j = i+1; j < static_cast<int>(objects.size()); j++)
